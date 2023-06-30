@@ -1,0 +1,34 @@
+
+<h1>Chat Room</h1>
+
+<div id="chat-container">
+  <div id="chat-box">
+    <% @chats.each do |chat| %>
+      <div class="chat">
+        <p><%= chat.message %></p>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+<%= form_for @chat, remote: true do |form| %>
+  <div>
+    <%= form.label :message %>
+    <%= form.text_area :message, id: "chat_message" %>
+  </div>
+
+  <div>
+    <%= form.label :sender_id %>
+    <%= form.text_field :sender_id , id: "chat_sender" %>
+  </div>
+
+  <div>
+    <%= form.label :detail_id %>
+    <%= form.text_field :detail_id , id: "chat_detail" %>
+  </div>
+
+  <div>
+    <%= form.submit "Send Message", id: "chat_submit" %>
+  </div>
+<% end %>
