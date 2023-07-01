@@ -76,7 +76,6 @@
         let status = response.status;
         // get files from formData
         let files = formData.getAll('detail[file][]');
-
         var container = document.getElementById('<%= submit_id %>-details-list');
         var newDetail = document.createElement('div');
         newDetail.innerHTML = `
@@ -112,10 +111,28 @@
                   </div>`).join('')}
               </div>
             </div>
+        <div id="chat-container${id}">
+          <div id="chat-box"></div>
+        </div>
+        <form id="chat-form-${id}" data-backlog-id="${id}" method="POST" action="/chats" data-remote="true">
+          <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+          <div>
+            <label for="chat_message_${id}">Message</label>
+            <textarea name="chat[message]" id="chat_message_${id}"></textarea>
           </div>
-        </div>`;
+          <div>
+            <label for="chat_sender_${id}">Sender ID</label>
+            <input type="text" name="chat[sender_id]" id="chat_sender_${id}">
+          </div>
+          <input type="hidden" name="chat[detail_id]" value="${id}" id="chat_details_${id}">
+          <div>
+            <input type="submit" value="Send Message" id="chat_submit_${id}">
+          </div>
+        </form>
+        </div>
+      </div>`;
 
-        container.appendChild(newDetail);
+      container.appendChild(newDetail);
 
      },
      error: function(xhr, status, error) {

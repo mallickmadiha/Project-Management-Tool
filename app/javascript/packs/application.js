@@ -4,7 +4,7 @@ import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 // import "../controllers/slim_controller"
 // import 'slim-select/dist/slimselect.css'
-// import SlimSelect from 'slim-select'
+import SlimSelect from 'slim-select'
 // 
 import "jquery"
 // 
@@ -14,20 +14,18 @@ Turbolinks.start()
 ActiveStorage.start()
 
 
-$(document).ready(function() {
-    console.log("duwyiueywehdkjshdkjds")
+// $(document).ready(function() {
+//     console.log("duwyiueywehdkjshdkjds")
+//   });
+
+
+$(document).on('turbolinks:load', function () {
+  new SlimSelect({
+    placeholder: 'Select a user',
+    select: '.search-select',
+    settings: {
+      closeOnSelect: false,
+    },
   });
-
-
-// $(document).on('turbolinks:load', function() {
-
-    // console.log(SlimSelect)
-    // new SlimSelect({
-    //     select: '.form-control',
-    //     closeOnSelect: false,
-    //     placeholder: 'Select a user',
-    //     multiSelect: true
-    // });
-//     console.log('turbolinks:load')
-
-// })
+  console.log('turbolinks:load')
+})

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_28_104922) do
+ActiveRecord::Schema.define(version: 2023_06_30_063120) do
 
   create_table "action_cable_channels", charset: "utf8mb3", force: :cascade do |t|
     t.string "channel", null: false
@@ -92,6 +92,13 @@ ActiveRecord::Schema.define(version: 2023_06_28_104922) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_projects_on_user_id"
+  end
+
+  create_table "projects_users", id: false, charset: "utf8mb3", force: :cascade do |t|
+    t.bigint "project_id"
+    t.bigint "user_id"
+    t.index ["project_id"], name: "index_projects_users_on_project_id"
+    t.index ["user_id"], name: "index_projects_users_on_user_id"
   end
 
   create_table "users", charset: "utf8mb3", force: :cascade do |t|

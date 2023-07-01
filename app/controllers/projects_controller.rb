@@ -2,7 +2,7 @@
 
 # app/controllers/projects_controller.rb
 class ProjectsController < ApplicationController
-  skip_before_action :authenticate_user, only: %i[index show create]
+  skip_before_action :authenticate_user, only: %i[index show create adduser update_user_ids]
 
   def index
     @project = Project.new
@@ -22,8 +22,6 @@ class ProjectsController < ApplicationController
 
     @chats = Chat.all
     @chat = Chat.new
-
-    # cookies.signed[:project_id] = @project.id
   end
 
   def new
@@ -34,6 +32,9 @@ class ProjectsController < ApplicationController
     @project = Project.create(project_params.merge(user_id: current_user.id))
     @project.save
     @username = User.find(@project.user_id).username
+    user = User.find(current_user.id)
+    @project.users << user
+    @project.save
     render json: { username: @username }
   end
 
@@ -50,6 +51,18 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     @project.destroy
     redirect_to projects_path
+  end
+
+  def adduser
+    @project = Project.find(params[:project_id])
+    @users = User.where.not(id: @project.users.pluck(:id))
+  end
+
+  def update_user_ids
+    project = Project.find(params[:project_id])
+    user = User.find(params[:user_id])
+    project.users << user
+    redirect_to '/projects'
   end
 
   private
