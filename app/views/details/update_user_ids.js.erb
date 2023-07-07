@@ -1,0 +1,21 @@
+// Get the user-container element
+var userContainer = document.getElementById("user-container<%= @detail_id %>");
+
+<% @users.each do |user| %>
+  var existingEmails = Array.from(userContainer.getElementsByTagName("p")).map(function(paragraph) {
+    return paragraph.textContent.trim();
+  });
+
+  // Check if the email ID is already present in the container
+  if (!existingEmails.includes("<%= user.email %>")) {
+    // Create a new paragraph element for the user's email ID
+    var userParagraph = document.createElement("p");
+    userParagraph.textContent = "<%= user.email %>";
+
+    // Append the new paragraph to the user-container element
+    userContainer.appendChild(userParagraph);
+  }
+<% end %>
+
+var searchInput = document.getElementById("search-input<%= @detail_id %>");
+searchInput.value = "";

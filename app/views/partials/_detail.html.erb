@@ -1,0 +1,391 @@
+<div class="card card-body">
+  <div class="text-dark text-uppercase fw-bold my-3" style="font-size: 12px;">
+    Feature Id : <%= item.uuid %>
+  </div>
+  <div class="text-dark text-uppercase fw-bold my-3" style="font-size: 12px;">
+    Title : <%= item.title %> </div>
+  <div class="text-dark text-uppercase fw-bold my-3" style="font-size: 12px;">
+    Description : <%= item.description %> </div>
+  <%= form_tag "/change_status/#{item.id}", method: :post, remote: true, id: 'change-status-form' do |f| %>
+    <div class="flash-container<%= item.id %>"></div>
+    <div class="my-3">
+      <%= hidden_field_tag :project_id, params[:id]%>
+      <%= label_tag :status, "Status:", class: "text-dark text-uppercase fw-bold", style: "font-size: 12px;" %>
+      <%= select_tag :status, options_for_select(["Started", "Finished", "Delivered"], selected: item.status), class: "form-select" %>
+    </div>
+    <%= submit_tag "Save", class: "message-btn" %>
+  <% end %>
+  <div class="text-dark text-uppercase fw-bold mt-5" style="font-size: 12px;" id="taskCount<%= item.id %>">
+    Tasks: (<%= item.tasks.Done.length %> / <%= item.tasks.length %>) </div>
+  <div id="taskContainer<%= item.id %>">
+    <% item.tasks.each do |task| %>
+      <div class="field form-group text-dark my-3">
+        <div class="form-check mx-4">
+          <%= check_box_tag "detail[task_ids][]", task.id, task.status != "Added", class: "form-check-input task-checkbox#{item.id}", data: { project_id: params[:id], detail_id: item.id, task_id: task.id }, id: "detail_task_ids_#{task.id}" %>
+          <label class="form-check-label"><%= task.name %></label>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="field form-group d-flex justify-content-around text-dark my-3">
+    <div class="flash-task-container<%= item.id %>"></div>
+    <div>
+      <label for="task_name">Task Name</label>
+      <input type="text" name="task_name" class="form-control" id="task_name<%= item.id %>" style="cursor: pointer">
+    </div>
+    <button type="button" class="message-btn mx-0 task-button" id="addTaskButton<%= item.id %>">Add Task</button>
+  </div>
+  <div class="d-flex flex-column flex-wrap">
+    <div class="text-dark text-uppercase fw-bold mt-5 mb-3" style="font-size: 12px;">
+      Users Assigned to this:
+    </div>
+    <div class="d-flex flex-column  flex-wrap">
+      <div id="user-container<%= item.id %>">
+        <% item.users.each do |user| %>
+          <p><%= user.email %></p>
+        <% end %>
+      </div>
+      <%= form_tag(update_user_ids_project_detail_path(params[:id], item.id ), method: :post, remote: true) do %>
+        <input type="text"  name="email[]" id="search-input<%= item.id %>" class="form-control" placeholder="Type to search..." />
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <div id="search-results<%= item.id %>"></div>
+        <%= submit_tag 'Add User', class: 'message-btn mt-3' %>
+      <% end %>
+    </div>
+  </div>
+  <div class="d-flex flex-column flex-wrap">
+    <div class="text-dark text-uppercase fw-bold my-3" style="font-size: 12px;">
+      Files :
+    </div>
+    <div class="d-flex flex-column flex-wrap">
+      <% if item.file %>
+        <%#= item.id %>
+        <% item.file.each do |item| %>
+          <%#= item.filename %>
+          <% if item.image? %>
+            <%#= link_to 'Preview', rails_blob_path(item, disposition: 'preview') %>
+            <%= image_tag item, class: 'img-thumbnail m-2', style: 'width: 100px; height: 100px;' %>
+          <% else %>
+            <%= link_to 'Download', rails_blob_path(item, disposition: 'attachment') %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="d-flex flex-column flex-wrap">
+    <div class="text-dark text-uppercase fw-bold my-3" style="font-size: 12px;">
+      Comment Box :
+    </div>
+    <div class="d-flex flex-column  flex-wrap">
+      <div id="chat-container<%= item.id %>">
+        <% @chats.each do |chat| %>
+          <% if chat.detail_id === item.id %>
+            <div class='message py-2'>
+              <%= chat.message %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+      <%= form_for @chat, id: "chat-form-#{item.id}", remote: true, html: { "data-backlog-id" => item.id }, class: "bootstrap-class" do |form| %>
+        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+        <div class="form-group d-flex flex-row">
+          <%= form.label :message, class: "mt-3 mx-2" %>
+          <div class="position-relative">
+            <%= form.text_area :message, id: "chat_message_#{item.id}", class: "form-control", autocomplete: "off" %>
+            <div id="search-results-chat<%= item.id %>" class="search-results"
+            ></div>
+          </div>
+        </div>
+        <%= form.hidden_field :sender_id, value: current_user.id, id: "chat_sender_#{item.id}" %>
+        <%= form.hidden_field :detail_id, value: item.id, id: "chat_details_#{item.id}" %>
+        <div class="text-center">
+          <%= form.submit "Post Comment", id: "chat_submit_#{item.id}", class: "message-btn my-3" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function() {
+  var chatInput = $('#chat_message_<%= item.id %>');
+  var searchResultsContainer = $('#search-results-chat<%= item.id %>');
+  var isTextSearchable = false;
+
+  // Event listener for the chat input field
+  chatInput.on('input', function() {
+    var inputValue = chatInput.val();
+    // to get the most recent @ mention
+    var lastAtSymbolIndex = inputValue.lastIndexOf('@');
+    if (lastAtSymbolIndex !== -1) {
+      var searchText = inputValue.substring(lastAtSymbolIndex + 1);
+      showUserDropdown(searchText);
+    } else {
+      searchResultsContainer.html('');
+    }
+  });
+
+  chatInput.on('keypress', function(event){
+    if (event.key === " "){
+    console.log("special key pressed");
+    }
+  });
+
+  // Event listener for the search results container
+  searchResultsContainer.on('click', '.search-results-chat<%= item.id %>', function(event) {
+  var selectedItem = $(event.target);
+  var selectedValue = selectedItem.text();
+
+  // Insert the selected value at the current cursor position in the chat input
+  insertValueAtCursor(chatInput[0], selectedValue);
+
+  // Clear the search results container
+  searchResultsContainer.html('');
+  });
+  // Function to show the dropdown with all users
+  function showUserDropdown(value) {
+    // Clear previous search results
+    searchResultsContainer.html('');
+
+    value = value.replace("@", "");
+    console.log(value);
+   // Get the authenticity token from the meta tag
+  var authenticityToken = $('meta[name="csrf-token"]').attr('content');
+  $.ajax({
+    url: '/search/<%= item.id %>',
+    method: 'POST',
+    data: { query: value },
+    headers: {
+      'X-CSRF-Token': authenticityToken // Include the authenticity token in the request headers
+    },
+    dataType: 'json',
+    success: function(response) {
+      // Clear previous search results
+      searchResultsContainer.html('');
+
+      // Create an empty array to store the search result items
+      var resultItems = [];
+
+      // Loop through the search results and create the result item elements
+      response.forEach(function(result) {
+        var resultItem = $('<div class="search-results-chat<%= item.id %> search-results-text"></div>');
+        resultItem.text(result.username); // Update with your data structure
+        resultItems.push(resultItem);
+      });
+
+      // Append the result items to the search results container
+      searchResultsContainer.append(resultItems);
+
+      // Show the search results container
+      searchResultsContainer.show();
+    }
+  });
+
+
+  }
+
+  function insertValueAtCursor(inputElement, value) {
+  var inputValue = inputElement.value;
+  var atIndex = inputValue.lastIndexOf('@');
+  if (atIndex !== -1) {
+    var prefix = inputValue.substring(0, atIndex + 1);
+    inputElement.value = prefix + value;
+  } else {
+    inputElement.value = value;
+  }
+  }
+  });
+  
+
+  var searchInput = document.getElementById('search-input<%= item.id %>');
+  var searchResultsContainer = document.getElementById('search-results<%= item.id %>');
+
+  searchInput.addEventListener('input', function() {
+  var searchCurrentInput = document.getElementById('search-input<%= item.id %>');
+  var searchCurrentResultsContainer = document.getElementById('search-results<%= item.id %>');
+  var query = searchCurrentInput.value.trim();
+
+  // Clear previous search results
+  searchCurrentResultsContainer.innerHTML = '';
+
+  // Perform search and update results
+  if (query !== '') {
+    // Get the authenticity token from the meta tag
+    var authenticityToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    // Send an Ajax request to the search endpoint
+    $.ajax({
+      url:  `/search/<%= item.id %>`,
+      method: 'POST',
+      data: { query: query },
+      headers: {
+        'X-CSRF-Token': authenticityToken // Include the authenticity token in the request headers
+      },
+      dataType: 'json',
+      success: function(response) {
+        // Loop through the search results and add them to the container
+        response.forEach(function(result) {
+          var resultItem = document.createElement('div');
+          // add class to the result item
+          resultItem.classList.add('search-result-value');
+          resultItem.textContent = result.email; // Update with your data structure
+          searchCurrentResultsContainer.appendChild(resultItem);
+        });
+      }
+    });
+  }
+    // Event listener for the search results container
+    searchCurrentResultsContainer.addEventListener('click', function(event) {
+        var selectedItem = event.target;
+        var selectedValue = selectedItem.textContent;
+
+        // Set the selected value in the input field
+        searchCurrentInput.value = selectedValue;
+
+        // Clear the below div by setting its innerHTML to an empty string
+        var belowDiv = document.getElementById('search-results<%= item.id %>');
+        belowDiv.innerHTML = '';
+    });
+  });
+
+  // Task related
+
+  // Function factory to create checkbox click event listener with encapsulated item.id
+  function createCheckboxClickListener(itemId) {
+  return function(event) {
+    var projectId = <%= params[:id] %>;
+    var detailId = itemId;
+    var taskId = event.target.dataset.taskId || event.target.value;
+
+    // Determine if the checkbox is checked or unchecked
+    var completed = event.target.checked ? "Done" : "Added";
+
+    // Send PATCH request to update the task status
+    $.ajax({
+      url: `/projects/${projectId}/details/${detailId}/tasks/${taskId}`,
+      type: "PATCH",
+      dataType: "json",
+      contentType: "application/json",
+      data: JSON.stringify({ task: { status: completed } }),
+      headers: { "X-CSRF-Token": "<%= form_authenticity_token %>" },
+      success: function(response) {
+        console.log(response.message);
+        showNotification(`Task ${taskId} Updated Successfully`);
+
+        // Update the task count
+        var completedTasksCount = response.completedTasksCount;
+        var totalTasksCount = response.totalTasksCount;
+
+        var taskCountId = "taskCount" + detailId
+        var taskCountElement = document.getElementById(taskCountId);
+        taskCountElement.innerText = `Tasks: (${completedTasksCount} / ${totalTasksCount})`;
+      },
+      error: function(xhr, status, error) {
+        console.error("Error: " + error);
+      }
+    });
+  };
+  }
+
+  // Function to add a new task
+  function addTask(itemId) {
+  console.log(itemId);
+  var taskName = document.getElementById("task_name" + itemId).value.trim();
+
+  if (taskName === "") {
+    console.log("Task name cannot be empty.");
+    return;
+  }
+
+  var projectId = <%= params[:id] %>;
+  var detailId = itemId;
+
+  $.ajax({
+    url: `/projects/${projectId}/details/${detailId}/tasks`,
+    type: "POST",
+    dataType: "json",
+    contentType: "application/json",
+    data: JSON.stringify({ task: { name: taskName } }),
+    headers: { "X-CSRF-Token": "<%= form_authenticity_token %>" },
+    success: function(response) {
+      console.log(response.message);
+      showNotification("Task Added Successfully");
+      console.log("Task ID:", response.id);
+
+
+      // Update the task count
+      var completedTasksCount = response.completedTasksCount;
+      var totalTasksCount = response.totalTasksCount + 1;
+
+      var taskCountId = "taskCount" + detailId
+      var taskCountElement = document.getElementById(taskCountId);
+      taskCountElement.innerText = `Tasks: (${completedTasksCount} / ${totalTasksCount})`;
+
+
+      var taskId = response.id;
+
+      var taskContainer = document.getElementById("taskContainer" + itemId);
+      var newTaskElement = document.createElement("div");
+      newTaskElement.innerHTML = `
+        <div class="field form-group text-dark my-3">
+          <div class="form-check mx-4">
+            <input type="checkbox" name="detail[task_ids][]" value="${taskId}" class="form-check-input task-checkbox${taskId}" data-project_id="<%= params[:id] %>" data-detail_id="${itemId}" data-task_id="${taskId}" id="detail_task_ids_${taskId}">
+            <label class="form-check-label">${taskName}</label>
+          </div>
+        </div>`;
+
+      taskContainer.appendChild(newTaskElement);
+      document.getElementById("task_name" + itemId).value = "";
+
+      // Add event listener to the newly created checkbox
+      var checkboxId = "detail_task_ids_" + taskId;
+      var checkbox = document.getElementById(checkboxId);
+      checkbox.addEventListener("click", createCheckboxClickListener(itemId));
+    },
+    error: function(xhr, status, error) {
+      console.error("Error: " + error);
+    }
+  });
+    }
+
+    // Event listeners
+    document.getElementById("addTaskButton<%= item.id %>").addEventListener("click", function() {
+  addTask(<%= item.id %>);
+    });
+
+    document.getElementById("task_name<%= item.id %>").addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    addTask(<%= item.id %>);
+    event.preventDefault();
+  }
+    });
+
+    document.addEventListener("click", function(event) {
+  if (event.target.classList.contains("task-checkbox<%= item.id %>")) {
+    createCheckboxClickListener(<%= item.id %>)(event);
+  }
+    });
+
+  // show notification
+  function showNotification(text) {
+  const notification = document.createElement('div');
+  notification.classList.add('notification');
+  notification.innerText = text;
+
+  document.body.appendChild(notification);
+
+  // Show the notification for a few seconds
+  setTimeout(function() {
+    notification.classList.add('show');
+    setTimeout(function() {
+      closeNotification(notification);
+    }, 3000);
+  }, 100);
+  }
+
+  function closeNotification(notification) {
+  notification.classList.remove('show');
+  setTimeout(function() {
+    document.body.removeChild(notification);
+  }, 300);
+  }
+</script>

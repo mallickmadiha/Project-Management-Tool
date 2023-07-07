@@ -2,8 +2,13 @@
 
 # app/models/user.rb
 class User < ApplicationRecord
+  validates :username, presence: true, format: { with: /\A\w+\z/, message: 'Should be a single word' }
+
+  has_secure_password
+
   has_many :projects, dependent: :destroy
   has_many :details, through: :projects
+  has_many :notifications, dependent: :destroy
 
   has_and_belongs_to_many :details
   has_and_belongs_to_many :projects

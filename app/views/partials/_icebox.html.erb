@@ -1,4 +1,4 @@
-<div class="mx-2" id="icebox" style="width: 100%">
+<div class="mx-2" id="icebox" class="panel-width">
   <div class="card h-full" style="background-color: #f1f2f4;">
     <div  class="card-header d-flex flex-row justify-content-between align-items-center">
       <h2>Icebox</h2>
@@ -16,7 +16,10 @@
     </div>
     <div class="card-body" id="<%= @icebox_item_submit %>-details-list">
       <p> Stories you are currently working on and stories you're prioratized to work on next.</p>
-      <% @Icebox.each do |backlog_item| %>
+      <div id="collapseOne<%= @icebox_item_submit %>" class="accordion-collapse collapse bg-light" aria-labelledby="headingOne<%= @icebox_item_submit %>" data-bs-parent="#accordionExample2">
+        <%= render "details/form" , submit_id: @icebox_item_submit, type: "icebox"%>
+      </div>
+      <% @icebox.each do |backlog_item| %>
         <div  type="button" class="mt-2" data-toggle="collapse" data-target="#collapseExample<%= backlog_item.id %>" aria-expanded="false" aria-controls="collapseExample<%= backlog_item.id %>">
           <div class="card">
             <div class="card-body">
@@ -26,77 +29,9 @@
           </div>
         </div>
         <div class="collapse mb-3" id="collapseExample<%= backlog_item.id %>">
-          <div class="card card-body">
-            <div class="text-dark text-uppercase fw-bold mb-1" style="font-size: 12px;">
-              Title : <%= backlog_item.title %> </div>
-            <div class="text-dark text-uppercase fw-bold mb-1" style="font-size: 12px;">
-              Description : <%= backlog_item.description %> </div>
-            <div class="text-dark text-uppercase fw-bold mb-1" style="font-size: 12px;">
-              Status : <%= backlog_item.status %> </div>
-            <div class="text-dark text-uppercase fw-bold mb-1" style="font-size: 12px;">
-              Feature Id : <%= backlog_item.uuid %>
-            </div>
-            <div class="d-flex flex-column flex-wrap">
-              <div class="text-dark text-uppercase fw-bold mb-1" style="font-size: 12px;">
-                Files :
-              </div>
-              <div class="d-flex flex-column flex-wrap">
-                <% if backlog_item.file %>
-                  <%#= backlog_item.id %>
-                  <% backlog_item.file.each do |item| %>
-                    <%#= item.filename %>
-                    <% if item.image? %>
-                      <%#= link_to 'Preview', rails_blob_path(item, disposition: 'preview') %>
-                      <%= image_tag item, class: 'img-thumbnail m-2', style: 'width: 100px; height: 100px;' %>
-                    <% else %>
-                      <%= link_to 'Download', rails_blob_path(item, disposition: 'attachment') %>
-                    <% end %>
-                  <% end %>
-                <% end %>
-              </div>
-            </div>
-            <div id="chat-container<%= backlog_item.id %>">
-              <div id="chat-box">
-                <% @chats.each do |chat| %>
-                  <% if chat.detail_id === backlog_item.id %>
-                    <div class="chat">
-                      <p><%= chat.message %></p>
-                    </div>
-                  <% end %>
-                <% end %>
-              </div>
-            </div>
-            <%= form_for @chat, id: "chat-form-#{backlog_item.id}", remote: true, html: { "data-backlog-id" => backlog_item.id }  do |form| %>
-              <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-              <div>
-                <%= form.label :message %>
-                <%= form.text_area :message, id: "chat_message_#{backlog_item.id}" %>
-              </div>
-              <div>
-                <%= form.label :sender_id %>
-                <%= form.text_field :sender_id , id: "chat_sender_#{backlog_item.id}" %>
-              </div>
-              <%= form.hidden_field :detail_id, value: backlog_item.id, id: "chat_details_#{backlog_item.id}" %>
-              <div>
-                <%= form.submit "Send Message", id: "chat_submit_#{backlog_item.id}" %>
-              </div>
-            <% end %>
-          </div>
+          <%= render "partials/detail", item: backlog_item %>
         </div>
       <% end %>
-      <div id="collapseOne<%= @icebox_item_submit %>" class="accordion-collapse collapse bg-light" aria-labelledby="headingOne<%= @icebox_item_submit %>" data-bs-parent="#accordionExample2">
-        <%= render "details/form" , submit_id: @icebox_item_submit  %>
-        <button class="btn btn-secondary mt-3 mx-3" id="modalCloseButton<%= @icebox_item_submit %>" type="button">Close Modal</button>
-      </div>
     </div>
   </div>
 </div>
-<script>
-  // Add an event listener to the close button
-  var closeButton = document.getElementById("modalCloseButton<%= @icebox_item_submit %>");
-  closeButton.addEventListener("click", function() {
-    // Find the collapse element and hide it
-    var collapseElement = document.getElementById("collapseOne<%= @icebox_item_submit %>");
-    collapseElement.classList.remove("show");
-  });
-</script>

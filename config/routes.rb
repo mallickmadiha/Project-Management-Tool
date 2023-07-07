@@ -16,20 +16,23 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback', to: 'sessions#omniauth'
   get 'auth/failure', to: redirect('/')
 
-  get '/room', to: 'room#index'
-
   resources :chats, only: %i[new create]
   get '/chats/new', to: 'chats#new'
   get '/chats/last_message', to: 'chats#last_message'
 
   resources :projects do
     post 'update_user_ids', on: :collection
-    get '/adduser', to: "projects#adduser"
-    resources :details
-  end
+    get '/adduser', to: 'projects#adduser'
 
+    resources :details do
+      post 'update_user_ids', on: :member
+
+      resources :tasks do
+      end
+    end
+  end
+  post '/change_status/:id', to: 'details#change_status'
   post 'add_project_user', to: 'projects#add_project_user'
 
-  # get "/project/:id/adduser", to: "projects#adduser"
-
+  post '/search/:id', to: 'search#search', as: 'search'
 end

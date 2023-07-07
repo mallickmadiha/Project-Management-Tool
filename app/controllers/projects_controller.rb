@@ -12,16 +12,18 @@ class ProjectsController < ApplicationController
   def show
     @project = Project.find(params[:id])
     @details = @project.details
-    # binding.pry
+
     @backlogs = @details.where(flagType: 'backFlag') || []
-    @currentIteration = @details.where(flagType: 'currentIteration')
-    @Icebox = @details.where(flagType: 'icebox')
+    @current = @details.where(flagType: 'currentIteration')
+    @icebox = @details.where(flagType: 'icebox')
     @icebox_item_submit = 'i'
     @backlog_item_submit = 'b'
     @current_item_submit = 'c'
 
     @chats = Chat.all
     @chat = Chat.new
+
+    @project_users = @project.users
   end
 
   def new

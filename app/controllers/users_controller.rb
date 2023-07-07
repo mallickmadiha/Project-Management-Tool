@@ -2,24 +2,16 @@
 
 # app/controllers/users_controller.rb
 class UsersController < ApplicationController
-  def new; end
+  def new
+    @user = User.new
+  end
 
   def create
-    user = User.find_by(email: params[:email])
-    if params[:password_digest].eql?(params[:password_confirmation])
-      if user
-        redirect_to '/'
-      else
-        user_params_new = user_params.except(:password_confirmation)
-        user = User.new(user_params_new)
-        if user.save
-          redirect_to '/'
-        else
-          redirect_to '/signup'
-        end
-      end
+    @user = User.new(user_params)
+    if @user.save
+      redirect_to '/'
     else
-      redirect_to '/signup'
+      render 'new'
     end
   end
 
@@ -35,6 +27,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(:username, :email, :password_digest, :password_confirmation)
+    params.require(:user).permit(:username, :email, :password, :password_confirmation)
   end
 end

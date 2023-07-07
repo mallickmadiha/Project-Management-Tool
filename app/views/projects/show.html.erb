@@ -9,6 +9,8 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application' %>
     <script src="https://kit.fontawesome.com/b199d9add5.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-Pf0Y1E96dov4i6j5T58Ij9pbl8rr/RlULzUqoHuw8FmYmlsUZG9LHTzpv4XJ+k5K" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css" integrity="sha384-pzj7v5IQWIOv8ZyGf8+7odk87gTw8TLP9K/D9K+dz9OPD2B3tEFC0ZpzomI4gVxY" crossorigin="anonymous">
     <style>
       *{
       font-family: 'Raleway', sans-serif;
@@ -43,10 +45,21 @@
     </style>
   </head>
   <body>
+  <div id="toast-container" class="toast-container"></div>
     <div class="d-flex justify-content-between align-items-center flex-wrap p-1 text-white px-lg-2" style="background-color: #256188">
       <div class="text-center" style="font-weight:bold; font-size: 20px" ><i class="fa fa-duotone fa-gear mx-2"></i><%= @project.name %> </div>
       <div class="mx-3">
-        <i class="fa fa-solid fa-bell mx-2"></i>
+       <div id="notificationContainer" class="container">
+          <!-- Notifications will be dynamically added here -->
+        </div>
+        <button id="notificationButton" class="btn btn-primary">
+          <i class="fas fa-bell"></i>
+          <span class="badge bg-danger" id="notificationCounter"><%= current_user.notifications.where(read: false).count%></span>
+        </button>
+
+          
+          
+
         <i class="fa fa-solid fa-user mx-2"></i> <%= current_user.username %>
         <%= link_to "/logout", method: :post do %>
           <i class="fa fa-solid fa-right-from-bracket mx-3" style="color:#fff"></i>
@@ -63,19 +76,19 @@
           </li>
           <hr style="background-color: white; margin: 0px">
           <li class="menu-collapsed">
-            <div class="d-flex w-100 justify-content-start align-items-center active-navitem my-3" id="currentIteration-show">
+            <div class="d-flex w-100 justify-content-start align-items-center active-navitem my-3 text-white" id="currentIteration-show">
               <i class="fa fa-solid fa-list mx-4 fa-lg"></i>
               <span >Current Iteration</span>
             </div>
           </li>
           <li class="menu-collapsed">
-            <div class="d-flex w-100 justify-content-start align-items-center active-navitem my-3" id="icebox-show">
+            <div class="d-flex w-100 justify-content-start align-items-center active-navitem my-3 text-white" id="icebox-show">
               <i class="fa fa-duotone fa-snowflake mx-4 fa-lg"></i>
               <span>Icebox</span>
             </div>
           </li>
           <li class="menu-collapsed">
-            <div class="d-flex w-100 justify-content-start align-items-center active-navitem my-3" id="backlog-show">
+            <div class="d-flex w-100 justify-content-start align-items-center active-navitem my-3 text-white" id="backlog-show">
               <i class="fa fa-solid fa-triangle-exclamation mx-4 fa-lg"></i>
               <span >Backlog</span>
             </div>
@@ -125,6 +138,35 @@
   <script>
     $(document).ready(function() {
 
+      const notificationContainer = document.getElementById("notificationContainer");
+      const notificationButton = document.getElementById("notificationButton");
+      let isOpen = false;
+
+      notificationButton.addEventListener("click", () => {
+        isOpen = !isOpen;
+        toggleNotificationContainer();
+      });
+
+      function toggleNotificationContainer() {
+        notificationContainer.classList.toggle("show");
+      }
+
+        // if backlog is false in localStorage then close it
+        if (localStorage.getItem('backlog') == 'false') {
+            $("#backlog").hide();
+            $("#backlog-show").removeClass("active-navitem");
+        }
+
+        if (localStorage.getItem('currentIteration') == 'false') {
+            $("#currentIteration").hide();
+            $("#currentIteration-show").removeClass("active-navitem");
+        }
+
+        if (localStorage.getItem('icebox') == 'false'){
+            $("#icebox").hide();
+            $("#icebox-show").removeClass("active-navitem");
+        }
+
         // Function to toggle sidebar collapse
         function toggleSidebar() {
             $('#sidebar-container').toggleClass('sidebar-expanded sidebar-collapsed');
@@ -138,37 +180,38 @@
         $("#backlog-close").click(function() {
             $("#backlog").hide();
             $("#backlog-show").removeClass("active-navitem");
-            $("#backlog-show").addClass("text-white");
+            localStorage.setItem("backlog", false);
         });
 
         $("#currentIteration-close").click(function(){
             $("#currentIteration").hide();
             $("#currentIteration-show").removeClass("active-navitem");
-            $("#currentIteration-show").addClass("text-white");
+            localStorage.setItem("currentIteration", false);
         });
 
         $("#icebox-close").click(function(){
             $("#icebox").hide();
             $("#icebox-show").removeClass("active-navitem");
-            $("#icebox-show").addClass("text-white");
+            localStorage.setItem("icebox", false);
         });
 
         $("#backlog-show").click(function(){
             $("#backlog").show();
-            $("#backlog-show").removeClass("text-white");
+            $("#currentIteration-show").addClass("active-navitem");
             $("#backlog-show").addClass("active-navitem");
+            localStorage.setItem("backlog", true);
         });
 
         $("#currentIteration-show").click(function(){
             $("#currentIteration").show();
-            $("#currentIteration-show").removeClass("text-white");
             $("#currentIteration-show").addClass("active-navitem");
+            localStorage.setItem("currentIteration", true);
         });
 
         $("#icebox-show").click(function(){
             $("#icebox").show();
-            $("#icebox-show").removeClass("text-white");
             $("#icebox-show").addClass("active-navitem");
+            localStorage.setItem("icebox", true);
         });
     })
   </script>

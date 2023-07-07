@@ -5,6 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.1.2'
 gem 'active_model_serializers'
+gem 'bcrypt'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'bootstrap', '~> 5.0.0'
 gem 'dotenv-rails'

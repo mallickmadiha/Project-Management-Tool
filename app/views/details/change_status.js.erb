@@ -1,0 +1,2 @@
+var flashMessage = "<%= j(render partial: 'partials/flash_messages', locals: { flash: flash }) %>";
+$('.flash-container' + <%= @detail_id %>).html(flashMessage);

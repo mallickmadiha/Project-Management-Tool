@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_30_063120) do
+ActiveRecord::Schema.define(version: 2023_07_07_084318) do
 
   create_table "action_cable_channels", charset: "utf8mb3", force: :cascade do |t|
     t.string "channel", null: false
@@ -86,6 +86,13 @@ ActiveRecord::Schema.define(version: 2023_06_30_063120) do
     t.index ["user_id"], name: "index_details_users_on_user_id"
   end
 
+  create_table "notifications", charset: "utf8mb3", force: :cascade do |t|
+    t.string "message", null: false
+    t.bigint "user_id", null: false
+    t.boolean "read", default: false
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
   create_table "projects", charset: "utf8mb3", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
@@ -99,6 +106,15 @@ ActiveRecord::Schema.define(version: 2023_06_30_063120) do
     t.bigint "user_id"
     t.index ["project_id"], name: "index_projects_users_on_project_id"
     t.index ["user_id"], name: "index_projects_users_on_user_id"
+  end
+
+  create_table "tasks", charset: "utf8mb3", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "status", default: 0
+    t.bigint "detail_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["detail_id"], name: "index_tasks_on_detail_id"
   end
 
   create_table "users", charset: "utf8mb3", force: :cascade do |t|
@@ -116,5 +132,7 @@ ActiveRecord::Schema.define(version: 2023_06_30_063120) do
   add_foreign_key "chats", "details"
   add_foreign_key "chats", "details"
   add_foreign_key "details", "projects"
+  add_foreign_key "notifications", "users"
   add_foreign_key "projects", "users"
+  add_foreign_key "tasks", "details"
 end

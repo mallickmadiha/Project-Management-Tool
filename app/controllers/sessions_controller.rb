@@ -11,9 +11,10 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by(email: params[:email])
 
-    if user && user.password_digest.eql?(params[:password])
+    if user && user.authenticate(params[:password])
       session[:id] = user.id
       session[:type] = 'user'
+      cookies.signed[:user_id] = user.id
       redirect_to '/projects'
     else
       redirect_to '/'
@@ -40,7 +41,7 @@ class SessionsController < ApplicationController
     if user.valid?
       session[:id] = user.id
       session[:type] = 'user'
-
+      cookies.signed[:user_id] = user.id
       # for revoking access token
       session[:access_token] = request.env['omniauth.auth'][:credentials][:token]
       revoke_token(session[:access_token]) if session[:access_token].present?
