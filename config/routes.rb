@@ -35,4 +35,5 @@ Rails.application.routes.draw do
   post 'add_project_user', to: 'projects#add_project_user'
 
   post '/search/:id', to: 'search#search', as: 'search'
+  post '/notifications/mark_read', to: 'notifications#mark_read'
 end
