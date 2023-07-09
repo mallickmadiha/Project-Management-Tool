@@ -2,7 +2,7 @@
 
 # app/controllers/tasks_controller.rb
 class TasksController < ApplicationController
-  skip_before_action :authenticate_user, only: %i[new create update]
+  # skip_before_action :authenticate_user, only: %i[new create update]
 
   def new
     @task = Task.new

@@ -2,7 +2,7 @@
 
 # app/controllers/search_controller.rb
 class SearchController < ApplicationController
-  skip_before_action :authenticate_user, only: %i[search]
+  # skip_before_action :authenticate_user, only: %i[search]
 
   def search
     @detail_id = params[:id]

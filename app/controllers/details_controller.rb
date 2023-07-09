@@ -2,7 +2,7 @@
 
 # app/controllers/details_controller.rb
 class DetailsController < ApplicationController
-  skip_before_action :authenticate_user, only: %i[index show create change_status update_user_ids]
+  # skip_before_action :authenticate_user, only: %i[index show create change_status update_user_ids]
 
   def index
     @details = Detail.all
@@ -57,6 +57,8 @@ class DetailsController < ApplicationController
                                        message: @message,
                                        id: @notification.id
                                      })
+        UserMailer.notification_email_status(current_user.email, user.username,
+                                             user.email, @detail_id, @detail.status).deliver_later
       end
       flash.now[:notice] = 'Your Status has been updated'
     else

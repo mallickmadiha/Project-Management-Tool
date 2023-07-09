@@ -2,7 +2,7 @@
 
 # app/controllers/chats_controller.rb
 class ChatsController < ApplicationController
-  skip_before_action :authenticate_user, only: %i[new create]
+  # skip_before_action :authenticate_user, only: %i[new create]
   def new
     @chat = Chat.new
   end
@@ -15,8 +15,8 @@ class ChatsController < ApplicationController
     @detail = Detail.find(@details_id)
     @message = "A new comment has been added to feature #{@details_id}"
     if @chat.save
-      mentioned_usernames = @chat.message.scan(/@(\w+)/).flatten
-      mentioned_users = User.where(username: mentioned_usernames)
+      # mentioned_usernames = @chat.message.scan(/@(\w+)/).flatten
+      # mentioned_users = User.where(username: mentioned_usernames)
       ActionCable.server.broadcast("chat_channel_#{@project_id}",
                                    { chat: @chat, detailsId: chat_params[:detail_id] })
       @notification = Notification.create(message: @message, user_id: current_user.id)
@@ -27,6 +27,8 @@ class ChatsController < ApplicationController
                                        message: @message,
                                        id: @notification.id
                                      })
+        UserMailer.notification_email(current_user.email, user.username,
+                                      user.email, @details_id).deliver_later
       end
       render json: { message: 'Chat message sent successfully.', chat: @chat }
     else

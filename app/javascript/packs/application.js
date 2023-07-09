@@ -81,4 +81,9 @@ $(document).on("turbolinks:load", function () {
     $("#icebox-show").addClass("active-navitem");
     localStorage.setItem("icebox", true);
   });
+
+  $("#mark-read-button").click(function () {
+    $(".list-group-item").remove();
+    $("#notificationCounter").html("0");
+  });
 });

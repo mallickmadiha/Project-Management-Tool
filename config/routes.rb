@@ -31,6 +31,7 @@ Rails.application.routes.draw do
       end
     end
   end
+
   post '/change_status/:id', to: 'details#change_status'
   post 'add_project_user', to: 'projects#add_project_user'
 
