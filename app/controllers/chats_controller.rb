@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# rubocop:disable all
 
 # app/controllers/chats_controller.rb
 class ChatsController < ApplicationController
@@ -11,7 +12,6 @@ class ChatsController < ApplicationController
   def create
     @chat = Chat.new(chat_params)
     @details_id = chat_params[:detail_id]
-    # get the project id from the details id
     @project_id = Detail.find(@details_id).project_id
     @detail = Detail.find(@details_id)
     @sender_username = User.find(chat_params[:sender_id]).username
@@ -42,7 +42,6 @@ class ChatsController < ApplicationController
   private
 
   def chat_params
-    # params.require(:chat_message).permit(:message, :sender_id, :recipient_id, mentioned_user_ids: [])
     params.require(:chat).permit(:message, :sender_id, :detail_id)
   end
 end

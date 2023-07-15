@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# This is a sample class representing an Admin controller.
+# app/channels/application_cable/connection.rb
 module ApplicationCable
   # This is a sample class representing an Connection .
   class Connection < ActionCable::Connection::Base
@@ -13,11 +13,8 @@ module ApplicationCable
     private
 
     def find_verified_user
-      if verified_user = User.find_by(id: cookies.signed[:user_id])
-        verified_user
-      else
-        reject_unauthorized_connection
-      end
+      verified_user = User.find_by(id: cookies.signed[:user_id])
+      verified_user || reject_unauthorized_connection
     end
   end
 end

@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Migration
 class CreateProjectsAndUsers < ActiveRecord::Migration[6.1]
   def change
     create_table :projects_users, id: false do |t|

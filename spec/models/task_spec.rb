@@ -1,5 +1,8 @@
-# spec/models/task_spec.rb
+# frozen_string_literal: true
+
 require 'rails_helper'
+
+# spec/models/task_spec.rb
 RSpec.describe Task, type: :model do
   describe 'validations' do
     it 'is not valid without a name' do

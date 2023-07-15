@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
+# spec/models/chat_spec.rb
 RSpec.describe Chat, type: :model do
   describe 'validations' do
     it 'is not valid without a message' do

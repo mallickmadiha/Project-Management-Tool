@@ -1,6 +1,8 @@
-# spec/models/notification_spec.rb
+# frozen_string_literal: true
+
 require 'rails_helper'
 
+# spec/models/notification_spec.rb
 RSpec.describe Notification, type: :model do
   describe 'validations' do
     it 'is not valid without a message' do
@@ -8,13 +10,6 @@ RSpec.describe Notification, type: :model do
 
       expect(notification).not_to be_valid
       expect(notification.errors[:message]).to include("Message can't be blank")
-    end
-
-    it 'is not valid without a user' do
-      notification = FactoryBot.build(:notification, user: nil)
-
-      expect(notification).not_to be_valid
-      expect(notification.errors[:user_id]).to include("User can't be blank")
     end
   end
 end

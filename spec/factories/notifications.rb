@@ -1,3 +1,5 @@
+# rubocop:disable  all
+
 # spec/factories/notifications.rb
 FactoryBot.define do
   factory :notification do

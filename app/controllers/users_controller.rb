@@ -2,7 +2,6 @@
 
 # app/controllers/users_controller.rb
 class UsersController < ApplicationController
-
   def new
     @user = User.new
   end

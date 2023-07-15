@@ -1,6 +1,8 @@
-# spec/models/project_spec.rb
+# frozen_string_literal: true
+
 require 'rails_helper'
 
+# spec/models/project_spec.rb
 RSpec.describe Project, type: :model do
   describe 'validations' do
     it 'is not valid without a name' do

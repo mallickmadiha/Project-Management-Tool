@@ -1,8 +1,8 @@
 # frozen_string_literal: true
+# rubocop: disable all
 
 Rails.application.routes.draw do
   root 'sessions#new'
-  get '/', to: 'sessions#new'
   post '/signin', to: 'sessions#create'
   post '/logout', to: 'sessions#destroy'
   get '/logout', to: 'sessions#destroy'

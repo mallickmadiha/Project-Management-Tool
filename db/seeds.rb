@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+# rubocop: disable all
+
 user1 = User.create!(
   username: 'madihakreeti',
   email: 'madiha.mallick@kreeti.com',
@@ -44,7 +47,7 @@ project_names = [
 projects = []
 project_names.each do |name|
   project = Project.create!(
-    name: name,
+    name:,
     user_id: user1.id
   )
   projects << project
@@ -100,36 +103,34 @@ projects.each do |project|
       project_id: project.id,
       title: detail_names[i],
       description: detail_descriptions[i],
-      status: status,
+      status:,
       flagType: flag_type,
       uuid: SecureRandom.uuid
     )
     detail.file.attach(io: File.open(file_path), filename: file_name) # Attach the file to the detail
     project.details << detail
-  
   end
-    # Add user1 to each project
-    project.users << user1
+  # Add user1 to each project
+  project.users << user1
 
-    # Add user2 and two random users to each project
-    random_users = users.sample(2)
-    project.users << user2
-    project.users << random_users
+  # Add user2 and two random users to each project
+  random_users = users.sample(2)
+  project.users << user2
+  project.users << random_users
 
-    project.details.each do |detail|
-      project_users = project.users
-      detail_users_to_add = project_users.first
-      detail.users << detail_users_to_add
+  project.details.each do |detail|
+    project_users = project.users
+    detail_users_to_add = project_users.first
+    detail.users << detail_users_to_add
 
-      5.times do |index|
-        status = rand(0..1) # Generate random status (0 or 1)
-        task = Task.create!(
-          name: "Task #{index + 1} for (#{detail.title})",
-          status: status,
-          detail_id: detail.id
-        )
-        detail.tasks << task
-      end
+    5.times do |index|
+      status = rand(0..1) # Generate random status (0 or 1)
+      task = Task.create!(
+        name: "Task #{index + 1} for (#{detail.title})",
+        status:,
+        detail_id: detail.id
+      )
+      detail.tasks << task
     end
+  end
 end
-

@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# app/mailers/user_mailer.rb
 class UserMailer < ApplicationMailer
   default from: 'mallickmadiha9031@gmail.com'
 

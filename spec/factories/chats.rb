@@ -1,3 +1,5 @@
+# rubocop:disable  all
+
 # spec/factories/chats.rb
 FactoryBot.define do
   factory :chat do

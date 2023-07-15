@@ -11,19 +11,13 @@ class ProjectsController < ApplicationController
 
   def show
     @project = Project.find(params[:id])
-    @details = @project.details
+    @details = fetch_project_details
     @detail = Detail.new
-    @backlogs = @details.where(flagType: 'backFlag') || []
-    @current = @details.where(flagType: 'currentIteration')
-    @icebox = @details.where(flagType: 'icebox')
-    @icebox_item_submit = 'i'
-    @backlog_item_submit = 'b'
-    @current_item_submit = 'c'
-    @searh_items = 's'
-
+    initialize_flags
+    initialize_submit_flags
+    initialize_search_items
     @chats = Chat.all
     @chat = Chat.new
-
     @project_users = @project.users
   end
 
@@ -33,7 +27,6 @@ class ProjectsController < ApplicationController
 
   def create
     @project = Project.create(project_params.merge(user_id: current_user.id))
-    @project.save
     @username = User.find(@project.user_id).username
     user = User.find(current_user.id)
     @project.users << user
@@ -72,5 +65,25 @@ class ProjectsController < ApplicationController
 
   def project_params
     params.require(:project).permit(:name)
+  end
+
+  def fetch_project_details
+    @project.details
+  end
+
+  def initialize_flags
+    @backlogs = @details.where(flagType: 'backFlag') || []
+    @current = @details.where(flagType: 'currentIteration')
+    @icebox = @details.where(flagType: 'icebox')
+  end
+
+  def initialize_submit_flags
+    @icebox_item_submit = 'i'
+    @backlog_item_submit = 'b'
+    @current_item_submit = 'c'
+  end
+
+  def initialize_search_items
+    @search_items = 's'
   end
 end

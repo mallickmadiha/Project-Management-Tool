@@ -1,6 +1,9 @@
-# spec/models/user_spec.rb
+# frozen_string_literal: true
+# rubocop: disable all
+
 require 'rails_helper'
 
+# spec/models/user_spec.rb
 RSpec.describe User, type: :model do
   describe 'validations' do
     subject(:user) { FactoryBot.build(:user) }

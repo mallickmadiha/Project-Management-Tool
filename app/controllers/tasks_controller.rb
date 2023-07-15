@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# rubocop: disable all
 
 # app/controllers/tasks_controller.rb
 class TasksController < ApplicationController

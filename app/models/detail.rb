@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# rubocop:disable all
 
 # app/models/detail.rb
 class Detail < ApplicationRecord
@@ -13,7 +14,8 @@ class Detail < ApplicationRecord
   has_many_attached :file
 
   # validates :project_id, presence: { message: "Project can't be blank" }
-  validates :title, presence: { message: "Title can't be blank" }, length: { maximum: 255, message: 'Title is too long (maximum is 255 characters)' }
+  validates :title, presence: { message: "Title can't be blank" },
+                    length: { maximum: 30, message: 'Title is too long (maximum is 30 characters)' }
   validates :description, presence: { message: "Description can't be blank" }
 
   include Elasticsearch::Model

@@ -12,6 +12,7 @@ gem 'dotenv-rails'
 gem 'elasticsearch', '~>7.17.7'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
+gem 'factory_bot_rails', '~> 6.0'
 gem 'faker', '~> 3.2'
 gem 'fast_jsonapi'
 gem 'htmlbeautifier'
@@ -28,12 +29,11 @@ gem 'pry'
 gem 'puma', '~> 5.0'
 gem 'rails', '~> 6.1.7', '>= 6.1.7.3'
 gem 'redis'
+gem 'rspec-rails', '~> 4.0'
 gem 'rubocop', require: false
 gem 'sass-rails', '>= 6'
 gem 'turbolinks', '~> 5.2.0'
 gem 'webpacker', '~> 5.0'
-gem 'rspec-rails', '~> 4.0'
-gem 'factory_bot_rails', '~> 6.0'
 
 group :development, :test do
   # gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

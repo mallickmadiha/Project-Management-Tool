@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# app/helpers/application_helper.rb
 module ApplicationHelper
   def current_user
     if !session[:id].nil? && session[:type] == 'user'

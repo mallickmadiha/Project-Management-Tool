@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# app/controllers/notifications_controller.rb
 class NotificationsController < ApplicationController
   skip_before_action :authenticate_user, only: %i[mark_read]
   def mark_read

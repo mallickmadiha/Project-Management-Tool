@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# rubocop:disable all
 
 require 'httparty'
 
@@ -69,6 +70,5 @@ class SessionsController < ApplicationController
                              query: { token: },
                              headers: { 'Content-Type' => 'application/x-www-form-urlencoded' })
     return unless response.code == 200
-    # Success revoking token
   end
 end

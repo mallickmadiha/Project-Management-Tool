@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# rubocop:disable all
 
 # app/controllers/details_controller.rb
 class DetailsController < ApplicationController

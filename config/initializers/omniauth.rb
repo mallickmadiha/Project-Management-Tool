@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Initializer
 Rails.application.config.middleware.use OmniAuth::Builder do
-    provider :google_oauth2, ENV['CLIENT_ID'], ENV['CLIENT_SECRET']
-  end
+  provider :google_oauth2, ENV['CLIENT_ID'], ENV['CLIENT_SECRET']
+end

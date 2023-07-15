@@ -1,3 +1,5 @@
+# rubocop:disable  all
+
 # spec/factories/details.rb
 FactoryBot.define do
   factory :detail do

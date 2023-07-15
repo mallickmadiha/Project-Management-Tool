@@ -7,6 +7,5 @@ class Project < ApplicationRecord
   has_many :details, dependent: :destroy
 
   validates :name, presence: { message: "Name can't be blank" },
-                   length: { maximum: 255, message: 'Name is too long (maximum is 255 characters)' }
-  # validates :user_id, presence: { message: "User can't be blank" }
+                   length: { maximum: 30, message: 'Name is too long (maximum is 255 characters)' }
 end
