@@ -6,25 +6,26 @@
       <div class="form-group my-3">
         <%= form.label :"UserName (Can be Of Only One Word)" %>
         <%= form.text_field :username, class: "form-control", placeholder: "Enter Your UserName" %>
+        <p class="text-danger"><%= error_messages(@user, :username) %></p>
       </div>
-      <% if @user.errors.has_key?(:username) %>
-        <p class="text-danger"><%= @user.errors[:username].first %></p>
-      <% end %>
       <div class="form-group my-3">
         <%= form.label :"Email" %>
         <%= form.text_field :email, class: "form-control", placeholder: "Enter Your Email" %>
+        <p  class="text-danger"><%= error_messages(@user, :email) %></p>
       </div>
       <div class="form-group my-3">
         <%= form.label :"Password" %>
         <%= form.password_field :password,
                               class: "form-control",
                               placeholder: "Enter Your Password" %>
+        <p  class="text-danger"><%= error_messages(@user, :password) %></p>
       </div>
       <div class="form-group my-3">
         <%= form.label :"Confirm Password" %>
         <%= form.password_field :password_confirmation,
                               class: "form-control",
                               placeholder: "Confirm Your Password" %>
+        <p  class="text-danger"><%= error_messages(@user, :password_confirmation) %></p>
       </div>
       <div class="d-flex justify-content-center my-5">
         <%= form.submit "NEXT", style: "width: 100%; height: 50px; border:none; border-radius: 5px; background-color: #5384AE; color: #FFFFFF;" %>

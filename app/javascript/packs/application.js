@@ -17,7 +17,35 @@ $(document).on("turbolinks:load", function () {
       closeOnSelect: false,
     },
   });
+
   console.log("turbolinks:load");
+
+  const notificationContainer = document.getElementById(
+    "notificationContainer"
+  );
+  const notificationButton = document.getElementById("notificationButton");
+  let isOpen = false;
+
+  if (notificationButton) {
+    notificationButton.addEventListener("click", () => {
+      isOpen = !isOpen;
+      toggleNotificationContainer();
+    });
+
+    function toggleNotificationContainer() {
+      notificationContainer.classList.toggle("show");
+    }
+  }
+
+  $("#mark-read-button").click(function () {
+    $(".notification-item").remove();
+    $("#notificationCounter").html("0");
+  });
+
+  // $("#flashModal").modal("show");
+  // setTimeout(function () {
+  //   $("#flashModal").modal("hide");
+  // }, 2000);
 
   // if backlog is false in localStorage then close it
   if (localStorage.getItem("backlog") == "false") {

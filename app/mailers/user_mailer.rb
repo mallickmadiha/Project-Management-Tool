@@ -5,7 +5,7 @@ class UserMailer < ApplicationMailer
     @username = username
     @useremail = useremail
     @details_id = details_id
-    mail(to: creator_email, subject: 'Hello')
+    mail(to: creator_email, subject: 'Message From ProjectManagementTool')
   end
 
   def notification_email_status(creator_email, username, useremail, details_id, status)
@@ -13,6 +13,6 @@ class UserMailer < ApplicationMailer
     @useremail = useremail
     @details_id = details_id
     @status = status
-    mail(to: creator_email, subject: 'Hello')
+    mail(to: creator_email, subject: 'Message From ProjectManagementTool')
   end
 end

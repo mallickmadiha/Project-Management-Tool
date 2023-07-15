@@ -2,7 +2,8 @@
 
 # app/controllers/chats_controller.rb
 class ChatsController < ApplicationController
-  # skip_before_action :authenticate_user, only: %i[new create]
+  skip_before_action :authenticate_user, only: %i[new create]
+
   def new
     @chat = Chat.new
   end
@@ -13,12 +14,14 @@ class ChatsController < ApplicationController
     # get the project id from the details id
     @project_id = Detail.find(@details_id).project_id
     @detail = Detail.find(@details_id)
+    @sender_username = User.find(chat_params[:sender_id]).username
     @message = "A new comment has been added to feature #{@details_id}"
     if @chat.save
       # mentioned_usernames = @chat.message.scan(/@(\w+)/).flatten
       # mentioned_users = User.where(username: mentioned_usernames)
       ActionCable.server.broadcast("chat_channel_#{@project_id}",
-                                   { chat: @chat, detailsId: chat_params[:detail_id] })
+                                   { chat: @chat, sender_username: @sender_username,
+                                     detailsId: chat_params[:detail_id] })
       @notification = Notification.create(message: @message, user_id: current_user.id)
       @notification.save
       @detail.users.each do |user|

@@ -1,0 +1,123 @@
+<%= javascript_include_tag 'detail_form' %>
+<%= javascript_include_tag 'detail' %>
+<div id="toast-container" class="toast-container"></div>
+<div class="d-flex justify-content-between align-items-center flex-wrap p-1 py-2 text-white px-lg-2" style="background-color: #256188">
+  <div class="text-center" style="font-weight:bold; font-size: 20px" ><i class="fa fa-duotone fa-gear mx-2"></i><%= @project.name %> </div>
+  <div class="mx-3 d-flex flex-row justify-content-center align-item-center">
+    <%= form_for :search_items, url: search_items_path, method: :get, html: { class: "form-inline mx-5" } do |form| %>
+      <%= form.hidden_field :project_id, value: @project.id %>
+      <%= form.text_field :query, value: params[:search_items].presence && params[:search_items][:query], placeholder: "Search Field", class: "form-control" %>
+    <% end %>
+    <button id="notificationButton" class="btn btn-blue">
+      <i class="fas fa-bell fa-xl"></i>
+      <span class="badge bg-danger noti-icon" id="notificationCounter"><%= current_user.notifications.where(read: false).count%></span>
+    </button>
+    <div id="notificationContainer" class="container py-1 mx-5">
+      <% if current_user %>
+        <%= link_to "Mark All Read", notifications_mark_read_path, method: :post, class: "btn btn-success w-50 mx-auto d-block", id: "mark-read-button" %>
+        <% current_user.notifications.where(read: false).each do |notification| %>
+          <li class="list-group-item"><%= notification.message %></li>
+        <% end %>
+      <% end %>
+    </div>
+    <i class="fa fa-solid fa-user mt-3 mx-3 fa-xl"></i> <span class="mt-2"><%= current_user.username %></span>
+    <%= link_to "/logout", method: :post do %>
+      <i class="fa fa-solid fa-right-from-bracket mt-3 mx-3 fa-xl" style="color:#fff"></i>
+    <% end %>
+  </div>
+</div>
+<div class="row" id="body-row" style="background-color: #212123;">
+  <div id="sidebar-container" class="sidebar-expanded d-none d-md-block">
+    <ul class="list-group">
+      <li class="my-3 mx-3">
+        <div class="d-flex w-100 justify-content-start align-items-center" id="sidebar-toggle">
+          <svg style="fill: white; cursor: pointer;" width="30" height="30" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18h13v-2H3v2zm0-5h10v-2H3v2zm0-7v2h13V6H3zm18 9.59L17.42 12 21 8.41 19.59 7l-5 5 5 5L21 15.59z"></path></svg>
+        </div>
+      </li>
+      <hr style="background-color: white; margin: 0px">
+      <li class="menu-collapsed">
+        <div class="d-flex w-100 justify-content-start align-items-center active-navitem my-3 text-white" id="currentIteration-show">
+          <i class="fa fa-solid fa-list mx-4 fa-lg"></i>
+          <span >Current Iteration</span>
+        </div>
+      </li>
+      <li class="menu-collapsed">
+        <div class="d-flex w-100 justify-content-start align-items-center active-navitem my-3 text-white" id="icebox-show">
+          <i class="fa fa-duotone fa-snowflake mx-4 fa-lg"></i>
+          <span>Icebox</span>
+        </div>
+      </li>
+      <li class="menu-collapsed">
+        <div class="d-flex w-100 justify-content-start align-items-center active-navitem my-3 text-white" id="backlog-show">
+          <i class="fa fa-solid fa-triangle-exclamation mx-4 fa-lg"></i>
+          <span >Backlog</span>
+        </div>
+      </li>
+      <li class="menu-collapsed">
+        <div class="d-flex w-100 justify-content-start align-items-center text-white my-3">
+          <i class="fa fa-sharp fa-regular fa-user mx-4 fa-lg"></i>
+          <span>Profile</span>
+        </div>
+      </li>
+      <li class="menu-collapsed">
+        <div class="d-flex w-100 justify-content-start align-items-center text-white my-3">
+          <i class="fa fa-sharp fa-solid fa-folder-open mx-4 fa-lg"></i>
+          <span >All Projects</span>
+        </div>
+      </li>
+      <li class="menu-collapsed">
+        <div class="d-flex w-100 justify-content-start align-items-center text-white my-3">
+          <i class="fa fa-duotone fa-users fa-sharp fa-solid mx-4 fa-lg"></i>
+          <span >Users</span>
+        </div>
+      </li>
+      <li  class="menu-collapsed">
+        <div class="d-flex w-100 justify-content-start align-items-center text-white my-3">
+          <i class="fa fa-solid fa-gear mx-4 fa-lg"></i>
+          <span>Settings</span>
+        </div>
+      </li>
+      <li class="menu-collapsed">
+        <div class="d-flex w-100 justify-content-start align-items-center text-white my-4" onClick="window.location.href='/logout'">
+          <i class="fa fa-solid fa-sign-out mx-4 fa-lg"></i>
+          <span> Logout </span>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="col">
+    <% unless @details.nil? %>
+      <% if params[:search_items].present? && @details.empty? %>
+        <h2 class="text-center">No items found matching your query.</h2>
+      <% elsif @details.present? %>
+        <div class="mx-2" id="search"style="width:33%">
+          <div class="card h-full" style="background-color: #f1f2f4;">
+            <div  class="card-header d-flex flex-row justify-content-between align-items-center">
+              <h2>Search Results</h2>
+            </div>
+            <div class="card-body" id="<%= @searh_items %>-details-list">
+              <p> Stories you are currently working on and stories you're prioratized to work on next.</p>
+              <div id="collapseOne<%= @searh_items %>" class="accordion-collapse collapse bg-light" aria-labelledby="headingOne<%= @searh_items %>"
+     data-bs-parent="#accordionExample">
+                <%= render "details/form", submit_id: @searh_items, type: "backFlag" %>
+              </div>
+              <% @details.each do |backlog_item| %>
+                <div  type="button" class="mt-2" data-toggle="collapse" data-target="#collapseExample<%= backlog_item.id %>" aria-expanded="false" aria-controls="collapseExample<%= backlog_item.id %>">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title"><%= backlog_item.title %></h4>
+                      <p class="card-text"><%= backlog_item.description %></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="collapse mb-3" id="collapseExample<%= backlog_item.id %>">
+                  <%= render "partials/detail", item: backlog_item %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

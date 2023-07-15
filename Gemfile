@@ -9,6 +9,9 @@ gem 'bcrypt'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'bootstrap', '~> 5.0.0'
 gem 'dotenv-rails'
+gem 'elasticsearch', '~>7.17.7'
+gem 'elasticsearch-model'
+gem 'elasticsearch-rails'
 gem 'faker', '~> 3.2'
 gem 'fast_jsonapi'
 gem 'htmlbeautifier'
@@ -29,6 +32,8 @@ gem 'rubocop', require: false
 gem 'sass-rails', '>= 6'
 gem 'turbolinks', '~> 5.2.0'
 gem 'webpacker', '~> 5.0'
+gem 'rspec-rails', '~> 4.0'
+gem 'factory_bot_rails', '~> 6.0'
 
 group :development, :test do
   # gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

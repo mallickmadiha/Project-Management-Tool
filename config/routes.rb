@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   post '/signin', to: 'sessions#create'
   post '/logout', to: 'sessions#destroy'
   get '/logout', to: 'sessions#destroy'
+
   resources :sessions, only: [:destroy]
 
   get '/signup', to: 'users#new'
@@ -37,4 +38,6 @@ Rails.application.routes.draw do
 
   post '/search/:id', to: 'search#search', as: 'search'
   post '/notifications/mark_read', to: 'notifications#mark_read'
+
+  get 'search_items', to: 'details#elastic_search', as: 'search_items'
 end

@@ -2,7 +2,16 @@
 
 # app/models/user.rb
 class User < ApplicationRecord
-  validates :username, presence: true, format: { with: /\A\w+\z/, message: 'Should be a single word' }
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  before_save { self.email = email.downcase }
+
+  validates :username, presence: true, format: { with: /\A\w+\z/, message: 'Must be a single word' }
+
+  validates :email, presence: true, length: { maximum: 255, message: 'Email is too long (maximum is 255 characters)' },
+                    format: { with: VALID_EMAIL_REGEX, message: 'Must be a valid email address' },
+                    uniqueness: { case_sensitive: false }
+
+  validates :password_digest, presence: { message: "Password digest can't be blank" }
 
   has_secure_password
 
@@ -21,7 +30,6 @@ class User < ApplicationRecord
     user ||= User.create(
       email: auth.info.email,
       username: auth.info.name
-      # ... other attributes you want to save from the authentication data
     )
 
     user

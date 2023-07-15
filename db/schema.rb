@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 2023_07_07_084318) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "detail_id"
-    t.index ["detail_id"], name: "fk_rails_a90d45efde"
+    t.index ["detail_id"], name: "fk_rails_3483a88122"
     t.index ["sender_id"], name: "index_chats_on_sender_id"
   end
 
@@ -128,9 +128,10 @@ ActiveRecord::Schema.define(version: 2023_07_07_084318) do
     t.datetime "expires_at"
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "chats", "details"
-  add_foreign_key "chats", "details"
+  add_foreign_key "chats", "users", column: "sender_id"
   add_foreign_key "details", "projects"
   add_foreign_key "notifications", "users"
   add_foreign_key "projects", "users"

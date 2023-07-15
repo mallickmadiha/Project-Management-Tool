@@ -16,11 +16,109 @@
 @import "bootstrap";
 @import url("https://fonts.googleapis.com/css2?family=Raleway&display=swap");
 
-//  change btn success of boootstrap
+* {
+  font-family: "Raleway", sans-serif;
+}
 
+.flash-message {
+  position: relative;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+}
+
+.flash-message.alert-success {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+}
+
+.flash-message.alert-error {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+}
+
+.flash-message-text {
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+.flash-message-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  padding: 0;
+  color: #000;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.flash-message-close:hover {
+  color: #ff0000;
+}
+
+.alert {
+  margin-bottom:  0;
+}
+
+.bold-username {
+  font-weight: bold;
+}
+
+//  change btn success of boootstrap
 .btn-success {
   background-color: #56ad56 !important;
   border: #56ad56 !important;
+}
+
+.btn-blue {
+  background-color: #256188;
+  border: none;
+  color: white;
+  padding: 0;
+  margin: 0;
+}
+
+.btn-blue:hover{
+  color: white;
+}
+
+.noti-icon {
+  position: relative;
+  top: -8px !important;
+  left: -8px !important;
+}
+
+#body-row {
+  margin-left: 0;
+  margin-right: 0;
+}
+#sidebar-container {
+  min-height: 97vh;
+  background-color: #2f3337;
+  padding: 0;
+}
+.sidebar-expanded {
+  width: 230px;
+}
+.sidebar-collapsed {
+  overflow: hidden;
+  width: 65px;
+  transition: 0.2s ease-in-out;
+}
+#sidebar-container .list-group .sidebar-submenu a {
+  height: 45px;
+  padding-left: 30px;
+}
+.sidebar-submenu {
+  font-size: 0.9rem;
+}
+.menu-collapsed {
+  cursor: pointer;
 }
 
 .active-navitem {
@@ -111,10 +209,6 @@
 }
 .notification-close {
   cursor: pointer;
-}
-
-.panel-width {
-  width: 100%;
 }
 
 .search-results {

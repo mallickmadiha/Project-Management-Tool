@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user
 
   def authenticate_user
-    if !((session[:type] === 'user') && !session[:id].nil?)
+    if(session[:type] === 'user') && !session[:id].nil? 
       redirect_to '/projects'
     end
   end

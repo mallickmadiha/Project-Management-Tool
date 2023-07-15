@@ -2,7 +2,7 @@
 
 # app/controllers/projects_controller.rb
 class ProjectsController < ApplicationController
-  skip_before_action :authenticate_user, only: %i[index show create adduser update_user_ids]
+  skip_before_action :authenticate_user, only: %i[index show new create edit update destroy adduser update_user_ids]
 
   def index
     @project = Project.new
@@ -12,13 +12,14 @@ class ProjectsController < ApplicationController
   def show
     @project = Project.find(params[:id])
     @details = @project.details
-
+    @detail = Detail.new
     @backlogs = @details.where(flagType: 'backFlag') || []
     @current = @details.where(flagType: 'currentIteration')
     @icebox = @details.where(flagType: 'icebox')
     @icebox_item_submit = 'i'
     @backlog_item_submit = 'b'
     @current_item_submit = 'c'
+    @searh_items = 's'
 
     @chats = Chat.all
     @chat = Chat.new
@@ -37,7 +38,7 @@ class ProjectsController < ApplicationController
     user = User.find(current_user.id)
     @project.users << user
     @project.save
-    render json: { username: @username }
+    render json: { username: @username, project_id: @project.id }
   end
 
   def edit

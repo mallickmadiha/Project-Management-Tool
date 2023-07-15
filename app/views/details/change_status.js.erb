@@ -1,2 +1,26 @@
-var flashMessage = "<%= j(render partial: 'partials/flash_messages', locals: { flash: flash }) %>";
-$('.flash-container' + <%= @detail_id %>).html(flashMessage);
+showNotification("<%= @message %>");
+
+
+  // show notification
+  function showNotification(text) {
+  const notification = document.createElement('div');
+  notification.classList.add('notification');
+  notification.innerText = text;
+
+  document.body.appendChild(notification);
+
+  // Show the notification for a few seconds
+  setTimeout(function() {
+    notification.classList.add('show');
+    setTimeout(function() {
+      closeNotification(notification);
+    }, 3000);
+  }, 100);
+  }
+
+  function closeNotification(notification) {
+  notification.classList.remove('show');
+  setTimeout(function() {
+    document.body.removeChild(notification);
+  }, 300);
+  }
