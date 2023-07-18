@@ -24,6 +24,12 @@
 
   `rails version: 6.1.7.3`
 
+  ### After seed file runs and data is addded, you can login with
+
+  `email` : `madiha.mallick@kreeti.com`
+  
+  `password` : `12345`
+
 
   ### Project Walkthrough
 
