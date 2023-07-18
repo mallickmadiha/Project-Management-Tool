@@ -23,5 +23,8 @@
       <%= submit_tag 'Add User to Project', class: 'btn btn-success' %>
     </div>
   <% end %>
+  <h5> Users In to Project </h5>
+  <% @project_users.each do |user| %>
+    <div class="py-2"> <span style="font-weight: bold">Email:</span> <%= user.email%> <span style="font-weight: bold">Username:</span> <%= user.username %></div>
+  <% end %>
 </div>
-

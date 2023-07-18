@@ -6,7 +6,7 @@ class ProjectsController < ApplicationController
 
   def index
     @project = Project.new
-    @projects = Project.find_by_sql("SELECT * FROM projects WHERE user_id = #{current_user.id}")
+    @projects = User.find(current_user.id).projects
   end
 
   def show
@@ -52,6 +52,7 @@ class ProjectsController < ApplicationController
   def adduser
     @project = Project.find(params[:project_id])
     @users = User.where.not(id: @project.users.pluck(:id))
+    @project_users = @project.users
   end
 
   def update_user_ids
