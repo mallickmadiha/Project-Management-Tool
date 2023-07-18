@@ -53,30 +53,34 @@
           <span >Backlog</span>
         </div>
       </li>
-      <li class="menu-collapsed">
+        <%#li class="menu-collapsed">
         <div class="d-flex w-100 justify-content-start align-items-center text-white my-3">
           <i class="fa fa-sharp fa-regular fa-user mx-4 fa-lg"></i>
           <span>Profile</span>
         </div>
-      </li>
-      <li class="menu-collapsed">
-        <div class="d-flex w-100 justify-content-start align-items-center text-white my-3">
-          <i class="fa fa-sharp fa-solid fa-folder-open mx-4 fa-lg"></i>
-          <span >All Projects</span>
-        </div>
-      </li>
-      <li class="menu-collapsed">
-        <div class="d-flex w-100 justify-content-start align-items-center text-white my-3">
-          <i class="fa fa-duotone fa-users fa-sharp fa-solid mx-4 fa-lg"></i>
-          <span >Users</span>
-        </div>
-      </li>
-      <li  class="menu-collapsed">
+      </li%>
+      <%= link_to projects_path do %>
+        <li class="menu-collapsed">
+          <div class="d-flex w-100 justify-content-start align-items-center text-white my-3">
+            <i class="fa fa-sharp fa-solid fa-folder-open mx-4 fa-lg"></i>
+            <span >All Projects</span>
+          </div>
+        </li>
+      <% end %>
+      <%= link_to project_adduser_path(@project.id) do %>
+        <li class="menu-collapsed">
+          <div class="d-flex w-100 justify-content-start align-items-center text-white my-3">
+            <i class="fa fa-duotone fa-users fa-sharp fa-solid mx-4 fa-lg"></i>
+            <span >Users</span>
+          </div>
+        </li>
+      <% end %>
+      <%#li  class="menu-collapsed">
         <div class="d-flex w-100 justify-content-start align-items-center text-white my-3">
           <i class="fa fa-solid fa-gear mx-4 fa-lg"></i>
           <span>Settings</span>
         </div>
-      </li>
+      </li%>
       <li class="menu-collapsed">
         <div class="d-flex w-100 justify-content-start align-items-center text-white my-4" onClick="window.location.href='/logout'">
           <i class="fa fa-solid fa-sign-out mx-4 fa-lg"></i>
