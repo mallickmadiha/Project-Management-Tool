@@ -3,6 +3,10 @@ import consumer from "./consumer";
 document.addEventListener("turbolinks:load", function () {
   var ProjectId = window.location.pathname.split("/")[2];
 
+  if (ProjectId === undefined) {
+    ProjectId =  document.getElementById("search_items_project_id").value
+  }
+
   consumer.subscriptions.create(
     { channel: "ChatChannel", project_id: ProjectId },
     {

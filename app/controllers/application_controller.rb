@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# rubocop: disable all
 
 # app/controllers/application_controller.rb
 class ApplicationController < ActionController::Base
@@ -7,9 +6,9 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user
 
   def authenticate_user
-    if(session[:type] === 'user') && !session[:id].nil? 
-      redirect_to '/projects'
-    end
+    return unless session[:id]
+
+    redirect_to '/projects'
   end
 
   def current_user

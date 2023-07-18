@@ -23,7 +23,7 @@ class DetailsController < ApplicationController
     project_id = params.dig(:search_items, :project_id)
     @project = Project.find(project_id)
     @details = Detail.search(Detail.search_items(query.strip)).records.where(project_id:)
-
+    @search_items = 's'
     @chats = Chat.all
     @chat = Chat.new
   end

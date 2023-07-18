@@ -1,6 +1,10 @@
 $(document).ready(function () {
   var projectId = getProjectIdFromUrl();
 
+  if (projectId === null){
+    projectId = document.getElementById("search_items_project_id").value;
+  }
+
   function getProjectIdFromUrl() {
     var url = window.location.href;
     var regex = /projects\/(\d+)/;

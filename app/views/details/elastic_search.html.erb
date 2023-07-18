@@ -95,11 +95,11 @@
             <div  class="card-header d-flex flex-row justify-content-between align-items-center">
               <h2>Search Results</h2>
             </div>
-            <div class="card-body" id="<%= @searh_items %>-details-list">
+            <div class="card-body" id="<%= @search_items %>-details-list">
               <p> Stories you are currently working on and stories you're prioratized to work on next.</p>
-              <div id="collapseOne<%= @searh_items %>" class="accordion-collapse collapse bg-light" aria-labelledby="headingOne<%= @searh_items %>"
+              <div id="collapseOne<%= @search_items %>" class="accordion-collapse collapse bg-light" aria-labelledby="headingOne<%= @search_items %>"
      data-bs-parent="#accordionExample">
-                <%= render "details/form", submit_id: @searh_items, type: "backFlag" %>
+                <%= render "details/form", submit_id: @search_items, type: "backFlag" %>
               </div>
               <% @details.each do |backlog_item| %>
                 <div  type="button" class="mt-2" data-toggle="collapse" data-target="#collapseExample<%= backlog_item.id %>" aria-expanded="false" aria-controls="collapseExample<%= backlog_item.id %>">
