@@ -7,9 +7,9 @@
 default: &default
   adapter: mysql2
   encoding: utf8
-  username: root
-  password: Madiha@123##
-  database: project_management
+  # username: root
+  # password: Madiha@123##
+  # database: project_management
   host: localhost
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
