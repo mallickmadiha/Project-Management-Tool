@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# rubocop:disable all
 
 # app/models/detail.rb
 class Detail < ApplicationRecord
@@ -48,6 +47,7 @@ class Detail < ApplicationRecord
     }
   end
 
+  # rubocop:disable Metrics/MethodLength
   def self.search_items(query)
     search_definition = {
       query: {
@@ -68,5 +68,6 @@ class Detail < ApplicationRecord
 
     search_definition
   end
+  # rubocop:enable Metrics/MethodLength
   index_data
 end

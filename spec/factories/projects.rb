@@ -1,4 +1,4 @@
-# rubocop:disable  all
+# frozen_string_literal: true
 
 # spec/factories/projects.rb
 FactoryBot.define do

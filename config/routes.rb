@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-# rubocop: disable all
 
+# rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
   root 'sessions#new'
   post '/signin', to: 'sessions#create'
@@ -41,3 +41,4 @@ Rails.application.routes.draw do
 
   get 'search_items', to: 'details#elastic_search', as: 'search_items'
 end
+# rubocop:enable Metrics/BlockLength

@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-# rubocop: disable all
+# rubocop:disable Metrics/BlockLength
 ActiveRecord::Schema.define(version: 20_230_715_103_900) do
   create_table 'action_cable_channels', charset: 'utf8mb3', force: :cascade do |t|
     t.string 'channel', null: false
@@ -141,3 +141,4 @@ ActiveRecord::Schema.define(version: 20_230_715_103_900) do
   add_foreign_key 'projects', 'users'
   add_foreign_key 'tasks', 'details'
 end
+# rubocop:enable Metrics/BlockLength

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
-# rubocop: disable all
 
 require 'rails_helper'
 
 # spec/models/user_spec.rb
+# rubocop:disable Metrics/BlockLength
 RSpec.describe User, type: :model do
   describe 'validations' do
     subject(:user) { FactoryBot.build(:user) }
@@ -28,7 +28,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'is not valid with a too long email' do
-      user.email = 'a' * 256 + '@example.com'
+      user.email = "#{'a' * 256}@example.com"
       expect(user).not_to be_valid
     end
 
@@ -48,3 +48,4 @@ RSpec.describe User, type: :model do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# rubocop: disable all
 
 user1 = User.create!(
   username: 'madihakreeti',
@@ -79,6 +78,7 @@ detail_descriptions = [
   'Implement a modal window for editing data in a user-friendly manner.'
 ]
 
+# rubocop:disable Metrics/BlockLength
 projects.each do |project|
   file_names = [
     'file1.jpg',
@@ -134,3 +134,4 @@ projects.each do |project|
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

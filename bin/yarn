@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-# rubocop:disable all
 
 # !/usr/bin/env ruby
 APP_ROOT = File.expand_path('..', __dir__)
