@@ -15,7 +15,7 @@ $(document).ready(function () {
     event.preventDefault();
     var submitId = $(this).data("submit-id");
     var panel = $(this).closest(".panel").data("panel");
-    console.log("Submit ID:", submitId);
+    // console.log("Submit ID:", submitId);
 
     function showNotification(text) {
       const notification = document.createElement("div");
@@ -66,7 +66,7 @@ $(document).ready(function () {
       formData.append("detail[file][]", fileInput.files[i]);
     }
 
-    console.log(formData);
+    // console.log(formData);
 
     if (title && description && project_id) {
       $.ajax({
@@ -83,9 +83,9 @@ $(document).ready(function () {
           );
         },
         success: function (response) {
-          console.log("success");
+          // console.log("success");
 
-          console.log(response);
+          // console.log(response);
 
           // clear input fields
           document.getElementById("detail_title" + submitId).value = "";
@@ -290,7 +290,7 @@ $(document).ready(function () {
           var searchResultsContainerchat = document.getElementById(
             searchResultsContainerIdchat
           );
-          console.log(searchResultsContainerIdchat);
+          // console.log(searchResultsContainerIdchat);
 
           var isTextSearchable = false;
 
@@ -309,7 +309,7 @@ $(document).ready(function () {
 
           chatInput.addEventListener("keypress", function (event) {
             if (event.key === " ") {
-              console.log("special key pressed");
+              // console.log("special key pressed");
             }
           });
 
@@ -332,7 +332,7 @@ $(document).ready(function () {
           // Function to show the dropdown with all users
           function showUserDropdown(value) {
             value = value.replace("@", "");
-            console.log(value);
+            // console.log(value);
 
             // Get the authenticity token from the meta tag
             var authenticityToken = $('meta[name="csrf-token"]').attr(
@@ -359,7 +359,7 @@ $(document).ready(function () {
                   resultItem.className = "search-results-text";
                   resultItem.textContent = result.username; // Update with your data structure
                   searchResultsContainerchat.appendChild(resultItem);
-                  console.log(searchResultsContainerchat);
+                  // console.log(searchResultsContainerchat);
                 });
 
                 // Show the search results container
@@ -468,7 +468,7 @@ $(document).ready(function () {
                   "X-CSRF-Token": csrfToken,
                 },
                 success: function (response) {
-                  console.log(response.message);
+                  // console.log(response.message);
                   showNotification(`Task ${taskId} Updated Successfully`);
 
                   // Update the task count
@@ -488,13 +488,13 @@ $(document).ready(function () {
 
           // Function to add a new task
           function addTask(itemId) {
-            console.log(itemId);
+            // console.log(itemId);
             var taskName = document
               .getElementById("task_name" + itemId)
               .value.trim();
 
             if (taskName === "") {
-              console.log("Task name cannot be empty.");
+              // console.log("Task name cannot be empty.");
               return;
             }
             var detailId = itemId;
@@ -507,9 +507,9 @@ $(document).ready(function () {
               data: JSON.stringify({ task: { name: taskName } }),
               headers: { "X-CSRF-Token": csrfToken },
               success: function (response) {
-                console.log(response.message);
+                // console.log(response.message);
                 showNotification("Task Added Successfully");
-                console.log("Task ID:", response.id);
+                // console.log("Task ID:", response.id);
 
                 // Update the task count
                 var completedTasksCount = response.completedTasksCount;
@@ -569,7 +569,7 @@ $(document).ready(function () {
             });
 
           document.addEventListener("click", function (event) {
-            console.log(id);
+            // console.log(id);
             var taskCheckBoxId = "task_checkbox" + id;
             if (event.target.classList.contains(taskCheckBoxId)) {
               createCheckboxClickListener(id)(event);
@@ -611,7 +611,7 @@ $(document).ready(function () {
           }
         },
         error: function (xhr, status, error) {
-          console.log(error);
+          // console.log(error);
           // Handle the error as needed
         },
       });

@@ -18,7 +18,7 @@ $(document).on("turbolinks:load", function () {
     },
   });
 
-  console.log("turbolinks:load");
+  // console.log("turbolinks:load");
 
   const notificationContainer = document.getElementById(
     "notificationContainer"

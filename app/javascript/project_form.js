@@ -18,17 +18,17 @@ document.getElementById('create-project-btn').addEventListener('click', function
        .then(function(response) {
          if (response.ok) {
            // Handle the success response
-           console.log('Project created successfully');
+          //  console.log('Project created successfully');
            // clear the input field
            document.getElementById('project_name').value = '';
            return response.json();
          } else {
            // Handle the error response
-           console.log('Project creation failed');
+          //  console.log('Project creation failed');
          }
        })
        .then(function(data) {
-         console.log('Response data:', data.username, data.project_id);
+        //  console.log('Response data:', data.username, data.project_id);
          let username = data.username;
          let project_id = data.project_id;
            // get button of id modal-close-btn
@@ -64,10 +64,10 @@ document.getElementById('create-project-btn').addEventListener('click', function
              </div>
            `;
          // append the card to the projects-display element
-         projectsDisplay.appendChild(card);
+         projectsDisplay.prepend(card);
        })
        .catch(function(error) {
-         console.log(error);
+        //  console.log(error);
        });
    });
 

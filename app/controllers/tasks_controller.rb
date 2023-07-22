@@ -1,27 +1,27 @@
 # frozen_string_literal: true
-# rubocop: disable all
 
 # app/controllers/tasks_controller.rb
 class TasksController < ApplicationController
-  skip_before_action :authenticate_user, only: %i[new create update]
+  include TasksHelper
+  skip_before_action :authenticate_user
 
   def new
     @task = Task.new
   end
 
   def create
-    project = Project.find(params[:project_id])
-    detail = project.details.find(params[:detail_id])
-    @task = detail.tasks.build(task_params)
+    project = find_project
+    detail = find_detail(project)
 
-    completed_tasks_count = detail.tasks.Done.count
+    @task = build_task(detail)
+
+    completed_tasks_count = count_completed_tasks(detail)
     total_tasks_count = detail.tasks.count
 
     if @task.save
-      render json: { message: 'Task created successfully', id: @task.id, completedTasksCount: completed_tasks_count,
-                     totalTasksCount: total_tasks_count }, status: :ok
+      render_success_response(completed_tasks_count, total_tasks_count)
     else
-      render json: { error: 'Failed to create task' }, status: :unprocessable_entity
+      render_error_response
     end
   end
 
@@ -30,17 +30,10 @@ class TasksController < ApplicationController
     @detail = @project.details.find(params[:detail_id])
     @task = @detail.tasks.find(params[:id])
 
-    if @task.update(task_update_params)
-      completed_tasks_count = @detail.tasks.Done.count
-      total_tasks_count = @detail.tasks.count
-
-      render json: {
-        message: 'Task updated successfully',
-        completedTasksCount: completed_tasks_count,
-        totalTasksCount: total_tasks_count
-      }
+    if update_task_record
+      render_update_success_response
     else
-      render json: { error: 'Failed to update task' }, status: :unprocessable_entity
+      render_update_error_response
     end
   end
 

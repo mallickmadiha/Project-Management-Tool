@@ -27,7 +27,7 @@ $(document).ready(function () {
       var detailContainer =
         this.nextElementSibling.querySelector(".detail-container");
       var itemId = detailContainer.getAttribute("data-item-id");
-      console.log(itemId);
+      // console.log(itemId);
       // Do further processing with the itemId here
 
       // Add an event listener to the close button
@@ -60,7 +60,7 @@ $(document).ready(function () {
 
         chatInput.on("keypress", function (event) {
           if (event.key === " ") {
-            console.log("special key pressed");
+            // console.log("special key pressed");
           }
         });
 
@@ -85,7 +85,7 @@ $(document).ready(function () {
           searchResultsContainer.html("");
 
           value = value.replace("@", "");
-          console.log(value);
+          // console.log(value);
           // Get the authenticity token from the meta tag
           var authenticityToken = $('meta[name="csrf-token"]').attr("content");
           $.ajax({
@@ -213,7 +213,7 @@ $(document).ready(function () {
             data: JSON.stringify({ task: { status: completed } }),
             headers: { "X-CSRF-Token": authenticityToken },
             success: function (response) {
-              console.log(response.message);
+              // console.log(response.message);
               showNotification(`Task ${taskId} Updated Successfully`);
 
               // Update the task count
@@ -233,13 +233,13 @@ $(document).ready(function () {
 
       // Function to add a new task
       function addTask(itemId) {
-        console.log(itemId);
+        // console.log(itemId);
         var taskName = document
           .getElementById("task_name" + itemId)
           .value.trim();
 
         if (taskName === "") {
-          console.log("Task name cannot be empty.");
+          // console.log("Task name cannot be empty.");
           return;
         }
         var detailId = itemId;
@@ -252,9 +252,9 @@ $(document).ready(function () {
           data: JSON.stringify({ task: { name: taskName } }),
           headers: { "X-CSRF-Token": authenticityToken },
           success: function (response) {
-            console.log(response.message);
+            // console.log(response.message);
             showNotification("Task Added Successfully");
-            console.log("Task ID:", response.id);
+            // console.log("Task ID:", response.id);
 
             // Update the task count
             var completedTasksCount = response.completedTasksCount;

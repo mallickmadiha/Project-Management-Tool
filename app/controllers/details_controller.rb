@@ -1,11 +1,9 @@
 # frozen_string_literal: true
-# rubocop:disable all
 
 # app/controllers/details_controller.rb
 class DetailsController < ApplicationController
-  skip_before_action :authenticate_user,
-                     only: %i[index show new create edit update destroy change_status update_user_ids elastic_search]
-
+  include DetailsHelper
+  skip_before_action :authenticate_user
   def index
     @details = Detail.all
   end
@@ -29,15 +27,13 @@ class DetailsController < ApplicationController
   end
 
   def create
-    @detail = Detail.new(detail_params)
-    @detail.uuid = SecureRandom.hex(10)
-    @detail.save
-    @status = @detail.status
-    @users = @detail.users
-    @tasks = @detail.tasks
-    @id = @detail.id
-    render json: { detail: @detail.uuid, id: @detail.id, status: @detail.status,
-                   project_id: @detail.project_id, js_id: @id, tasks: @tasks, users: @users, current_user: current_user.id }
+    @detail = create_detail
+
+    if @detail.save
+      render_success_response
+    else
+      render_error_response
+    end
   end
 
   def edit
@@ -56,46 +52,29 @@ class DetailsController < ApplicationController
   end
 
   def change_status
-    @detail = Detail.find(params[:id])
+    @detail = find_detail
     @detail.status = params[:status]
-    @detail_id = params[:id]
-    @message = "Status of Feature #{@detail_id} has been changed to #{@detail.status}"
-    @notification = Notification.create(message: @message, user_id: current_user.id)
-    @notification.save
+
     if @detail.save
-      @detail.users.each do |user|
-        ActionCable.server.broadcast("notifications_#{user.id}",
-                                     {
-                                       message: @message,
-                                       id: @notification.id
-                                     })
-        UserMailer.notification_email_status(current_user.email, user.username,
-                                             user.email, @detail_id, @detail.status).deliver_later
-      end
+      update_users_notification
     else
       @message = 'An error has occurred'
     end
   end
 
   def update_user_ids
-    @detail = Detail.find(params[:id])
+    @detail = find_detail
     @project_id = params[:project_id]
-    @users = User.where(email: params[:email])
+    @users = find_users_by_email
+
     new_users = @users - @detail.users
-    @detail.users << new_users
+    add_new_users_to_detail(new_users)
+
     @detail_id = params[:id]
-
     @message = "You have been Added to Feature #{@detail_id}"
-    @notification = Notification.create(message: @message, user_id: current_user.id)
-    @notification.save
+    @notification = create_new_notification
 
-    new_users.each do |user|
-      ActionCable.server.broadcast("notifications_#{user.id}",
-                                   {
-                                     message: @message,
-                                     id: @notification.id
-                                   })
-    end
+    broadcast_notification_to_new_users(new_users)
   end
 
   private

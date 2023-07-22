@@ -2,8 +2,9 @@ import consumer from "./consumer";
 
 document.addEventListener("turbolinks:load", function () {
   var ProjectId = window.location.pathname.split("/")[2];
+  var url = window.location.pathname.split("/");
 
-  if (ProjectId === undefined) {
+  if (ProjectId === undefined && url.length === 3) {
     ProjectId =  document.getElementById("search_items_project_id").value
   }
 
@@ -15,14 +16,14 @@ document.addEventListener("turbolinks:load", function () {
       },
 
       received(data) {
-        console.log(data);
+        // console.log(data);
 
         const detailsId = data.detailsId;
-        console.log("Received detailsId:", detailsId);
+        // console.log("Received detailsId:", detailsId);
 
         var containerId = "#chat-container" + detailsId.toString();
         var container = $(containerId);
-        console.log(data.chat.message);
+        // console.log(data.chat.message);
 
         container.append(
           "<div class='d-flex justify-content-start'>" +

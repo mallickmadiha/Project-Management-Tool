@@ -3,29 +3,37 @@
 <div id="toast-container" class="toast-container"></div>
 <div class="d-flex justify-content-between align-items-center flex-wrap p-1 py-2 text-white px-lg-2" style="background-color: #256188">
   <a href="/" style="text-decoration:none; color: white">
-    <div class="text-center" style="font-weight:bold; font-size: 20px" ><i class="fa fa-duotone fa-gear mx-2"></i><%= @project.name %> </div>
+    <div class="text-center" style="font-weight:bold; font-size: 20px"><i class="fa fa-duotone fa-gear mx-2"></i><%= @project.name %></div>
   </a>
-  <div class="mx-3 d-flex flex-row justify-content-center align-item-center">
-    <%= form_for :search_items, url: search_items_path, method: :get, html: { class: "form-inline mx-5" } do |form| %>
-      <%= form.hidden_field :project_id, value: @project.id %>
-      <%= form.text_field :query, value: params[:search_items].presence && params[:search_items][:query], placeholder: "Search Field", class: "form-control" %>
-    <% end %>
-    <button id="notificationButton" class="btn btn-blue">
-      <i class="fas fa-bell fa-xl"></i>
-      <span class="badge bg-danger noti-icon" id="notificationCounter"><%= current_user.notifications.where(read: false).count%></span>
-    </button>
-    <div id="notificationContainer" class="container py-1 mx-5">
-      <% if current_user %>
-        <%= link_to "Mark All Read", notifications_mark_read_path, method: :post, class: "btn btn-success w-50 mx-auto d-block", id: "mark-read-button" %>
-        <% current_user.notifications.where(read: false).each do |notification| %>
-          <li class="list-group-item"><%= notification.message %></li>
-        <% end %>
+  <div class="mx-3 d-flex flex-wrap justify-content-center align-items-center">
+    <!-- Search Form -->
+    <div class="d-flex">
+      <%= form_for :search_items, url: search_items_path, method: :get, html: { class: "form-inline mx-2 my-2 my-lg-0" } do |form| %>
+        <%= form.hidden_field :project_id, value: @project.id %>
+        <%= form.text_field :query, value: params[:search_items].presence && params[:search_items][:query], placeholder: "Search Field", class: "form-control" %>
+      <% end %>
+      <button id="notificationButton" class="btn btn-blue my-2 my-lg-0 mx-2">
+        <i class="fas fa-bell fa-xl"></i>
+        <span class="badge bg-danger noti-icon" id="notificationCounter"><%= current_user.notifications.where(read: false).count %></span>
+      </button>
+    </div>
+    <!-- User Info and Logout -->
+    <div class="mx-3 d-flex flex-wrap justify-content-center align-items-center">
+      <i class="fa fa-solid fa-user mx-3 fa-xl"></i>
+      <span><%= current_user.username %></span>
+      <%= link_to "/logout", method: :post do %>
+        <i class="fa fa-solid fa-right-from-bracket mt-3 mx-3 fa-xl" style="color:#fff"></i>
       <% end %>
     </div>
-    <i class="fa fa-solid fa-user mt-3 mx-3 fa-xl"></i> <span class="mt-2"><%= current_user.username %></span>
-    <%= link_to "/logout", method: :post do %>
-      <i class="fa fa-solid fa-right-from-bracket mt-3 mx-3 fa-xl" style="color:#fff"></i>
-    <% end %>
+    <!-- Notification Dropdown -->
+    <div id="notificationContainer" class="container my-2 mx-3">
+      <% if current_user %>
+        <% current_user.notifications.where(read: false).order(id: :desc).each do |notification| %>
+          <li class="list-group-item"><%= notification.message %></li>
+        <% end %>
+        <%= link_to "Mark All Read", notifications_mark_read_path, method: :post, class: "btn btn-success w-50 my-2 mx-auto d-block", id: "mark-read-button" %>
+      <% end %>
+    </div>
   </div>
 </div>
 <div class="row" id="body-row" style="background-color: #212123;">
@@ -92,7 +100,7 @@
     </ul>
   </div>
   <div class="col">
-    <div class="d-flex flex-row w-100 h-100">
+    <div class="d-flex flex-column flex-xl-row w-100 h-100">
       <%= render partial: "partials/backlog" %>
       <%= render partial: "partials/icebox"%>
       <%= render partial: "partials/currentIteration" %>

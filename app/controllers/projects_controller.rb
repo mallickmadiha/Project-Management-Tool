@@ -2,7 +2,7 @@
 
 # app/controllers/projects_controller.rb
 class ProjectsController < ApplicationController
-  skip_before_action :authenticate_user, only: %i[index show new create edit update destroy adduser update_user_ids]
+  skip_before_action :authenticate_user
 
   def index
     @project = Project.new
@@ -10,7 +10,9 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @project = Project.find(params[:id])
+    @project = Project.find_by(id: params[:id])
+    return render_404_page if @project.nil?
+
     @details = fetch_project_details
     @detail = Detail.new
     initialize_flags
@@ -50,7 +52,13 @@ class ProjectsController < ApplicationController
   end
 
   def adduser
-    @project = Project.find(params[:project_id])
+    @project = Project.find_by(id: params[:project_id])
+
+    if @project.nil?
+      render 'partials/_404'
+      return
+    end
+
     @users = User.where.not(id: @project.users.pluck(:id))
     @project_users = @project.users
   end
@@ -86,5 +94,9 @@ class ProjectsController < ApplicationController
 
   def initialize_search_items
     @search_items = 's'
+  end
+
+  def render_404_page
+    render 'partials/_404'
   end
 end

@@ -12,7 +12,7 @@ document.addEventListener("turbolinks:load", function () {
     },
 
     received(data) {
-      console.log(data);
+      // console.log(data);
       var notificationClass = "list-group-text" + data.id;
 
       // Check if a notification with the same ID already exists in the container
@@ -28,7 +28,7 @@ document.addEventListener("turbolinks:load", function () {
       notificationItem.classList.add(notificationClass);
       notificationItem.textContent = data.message;
 
-      notificationContainer.appendChild(notificationItem);
+      notificationContainer.prepend(notificationItem);
 
       var counterElement = document.getElementById('notificationCounter')
       var counter = parseInt(counterElement.textContent)
