@@ -29,7 +29,7 @@ module DetailsHelper
 
   def update_users_notification
     @detail_id = params[:id]
-    @message = "Status of Feature #{@detail_id} has been changed to #{@detail.status}"
+    @message = "Status of Feature has been changed to #{@detail.status}"
 
     @notification = create_notification
     broadcast_notification_to_users
@@ -55,8 +55,8 @@ module DetailsHelper
                                          user.email, @detail_id, @detail.status).deliver_later
   end
 
-  def find_users_by_email
-    User.where(email: params[:email])
+  def find_users_by_username
+    User.where(username: params[:username])
   end
 
   def add_new_users_to_detail(new_users)

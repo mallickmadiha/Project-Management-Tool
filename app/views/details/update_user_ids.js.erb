@@ -1,18 +1,13 @@
-// Get the user-container element
 var userContainer = document.getElementById("user-container<%= @detail_id %>");
 
 <% @users.each do |user| %>
-  var existingEmails = Array.from(userContainer.getElementsByTagName("p")).map(function(paragraph) {
+  var existingUserNames = Array.from(userContainer.getElementsByTagName("p")).map(function(paragraph) {
     return paragraph.textContent.trim();
   });
 
-  // Check if the email ID is already present in the container
-  if (!existingEmails.includes("<%= user.email %>")) {
-    // Create a new paragraph element for the user's email ID
+  if (!existingUserNames.includes("<%= user.username %>")) {
     var userParagraph = document.createElement("p");
-    userParagraph.textContent = "<%= user.email %>";
-
-    // Append the new paragraph to the user-container element
+    userParagraph.textContent = "<%= user.username %>";
     userContainer.appendChild(userParagraph);
   }
 <% end %>

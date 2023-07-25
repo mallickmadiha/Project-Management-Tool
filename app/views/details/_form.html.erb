@@ -1,11 +1,11 @@
 <div class="m-3 pt-4 mx-5">
   <h4 class="text-center text-gray-dark">Add a new Feature <i class="fa fa-plus-circle"></i></h4>
   <div class="field form-group text-dark my-3">
-    <label for="detail_title">Title</label>
+    <label for="detail_title" class="required">Title</label>
     <input type="text" name="detail[title]" id="detail_title<%= submit_id %>" class="form-control" />
   </div>
   <div class="field form-group text-dark my-3">
-    <label for="detail_description">Description</label>
+    <label for="detail_description" class="required">Description</label>
     <textarea name="detail[description]" id="detail_description<%= submit_id %>" class="form-control"></textarea>
   </div>
   <input type="hidden" name="detail[flagType]" value="<%= type %>" id="detail_flagType<%= submit_id %>" />
@@ -17,7 +17,7 @@
   <div id="taskContainer">
   </div>
   <div class="actions py-3">
-    <button name="commit" value="Create Detail" id="<%= submit_id %>" class="btn btn-primary mt-3 submit-button" data-submit-id="<%= submit_id %>">Submit</button>
+    <button name="commit" value="Create Detail" id="<%= submit_id %>" class="btn btn-primary mt-3 submit-feature" data-submit-id="<%= submit_id %>">Submit</button>
     <button class="btn btn-secondary mt-3 mx-3" id="modalCloseButton<%= submit_id %>" type="button">Close</button>
   </div>
 </div>

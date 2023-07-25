@@ -2,39 +2,36 @@ import consumer from "./consumer";
 
 document.addEventListener("turbolinks:load", function () {
   consumer.subscriptions.create("NotificationsChannel", {
-    connected() {
-      console.log("NotificationsChannel connected");
-      // Called when the subscription is ready for use on the server
-    },
+    connected() {},
 
-    disconnected() {
-      // Called when the subscription has been terminated by the server
-    },
+    disconnected() {},
 
     received(data) {
-      // console.log(data);
       var notificationClass = "list-group-text" + data.id;
 
-      // Check if a notification with the same ID already exists in the container
-      const existingNotification = document.querySelector(`.${notificationClass}`);
+      const existingNotification = document.querySelector(
+        `.${notificationClass}`
+      );
 
       if (existingNotification) {
-        return; // Exit if the notification with the same ID already exists
+        return;
       }
 
-      // Create a new notification element
       const notificationItem = document.createElement("li");
       notificationItem.classList.add("list-group-item");
       notificationItem.classList.add(notificationClass);
       notificationItem.textContent = data.message;
 
-      notificationContainer.prepend(notificationItem);
-
-      var counterElement = document.getElementById('notificationCounter')
-      var counter = parseInt(counterElement.textContent)
-      counter +=1
-      counterElement.textContent = counter;
-
+      var url = window.location.pathname.split("/");
+    
+      if ((url[1] === "projects" && url.length > 2) || url[1] === "search_items") {
+        notificationContainer.prepend(notificationItem);
+        var counterElement = document.getElementById("notificationCounter");
+        var counter = parseInt(counterElement.textContent);
+        counter += 1;
+        counterElement.textContent = counter;
+      }
+    
     },
   });
 });

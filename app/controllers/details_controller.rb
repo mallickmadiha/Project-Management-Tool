@@ -17,11 +17,22 @@ class DetailsController < ApplicationController
   end
 
   def elastic_search
-    query = params.dig(:search_items, :query)
+    query = params.dig(:search_items, :query).to_s.gsub(/[^\w\s]/, '').strip
     project_id = params.dig(:search_items, :project_id)
-    @project = Project.find(project_id)
-    @details = Detail.search(Detail.search_items(query.strip)).records.where(project_id:)
-    @search_items = 's'
+    @project = Project.find_by(id: project_id)
+
+    options = {}
+    options[:id] = query.to_i if query.to_i.positive?
+
+    @details = if @project
+                 Detail.search(Detail.search_items(query)).records.where(project_id: @project.id)
+               elsif options[:id].present?
+                 Detail.search(Detail.search_items(query)).records.where(id: options[:id].to_s)
+               else
+                 Detail.search(Detail.search_items(query)).records
+               end
+
+    @search_items = query
     @chats = Chat.all
     @chat = Chat.new
   end
@@ -65,13 +76,13 @@ class DetailsController < ApplicationController
   def update_user_ids
     @detail = find_detail
     @project_id = params[:project_id]
-    @users = find_users_by_email
+    @users = find_users_by_username
 
     new_users = @users - @detail.users
     add_new_users_to_detail(new_users)
 
     @detail_id = params[:id]
-    @message = "You have been Added to Feature #{@detail_id}"
+    @message = 'You have been Added to a Feature'
     @notification = create_new_notification
 
     broadcast_notification_to_new_users(new_users)

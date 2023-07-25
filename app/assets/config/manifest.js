@@ -3,7 +3,7 @@
 
 //= link application.js
 
-//= link project.js
-//= link detail.js
-//= link project_form.js
-//= link detail_form.js
+//= link packs/detail_form.js
+//= link packs/detail.js
+//= link packs/project_form.js
+//= link packs/project.js

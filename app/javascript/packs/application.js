@@ -18,8 +18,6 @@ $(document).on("turbolinks:load", function () {
     },
   });
 
-  // console.log("turbolinks:load");
-
   const notificationContainer = document.getElementById(
     "notificationContainer"
   );
@@ -42,12 +40,6 @@ $(document).on("turbolinks:load", function () {
     $("#notificationCounter").html("0");
   });
 
-  // $("#flashModal").modal("show");
-  // setTimeout(function () {
-  //   $("#flashModal").modal("hide");
-  // }, 2000);
-
-  // if backlog is false in localStorage then close it
   if (localStorage.getItem("backlog") == "false") {
     $("#backlog").hide();
     $("#backlog-show").removeClass("active-navitem");
@@ -63,12 +55,10 @@ $(document).on("turbolinks:load", function () {
     $("#icebox-show").removeClass("active-navitem");
   }
 
-  // Function to toggle sidebar collapse
   function toggleSidebar() {
     $("#sidebar-container").toggleClass("sidebar-expanded sidebar-collapsed");
   }
 
-  // Event listener for the sidebar toggle button
   $("#sidebar-toggle").click(function () {
     toggleSidebar();
   });

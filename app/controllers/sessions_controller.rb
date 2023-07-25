@@ -22,11 +22,8 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:id] = nil
-
-    # for revoking access token
     session[:access_token] = nil
-
-    redirect_to '/'
+    redirect_to root_path
   end
 
   def omniauth

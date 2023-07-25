@@ -9,7 +9,7 @@ class SearchController < ApplicationController
     detail = Detail.find(@detail_id)
     project = Project.find(detail.project_id)
     query = params[:query]
-    results = project.users.where('email LIKE ?', "%#{query}%")
+    results = project.users.where('username LIKE ?', "%#{query}%")
 
     render json: results
   end

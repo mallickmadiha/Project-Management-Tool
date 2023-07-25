@@ -8,7 +8,7 @@ module ChatsHelper
     @project_id = find_project_id_from_detail(@details_id)
     @detail = find_detail(@details_id)
     @sender_username = find_sender_username(chat_params[:sender_id])
-    @message = "A new comment has been added to feature #{@details_id}"
+    @message = 'A new comment has been added to feature'
   end
 
   def find_detail(detail_id)
@@ -49,7 +49,7 @@ module ChatsHelper
     @notification = create_notification(@message, current_user.id)
     mentioned_users = extract_mentioned_users(@chat.message)
     mentioned_users.each do |user|
-      broadcast_notification(@notification, "You have been mentioned in feature #{@details_id}", user.id)
+      broadcast_notification(@notification, 'You have been mentioned in a feature', user.id)
     end
   end
 

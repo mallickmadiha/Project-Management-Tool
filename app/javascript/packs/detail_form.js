@@ -14,9 +14,17 @@ $(document).ready(function () {
   $(".submit-button").on("click", function (event) {
     event.preventDefault();
     var submitId = $(this).data("submit-id");
-    var panel = $(this).closest(".panel").data("panel");
-    // console.log("Submit ID:", submitId);
 
+    var closeButton = document.getElementById("modalCloseButton" + submitId);
+    closeButton.addEventListener("click", function () {
+      var collapseElement = document.getElementById("collapseOne" + submitId);
+      collapseElement.classList.remove("show");
+    });
+  });
+
+  $(".submit-feature").on("click", function (event) {
+    event.preventDefault();
+    var submitId = $(this).data("submit-id");
     function showNotification(text) {
       const notification = document.createElement("div");
       notification.classList.add("notification");
@@ -24,7 +32,6 @@ $(document).ready(function () {
 
       document.body.appendChild(notification);
 
-      // Show the notification for a few seconds
       setTimeout(function () {
         notification.classList.add("show");
         setTimeout(function () {
@@ -39,13 +46,6 @@ $(document).ready(function () {
         document.body.removeChild(notification);
       }, 300);
     }
-    var closeButton = document.getElementById("modalCloseButton" + submitId);
-    closeButton.addEventListener("click", function () {
-      // Find the collapse element and hide it
-      var collapseElement = document.getElementById("collapseOne" + submitId);
-      collapseElement.classList.remove("show");
-    });
-
     var title = document.getElementById("detail_title" + submitId).value;
     var description = document.getElementById(
       "detail_description" + submitId
@@ -66,8 +66,6 @@ $(document).ready(function () {
       formData.append("detail[file][]", fileInput.files[i]);
     }
 
-    // console.log(formData);
-
     if (title && description && project_id) {
       $.ajax({
         url: `/projects/${projectId}/details/`,
@@ -83,36 +81,26 @@ $(document).ready(function () {
           );
         },
         success: function (response) {
-          // console.log("success");
-
-          // console.log(response);
-
-          // clear input fields
           document.getElementById("detail_title" + submitId).value = "";
           document.getElementById("detail_description" + submitId).value = "";
           document.getElementById("detail_flagType" + submitId).value =
             "backFlag";
           document.getElementById("detail_file" + submitId).value = "";
 
-          // closing the modal
           var collapseElement = document.getElementById(
             "collapseOne" + submitId
           );
           collapseElement.classList.remove("show");
 
-          // now add the new detail to the DOM
-
-          let uuid = response.uuid;
+          let uuid = response.detail;
           let id = response.id;
-          let status = response.status;
           let project_id = response.project_id;
           let tasks = response.tasks;
           let users = response.users;
           let current_user = response.current_user;
 
-          showNotification(`Feature ${id} is Successfully Added`);
+          showNotification(`Feature is Successfully Added`);
 
-          // get files from formData
           let files = formData.getAll("detail[file][]");
           var container = document.getElementById(submitId + "-details-list");
           var newDetail = document.createElement("div");
@@ -184,10 +172,10 @@ $(document).ready(function () {
             </div>
             <div class="d-flex flex-column flex-wrap">
                 <div id="user-container${id}">
-                  ${users.map((user) => `<p>${user.email}</p>`).join("")}
+                  ${users.map((user) => `<p>${user.username}</p>`).join("")}
                 </div>
                 <form action="/projects/${project_id}/details/${id}/update_user_ids" method="post" data-remote="true">
-                  <input type="text" name="email[]" id="search-input${id}" class="form-control" placeholder="Type to search..." />
+                  <input type="text" name="username[]" id="search-input${id}" class="form-control" placeholder="Type to search..." />
                   <input type="hidden" name="authenticity_token" value="{{form_authenticity_token}}">
                   <div id="search-results${id}"></div>
                   <button type="submit" class="message-btn mt-3">Add User</button>
@@ -277,10 +265,8 @@ $(document).ready(function () {
             'meta[name="csrf-token"]'
           ).content;
 
-          // Convert newDetail to a jQuery object
           var $newDetail = $(newDetail);
 
-          // Append the $newDetail to the container
           $(container).append($newDetail);
 
           var chatInputId = "#chat_message_" + id;
@@ -290,14 +276,11 @@ $(document).ready(function () {
           var searchResultsContainerchat = document.getElementById(
             searchResultsContainerIdchat
           );
-          // console.log(searchResultsContainerIdchat);
 
           var isTextSearchable = false;
-
-          // Event listener for the chat input field
           chatInput.addEventListener("input", function () {
             var inputValue = chatInput.value;
-            // to get the most recent @ mention
+
             var lastAtSymbolIndex = inputValue.lastIndexOf("@");
             if (lastAtSymbolIndex !== -1) {
               var searchText = inputValue.substring(lastAtSymbolIndex + 1);
@@ -309,60 +292,44 @@ $(document).ready(function () {
 
           chatInput.addEventListener("keypress", function (event) {
             if (event.key === " ") {
-              // console.log("special key pressed");
             }
           });
 
-          // Event listener for the search results container
           var searchResultsContainerClass = ".search-results-chat" + id;
           searchResultsContainerchat.addEventListener(
             "click",
             function (event) {
               var selectedItem = event.target;
               var selectedValue = selectedItem.textContent;
-
-              // Insert the selected value at the current cursor position in the chat input
               insertValueAtCursor(chatInput, selectedValue);
-
-              // Clear the search results container
               searchResultsContainerchat.innerHTML = "";
             }
           );
 
-          // Function to show the dropdown with all users
           function showUserDropdown(value) {
             value = value.replace("@", "");
-            // console.log(value);
-
-            // Get the authenticity token from the meta tag
             var authenticityToken = $('meta[name="csrf-token"]').attr(
               "content"
             );
-
-            // Send an Ajax request to the search endpoint
             $.ajax({
               url: `/search/${id}`,
               method: "POST",
               data: { query: value },
               headers: {
-                "X-CSRF-Token": authenticityToken, // Include the authenticity token in the request headers
+                "X-CSRF-Token": authenticityToken,
               },
               dataType: "json",
               success: function (response) {
                 searchResultsContainerchat.innerHTML = "";
                 var resultItems = [];
 
-                // Loop through the search results and add them to the container
                 response.forEach(function (result) {
                   var resultItem = document.createElement("div");
                   resultItem.className = "search-results-chat" + id;
                   resultItem.className = "search-results-text";
-                  resultItem.textContent = result.username; // Update with your data structure
+                  resultItem.textContent = result.username;
                   searchResultsContainerchat.appendChild(resultItem);
-                  // console.log(searchResultsContainerchat);
                 });
-
-                // Show the search results container
                 searchResultsContainerchat.style.display = "block";
               },
             });
@@ -379,7 +346,6 @@ $(document).ready(function () {
             }
           }
 
-          // search the users to assign them
           let searchInputId = "search-input" + id;
 
           var searchInput = document.getElementById(searchInputId);
@@ -396,48 +362,41 @@ $(document).ready(function () {
             );
             var query = searchCurrentInput.value.trim();
 
-            // Clear previous search results
             searchCurrentResultsContainer.innerHTML = "";
 
-            // Perform search and update results
             if (query !== "") {
-              // Get the authenticity token from the meta tag
               var authenticityToken = document
                 .querySelector('meta[name="csrf-token"]')
                 .getAttribute("content");
 
-              // Send an Ajax request to the search endpoint
               $.ajax({
                 url: `/search/${id}`,
                 method: "POST",
                 data: { query: query },
                 headers: {
-                  "X-CSRF-Token": authenticityToken, // Include the authenticity token in the request headers
+                  "X-CSRF-Token": authenticityToken,
                 },
                 dataType: "json",
                 success: function (response) {
-                  // Loop through the search results and add them to the container
                   response.forEach(function (result) {
                     var resultItem = document.createElement("div");
-                    // add class to the result item
+
                     resultItem.classList.add("search-result-value");
-                    resultItem.textContent = result.email; // Update with your data structure
+                    resultItem.textContent = result.username;
                     searchCurrentResultsContainer.appendChild(resultItem);
                   });
                 },
               });
             }
-            // Event listener for the search results container
+
             searchCurrentResultsContainer.addEventListener(
               "click",
               function (event) {
                 var selectedItem = event.target;
                 var selectedValue = selectedItem.textContent;
 
-                // Set the selected value in the input field
                 searchCurrentInput.value = selectedValue;
 
-                // Clear the below div by setting its innerHTML to an empty string
                 var belowDiv = document.getElementById(
                   searchResultsContainerId
                 );
@@ -446,18 +405,13 @@ $(document).ready(function () {
             );
           });
 
-          // Task related
-
-          // Function factory to create checkbox click event listener with encapsulated item.id
           function createCheckboxClickListener(itemId) {
             return function (event) {
               var detailId = id;
               var taskId = event.target.dataset.taskId || event.target.value;
 
-              // Determine if the checkbox is checked or unchecked
               var completed = event.target.checked ? "Done" : "Added";
 
-              // Send PATCH request to update the task status
               $.ajax({
                 url: `/projects/${projectId}/details/${detailId}/tasks/${taskId}`,
                 type: "PATCH",
@@ -468,10 +422,8 @@ $(document).ready(function () {
                   "X-CSRF-Token": csrfToken,
                 },
                 success: function (response) {
-                  // console.log(response.message);
-                  showNotification(`Task ${taskId} Updated Successfully`);
+                  showNotification(`Task Updated Successfully`);
 
-                  // Update the task count
                   var completedTasksCount = response.completedTasksCount;
                   var totalTasksCount = response.totalTasksCount;
 
@@ -479,22 +431,17 @@ $(document).ready(function () {
                   var taskCountElement = document.getElementById(taskCountId);
                   taskCountElement.innerText = `Tasks: (${completedTasksCount} / ${totalTasksCount})`;
                 },
-                error: function (xhr, status, error) {
-                  console.error("Error: " + error);
-                },
               });
             };
           }
 
-          // Function to add a new task
           function addTask(itemId) {
-            // console.log(itemId);
             var taskName = document
               .getElementById("task_name" + itemId)
               .value.trim();
 
             if (taskName === "") {
-              // console.log("Task name cannot be empty.");
+              showNotification("Please Enter a Task");
               return;
             }
             var detailId = itemId;
@@ -507,11 +454,8 @@ $(document).ready(function () {
               data: JSON.stringify({ task: { name: taskName } }),
               headers: { "X-CSRF-Token": csrfToken },
               success: function (response) {
-                // console.log(response.message);
                 showNotification("Task Added Successfully");
-                // console.log("Task ID:", response.id);
 
-                // Update the task count
                 var completedTasksCount = response.completedTasksCount;
                 var totalTasksCount = response.totalTasksCount + 1;
 
@@ -536,7 +480,6 @@ $(document).ready(function () {
                 taskContainer.appendChild(newTaskElement);
                 document.getElementById("task_name" + itemId).value = "";
 
-                // Add event listener to the newly created checkbox
                 var checkboxId = "detail_task_ids_" + taskId;
                 var checkbox = document.getElementById(checkboxId);
                 checkbox.addEventListener(
@@ -544,13 +487,9 @@ $(document).ready(function () {
                   createCheckboxClickListener(itemId)
                 );
               },
-              error: function (xhr, status, error) {
-                console.error("Error: " + error);
-              },
             });
           }
 
-          // Event listeners
           var addTaskButtonId = "addTaskButton" + id;
           document
             .getElementById(addTaskButtonId)
@@ -569,24 +508,20 @@ $(document).ready(function () {
             });
 
           document.addEventListener("click", function (event) {
-            // console.log(id);
             var taskCheckBoxId = "task_checkbox" + id;
             if (event.target.classList.contains(taskCheckBoxId)) {
               createCheckboxClickListener(id)(event);
             }
           });
 
-          // Add an event listener to the close button
           var closeButtonDetailid = "detailCloseButton" + id;
           var closeButton = document.getElementById(closeButtonDetailid);
           closeButton.addEventListener("click", function () {
-            // Find the collapse element and hide it
             var collapseElementid = "collapseExample" + id;
             var collapseElement = document.getElementById(collapseElementid);
             collapseElement.classList.remove("show");
           });
 
-          // show notification
           function showNotification(text) {
             const notification = document.createElement("div");
             notification.classList.add("notification");
@@ -594,7 +529,6 @@ $(document).ready(function () {
 
             document.body.appendChild(notification);
 
-            // Show the notification for a few seconds
             setTimeout(function () {
               notification.classList.add("show");
               setTimeout(function () {
@@ -609,10 +543,6 @@ $(document).ready(function () {
               document.body.removeChild(notification);
             }, 300);
           }
-        },
-        error: function (xhr, status, error) {
-          // console.log(error);
-          // Handle the error as needed
         },
       });
     } else {

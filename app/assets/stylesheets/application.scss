@@ -24,6 +24,12 @@ a {
   text-decoration: none;
 }
 
+.required::after{
+  content: " * ";
+  color: red;
+  font-weight: 100;
+}
+
 #error-page{
   position: absolute;
   top: 10%;

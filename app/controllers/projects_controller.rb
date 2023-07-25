@@ -67,7 +67,7 @@ class ProjectsController < ApplicationController
     project = Project.find(params[:project_id])
     user = User.find(params[:user_id])
     project.users << user
-    redirect_to '/projects'
+    redirect_to projects_path
   end
 
   private

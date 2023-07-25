@@ -1,7 +1,5 @@
 showNotification("<%= @message %>");
 
-
-  // show notification
   function showNotification(text) {
   const notification = document.createElement('div');
   notification.classList.add('notification');
@@ -9,7 +7,6 @@ showNotification("<%= @message %>");
 
   document.body.appendChild(notification);
 
-  // Show the notification for a few seconds
   setTimeout(function() {
     notification.classList.add('show');
     setTimeout(function() {

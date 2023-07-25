@@ -9,9 +9,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      redirect_to '/'
+      redirect_to root_path, flash: { success: 'User Registration Is Successfully' }
     else
-      render 'new'
+      redirect_to signup_path, flash: { error: 'There was a problem while User Signup' }
     end
   end
 

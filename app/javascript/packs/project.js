@@ -8,7 +8,6 @@ $(document).ready(function () {
     var regex = /projects\/(\d+)/;
     var match = url.match(regex);
     if (match && match.length > 1) {
-      // console.log(match[1], "match");
       return match[1];
     }
     return null;

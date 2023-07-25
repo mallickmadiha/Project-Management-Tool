@@ -26,6 +26,7 @@ class Detail < ApplicationRecord
   end
   settings index: { number_of_shards: 1 } do
     mappings dynamic: 'true' do
+      indexes :id, type: :keyword
       indexes :project_id, type: :text
       indexes :title, type: :text
       indexes :description, type: :text
@@ -37,13 +38,13 @@ class Detail < ApplicationRecord
 
   def as_indexed_json(_options = {})
     {
-      id:,
-      project_id:,
-      title:,
-      description:,
-      status:,
-      flagType:,
-      uuid:
+      id: id,
+      project_id: project_id,
+      title: title,
+      description: description,
+      status: status,
+      flagType: flagType,
+      uuid: uuid
     }
   end
 
@@ -63,11 +64,11 @@ class Detail < ApplicationRecord
           query: "*#{query}*"
         }
       }
-
     end
 
     search_definition
   end
+
   # rubocop:enable Metrics/MethodLength
   index_data
 end
