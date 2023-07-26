@@ -5,6 +5,8 @@ class ProjectsController < ApplicationController
   skip_before_action :authenticate_user
 
   def index
+    return render_404_page if current_user.nil?
+
     @project = Project.new
     @projects = User.find(current_user.id).projects
   end
