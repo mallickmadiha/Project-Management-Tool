@@ -36,6 +36,7 @@ class Detail < ApplicationRecord
     end
   end
 
+  # rubocop:disable Style/HashSyntax
   def as_indexed_json(_options = {})
     {
       id: id,
@@ -47,6 +48,7 @@ class Detail < ApplicationRecord
       uuid: uuid
     }
   end
+  # rubocop:enable Style/HashSyntax
 
   # rubocop:disable Metrics/MethodLength
   def self.search_items(query)

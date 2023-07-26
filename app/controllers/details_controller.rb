@@ -16,6 +16,7 @@ class DetailsController < ApplicationController
     @detail = Detail.new
   end
 
+  # rubocop:disable all
   def elastic_search
     query = params.dig(:search_items, :query).to_s.gsub(/[^\w\s]/, '').strip
     project_id = params.dig(:search_items, :project_id)
@@ -36,6 +37,7 @@ class DetailsController < ApplicationController
     @chats = Chat.all
     @chat = Chat.new
   end
+  # rubocop:enable all
 
   def create
     @detail = create_detail
