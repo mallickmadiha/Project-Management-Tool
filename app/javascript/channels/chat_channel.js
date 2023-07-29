@@ -11,8 +11,6 @@ document.addEventListener("turbolinks:load", function () {
   consumer.subscriptions.create(
     { channel: "ChatChannel", project_id: ProjectId },
     {
-      connected() {},
-
       received(data) {
         const detailsId = data.detailsId;
 

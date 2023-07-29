@@ -12,7 +12,6 @@ class Detail < ApplicationRecord
 
   has_many_attached :file
 
-  # validates :project_id, presence: { message: "Project can't be blank" }
   validates :title, presence: { message: "Title can't be blank" },
                     length: { maximum: 30, message: 'Title is too long (maximum is 30 characters)' }
   validates :description, presence: { message: "Description can't be blank" }

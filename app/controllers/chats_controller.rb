@@ -26,7 +26,6 @@ class ChatsController < ApplicationController
   private
 
   def chat_params
-    # params.require(:chat_message).permit(:message, :sender_id, :recipient_id, mentioned_user_ids: [])
     params.require(:chat).permit(:message, :sender_id, :detail_id)
   end
 end

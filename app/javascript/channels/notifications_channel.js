@@ -2,10 +2,6 @@ import consumer from "./consumer";
 
 document.addEventListener("turbolinks:load", function () {
   consumer.subscriptions.create("NotificationsChannel", {
-    connected() {},
-
-    disconnected() {},
-
     received(data) {
       var notificationClass = "list-group-text" + data.id;
 
@@ -23,15 +19,23 @@ document.addEventListener("turbolinks:load", function () {
       notificationItem.textContent = data.message;
 
       var url = window.location.pathname.split("/");
-    
-      if ((url[1] === "projects" && url.length > 2) || url[1] === "search_items") {
+
+      if (
+        (url[1] === "projects" && url.length > 2) ||
+        url[1] === "search_items"
+      ) {
         notificationContainer.prepend(notificationItem);
         var counterElement = document.getElementById("notificationCounter");
-        var counter = parseInt(counterElement.textContent);
+        var isDisplayNone = counterElement.classList.contains("displayNone");
+        if (isDisplayNone) {
+          counterElement.classList.remove("displayNone");
+          var counter = 0;
+        } else {
+          var counter = parseInt(counterElement.textContent);
+        }
         counter += 1;
         counterElement.textContent = counter;
       }
-    
     },
   });
 });

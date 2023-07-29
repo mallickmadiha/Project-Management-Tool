@@ -26,18 +26,20 @@ $(document).ready(function () {
     event.preventDefault();
     var submitId = $(this).data("submit-id");
     function showNotification(text) {
-      const notification = document.createElement("div");
-      notification.classList.add("notification");
-      notification.innerText = text;
+      if (text) {
+        const notification = document.createElement("div");
+        notification.classList.add("notification");
+        notification.innerText = text;
 
-      document.body.appendChild(notification);
+        document.body.appendChild(notification);
 
-      setTimeout(function () {
-        notification.classList.add("show");
         setTimeout(function () {
-          closeNotification(notification);
-        }, 3000);
-      }, 100);
+          notification.classList.add("show");
+          setTimeout(function () {
+            closeNotification(notification);
+          }, 3000);
+        }, 100);
+      }
     }
 
     function closeNotification(notification) {
@@ -175,7 +177,7 @@ $(document).ready(function () {
                   ${users.map((user) => `<p>${user.username}</p>`).join("")}
                 </div>
                 <form action="/projects/${project_id}/details/${id}/update_user_ids" method="post" data-remote="true">
-                  <input type="text" name="username[]" id="search-input${id}" class="form-control" placeholder="Type to search..." />
+                  <input type="text" name="username[]" id="search-input${id}" class="form-control" placeholder="Type username to search..." />
                   <input type="hidden" name="authenticity_token" value="{{form_authenticity_token}}">
                   <div id="search-results${id}"></div>
                   <button type="submit" class="message-btn mt-3">Add User</button>

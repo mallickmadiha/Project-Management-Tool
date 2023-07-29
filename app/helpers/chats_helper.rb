@@ -28,8 +28,10 @@ module ChatsHelper
     User.where(username: mentioned_usernames)
   end
 
-  def send_notification_email(sender_email, recipient_username, recipient_email, details_id)
-    UserMailer.notification_email(sender_email, recipient_username, recipient_email, details_id).deliver_later
+  def send_notification_email(sender_email, recipient_username, recipient_email, details_title,
+                              details_description)
+    UserMailer.notification_email(sender_email, recipient_username, recipient_email, details_title,
+                                  details_description).deliver_later
   end
 
   def find_project_id_from_detail(detail_id)
@@ -56,7 +58,8 @@ module ChatsHelper
   def send_notification_emails_to_detail_users
     @detail.users.each do |user|
       broadcast_notification(@notification, @message, user.id)
-      send_notification_email(current_user.email, user.username, user.email, @details_id)
+      detail = Detail.find(@details_id)
+      send_notification_email(current_user.email, user.username, user.email, detail.title, detail.description)
     end
   end
 end

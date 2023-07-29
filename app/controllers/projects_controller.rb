@@ -14,14 +14,14 @@ class ProjectsController < ApplicationController
   def show
     @project = Project.find_by(id: params[:id])
     return render_404_page if @project.nil?
+    return render_404_page unless user_belongs_to_project?
 
-    @details = fetch_project_details
-    @detail = Detail.new
+    initialize_details
     initialize_flags
     initialize_submit_flags
     initialize_search_items
-    @chats = Chat.all
-    @chat = Chat.new
+    initialize_chats
+
     @project_users = @project.users
   end
 
@@ -55,11 +55,8 @@ class ProjectsController < ApplicationController
 
   def adduser
     @project = Project.find_by(id: params[:project_id])
-
-    if @project.nil?
-      render 'partials/_404'
-      return
-    end
+    return render_404_page if @project.nil?
+    return render_404_page unless user_belongs_to_project?
 
     @users = User.where.not(id: @project.users.pluck(:id))
     @project_users = @project.users
@@ -67,7 +64,10 @@ class ProjectsController < ApplicationController
 
   def update_user_ids
     project = Project.find(params[:project_id])
+    return render_404_page if params[:user_id].nil? || project.nil?
+
     user = User.find(params[:user_id])
+
     project.users << user
     redirect_to projects_path
   end
@@ -80,6 +80,20 @@ class ProjectsController < ApplicationController
 
   def fetch_project_details
     @project.details
+  end
+
+  def user_belongs_to_project?
+    @project.users.include?(current_user)
+  end
+
+  def initialize_details
+    @details = fetch_project_details
+    @detail = Detail.new
+  end
+
+  def initialize_chats
+    @chats = Chat.all
+    @chat = Chat.new
   end
 
   def initialize_flags

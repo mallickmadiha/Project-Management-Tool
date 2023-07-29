@@ -1,21 +1,6 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- *= require_tree .
- *= require_self
- */
 @import "bootstrap";
 @import url("https://fonts.googleapis.com/css2?family=Raleway&display=swap");
-@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
 
 * {
   font-family: "Raleway", sans-serif;
@@ -24,13 +9,17 @@ a {
   text-decoration: none;
 }
 
-.required::after{
+.displayNone{
+  display: none;
+}
+
+.required::after {
   content: " * ";
   color: red;
   font-weight: 100;
 }
 
-#error-page{
+#error-page {
   position: absolute;
   top: 10%;
   left: 15%;
@@ -40,20 +29,20 @@ a {
   align-items: center;
   justify-content: center;
   background: #fff;
-  box-shadow: 0px 5px 10px rgba(0,0,0,0.1);
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
 }
-#error-page .content{
+#error-page .content {
   max-width: 600px;
   text-align: center;
   background-color: #fff;
 }
-.content h2.header{
+.content h2.header {
   font-size: 18vw;
   line-height: 1em;
   position: relative;
 }
 
-.content h4{
+.content h4 {
   font-size: 1.5em;
   margin-bottom: 20px;
   text-transform: uppercase;
@@ -62,23 +51,23 @@ a {
   max-width: 600px;
   position: relative;
 }
-.content h4:after{
+.content h4:after {
   position: absolute;
   content: attr(data-text);
   top: 0;
   left: 0;
   right: 0;
-  text-shadow: 1px 1px 2px rgba(255,255,255,0.4);
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.4);
 }
-.content p{
+.content p {
   font-size: 1.2em;
   color: #0d0d0d;
 }
-.content .btns{
+.content .btns {
   margin: 25px 0;
   display: inline-flex;
 }
-.content .btns a{
+.content .btns a {
   display: inline-block;
   margin: 0 10px;
   text-decoration: none;
@@ -90,7 +79,7 @@ a {
   text-transform: uppercase;
   transition: all 0.3s ease;
 }
-.content .btns a:hover{
+.content .btns a:hover {
   background: #256188;
   color: #fff;
 }
@@ -137,14 +126,13 @@ a {
 }
 
 .alert {
-  margin-bottom:  0;
+  margin-bottom: 0;
 }
 
 .bold-username {
   font-weight: bold;
 }
 
-//  change btn success of boootstrap
 .btn-success {
   background-color: #56ad56 !important;
   border: #56ad56 !important;
@@ -158,7 +146,7 @@ a {
   margin: 0;
 }
 
-.btn-blue:hover{
+.btn-blue:hover {
   color: white;
 }
 
@@ -197,7 +185,6 @@ a {
 }
 
 .active-navitem {
-  // neon blue color text
   color: #2cb5fa !important;
 }
 
@@ -252,11 +239,9 @@ a {
   border-right: 1px solid #ced4da;
 }
 
-// notification css
-
 .notification {
   position: fixed;
-  top: 20px;
+  top: 60px;
   right: 20px;
   padding: 16px;
   background-color: #333;

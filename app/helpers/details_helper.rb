@@ -52,7 +52,7 @@ module DetailsHelper
 
   def send_notification_email_to_user(user)
     UserMailer.notification_email_status(current_user.email, user.username,
-                                         user.email, @detail_id, @detail.status).deliver_later
+                                         user.email, @detail.title, @detail.status, @detail.description).deliver_later
   end
 
   def find_users_by_username

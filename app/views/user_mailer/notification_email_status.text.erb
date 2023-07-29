@@ -1,1 +1,56 @@
-<p>Status of Detail <%= @details_id %> has been changed to <%= @status %></p>
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+          font-family: Arial, sans-serif;
+      }
+      .header {
+          background-color: #f0f0f0;
+          text-align: center;
+          padding: 20px;
+      }
+      .logo {
+          width: 100px;
+          height: auto;
+      }
+      .content {
+          padding: 20px;
+      }
+      .status-change {
+          background-color: #e6f7ff;
+          border-left: 6px solid #2196F3;
+          padding: 10px;
+          margin-top: 20px;
+      }
+      .status {
+          font-weight: bold;
+      }
+      .footer {
+          background-color: #f0f0f0;
+          text-align: center;
+          padding: 10px 0;
+          font-size: 14px;
+          color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <img class="logo" src="https://www.linkpicture.com/q/logo_22.png" alt="Logo">
+    </div>
+    <div class="content">
+      <p>Hello, <strong><%= @username %></strong></p>
+      <div class="status-change">
+        <p>Status of following feature has been changed to <span class="status"><%= @status %></span></p>
+      </div>
+      <p>Title: <strong><%= @details_title %></strong></p>
+      <p>Description: <strong><%= @details_description %></strong></p>
+      <p>Thank you for Contribution!</p>
+    </div>
+    <div class="footer">
+      <p>Regards,</p>
+      <p><%= @creator_email %></p>
+    </div>
+  </body>
+</html>

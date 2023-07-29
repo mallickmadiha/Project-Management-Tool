@@ -47,7 +47,7 @@
         <% end %>
       </div>
       <%= form_tag(update_user_ids_project_detail_path(item.project_id, item.id ), method: :post, remote: true) do %>
-        <input type="text"  name="username[]" id="search-input<%= item.id %>" class="form-control" placeholder="Type to search..." />
+        <input type="text"  name="username[]" id="search-input<%= item.id %>" class="form-control" placeholder="Type username to search..." />
         <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
         <div id="search-results<%= item.id %>"></div>
         <%= submit_tag 'Add User', class: 'message-btn mt-3' %>
@@ -60,11 +60,8 @@
     </div>
     <div class="d-flex flex-column flex-wrap">
       <% if item.file %>
-        <%#= item.id %>
         <% item.file.each do |item| %>
-          <%#= item.filename %>
           <% if item.image? %>
-            <%#= link_to 'Preview', rails_blob_path(item, disposition: 'preview') %>
             <%= image_tag item, class: 'img-thumbnail m-2', style: 'width: 100px; height: 100px;' %>
           <% else %>
             <%= link_to 'Download', rails_blob_path(item, disposition: 'attachment') %>

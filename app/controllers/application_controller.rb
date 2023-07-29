@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   def authenticate_user
     return unless session[:id]
 
-    redirect_to '/projects'
+    redirect_to projects_path
   end
 
   def current_user

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# spec/helpers/application_helper_spec.rb
 require 'rails_helper'
 
 # rubocop:disable Metrics/BlockLength

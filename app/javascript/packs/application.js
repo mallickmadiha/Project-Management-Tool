@@ -31,7 +31,9 @@ $(document).on("turbolinks:load", function () {
     });
 
     function toggleNotificationContainer() {
-      notificationContainer.classList.toggle("show");
+      if (parseInt(document.getElementById("notificationCounter").textContent) > 0) {
+        notificationContainer.classList.toggle("show");
+      }
     }
   }
 

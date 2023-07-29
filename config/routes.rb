@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   root 'sessions#new'
   post '/signin', to: 'sessions#create'
   post '/logout', to: 'sessions#destroy'
-  get '/logout', to: 'sessions#destroy'
 
   resources :sessions, only: [:destroy]
 
@@ -13,7 +12,6 @@ Rails.application.routes.draw do
   post '/signup', to: 'users#create'
   get '/username_fetch', to: 'users#username_fetch'
 
-  # Routes for Google authentication
   get 'auth/:provider/callback', to: 'sessions#omniauth'
   get 'auth/failure', to: redirect('/')
 
@@ -27,7 +25,6 @@ Rails.application.routes.draw do
 
     resources :details do
       post 'update_user_ids', on: :member
-
       resources :tasks do
       end
     end

@@ -1,17 +1,19 @@
 $(document).ready(function () {
   function showNotification(text) {
-    const notification = document.createElement("div");
-    notification.classList.add("notification");
-    notification.innerText = text;
+    if (text) {
+      const notification = document.createElement("div");
+      notification.classList.add("notification");
+      notification.innerText = text;
 
-    document.body.appendChild(notification);
+      document.body.appendChild(notification);
 
-    setTimeout(function () {
-      notification.classList.add("show");
       setTimeout(function () {
-        closeNotification(notification);
-      }, 3000);
-    }, 100);
+        notification.classList.add("show");
+        setTimeout(function () {
+          closeNotification(notification);
+        }, 3000);
+      }, 100);
+    }
   }
 
   function closeNotification(notification) {

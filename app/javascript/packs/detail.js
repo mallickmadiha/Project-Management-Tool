@@ -15,6 +15,29 @@ $(document).ready(function () {
     return null;
   }
 
+  document
+    .getElementById("mark-read-button")
+    .addEventListener("click", function (event) {
+      event.preventDefault();
+
+      document.getElementById("notificationContainer").classList.remove("show");
+      var notiButton = document
+        .getElementById("notificationButton")
+        .querySelector("span");
+
+      $.ajax({
+        url: "/notifications/mark_read",
+        method: "POST",
+        headers: {
+          "X-CSRF-Token": authenticityToken,
+        },
+        dataType: "json",
+        success: function () {
+          notiButton.classList.add("displayNone");
+        },
+      });
+    });
+
   var authenticityToken = $('meta[name="csrf-token"]').attr("content");
 
   var cards = document.querySelectorAll("[data-toggle='collapse']");
@@ -200,7 +223,7 @@ $(document).ready(function () {
           .value.trim();
 
         if (taskName === "") {
-          showNotification("Please Enter a Task")
+          showNotification("Please Enter a Task");
           return;
         }
         var detailId = itemId;
@@ -271,18 +294,20 @@ $(document).ready(function () {
       });
 
       function showNotification(text) {
-        const notification = document.createElement("div");
-        notification.classList.add("notification");
-        notification.innerText = text;
+        if (text) {
+          const notification = document.createElement("div");
+          notification.classList.add("notification");
+          notification.innerText = text;
 
-        document.body.appendChild(notification);
+          document.body.appendChild(notification);
 
-        setTimeout(function () {
-          notification.classList.add("show");
           setTimeout(function () {
-            closeNotification(notification);
-          }, 3000);
-        }, 100);
+            notification.classList.add("show");
+            setTimeout(function () {
+              closeNotification(notification);
+            }, 3000);
+          }, 100);
+        }
       }
 
       function closeNotification(notification) {

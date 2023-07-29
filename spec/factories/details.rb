@@ -6,6 +6,5 @@ FactoryBot.define do
     association :project
     title { 'Sample Title' }
     description { 'Sample Description' }
-    # Add any other necessary attributes or associations
   end
 end

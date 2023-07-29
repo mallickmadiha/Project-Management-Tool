@@ -16,7 +16,8 @@ class DetailsController < ApplicationController
     @detail = Detail.new
   end
 
-  # rubocop:disable all
+  # rubocop: disable Metrics/AbcSize
+  # rubocop: disable Metrics/MethodLength
   def elastic_search
     query = params.dig(:search_items, :query).to_s.gsub(/[^\w\s]/, '').strip
     project_id = params.dig(:search_items, :project_id)
@@ -37,7 +38,8 @@ class DetailsController < ApplicationController
     @chats = Chat.all
     @chat = Chat.new
   end
-  # rubocop:enable all
+  # rubocop: enable Metrics/AbcSize
+  # rubocop: enable Metrics/MethodLength
 
   def create
     @detail = create_detail
@@ -66,6 +68,8 @@ class DetailsController < ApplicationController
 
   def change_status
     @detail = find_detail
+    return if @detail.status == params[:status]
+
     @detail.status = params[:status]
 
     if @detail.save

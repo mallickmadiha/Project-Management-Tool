@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# spec/helpers/sessions_helper_spec.rb
 require 'rails_helper'
 
 RSpec.describe SessionsHelper, type: :helper do

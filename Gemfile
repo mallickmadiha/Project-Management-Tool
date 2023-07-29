@@ -33,12 +33,10 @@ gem 'redis'
 gem 'rspec-rails', '~> 4.0'
 gem 'rubocop', require: false
 gem 'sass-rails', '>= 6'
-# gem 'simplecov', require: false, group: :test
 gem 'turbolinks', '~> 5.2.0'
 gem 'webpacker', '~> 5.0'
 
 group :development, :test do
-  # gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
 
 group :development do
@@ -53,5 +51,3 @@ group :test do
   gem 'selenium-webdriver', '>= 4.0.0.rc1'
   gem 'webdrivers'
 end
-
-# gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

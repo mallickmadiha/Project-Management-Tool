@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# app/channels/application_cable/connection.rb
 module ApplicationCable
   # This is a sample class representing an Connection .
   class Connection < ActionCable::Connection::Base

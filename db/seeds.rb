@@ -12,7 +12,6 @@ user2 = User.create!(
   password: '12345'
 )
 
-# Generate random usernames, emails, and passwords
 usernames = %w[
   john123 sarah89 alexander emily22 lucas007
   olivia2000 davidm sophie21 michael23 emma_rose
@@ -24,7 +23,6 @@ emails = [
   'emma_rose@example.com'
 ]
 
-# Create users with random values
 users = []
 10.times do |i|
   user = User.create!(
@@ -96,8 +94,8 @@ projects.each do |project|
   file_names.each_with_index do |file_name, i|
     file_path = Rails.root.join('app', 'assets', 'files', file_name)
 
-    status = rand(0..2) # Generate random status (0, 1, or 2)
-    flag_type = rand(0..2) # Generate random flagType (0, 1, or 2)
+    status = rand(0..2)
+    flag_type = rand(0..2)
 
     detail = Detail.create!(
       project_id: project.id,
@@ -107,13 +105,11 @@ projects.each do |project|
       flagType: flag_type,
       uuid: SecureRandom.uuid
     )
-    detail.file.attach(io: File.open(file_path), filename: file_name) # Attach the file to the detail
+    detail.file.attach(io: File.open(file_path), filename: file_name)
     project.details << detail
   end
-  # Add user1 to each project
   project.users << user1
 
-  # Add user2 and two random users to each project
   random_users = users.sample(2)
   project.users << user2
   project.users << random_users
@@ -124,7 +120,7 @@ projects.each do |project|
     detail.users << detail_users_to_add
 
     5.times do |index|
-      status = rand(0..1) # Generate random status (0 or 1)
+      status = rand(0..1)
       task = Task.create!(
         name: "Task #{index + 1} for (#{detail.title})",
         status:,
