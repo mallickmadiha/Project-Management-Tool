@@ -1,8 +1,7 @@
-# frozen_string_literal: true
+#rubocop:disable all
 
 require 'rails_helper'
 
-# spec/models/detail_spec.rb
 RSpec.describe Detail, type: :model do
   describe 'validations' do
     it 'is not valid without a title' do
@@ -24,6 +23,39 @@ RSpec.describe Detail, type: :model do
 
       expect(detail).not_to be_valid
       expect(detail.errors[:title]).to include('Title is too long (maximum is 30 characters)')
+    end
+  end
+
+  describe '.search_items' do
+    it 'returns a valid search definition without query' do
+      result = Detail.search_items('')
+      expected_result = {
+        query: {
+          bool: {
+            must: []
+          }
+        }
+      }
+      expect(result).to eq(expected_result)
+    end
+
+    it 'returns a valid search definition with a query' do
+      query = 'example_query'
+      result = Detail.search_items(query)
+      expected_result = {
+        query: {
+          bool: {
+            must: [
+              {
+                query_string: {
+                  query: "*#{query}*"
+                }
+              }
+            ]
+          }
+        }
+      }
+      expect(result).to eq(expected_result)
     end
   end
 end
