@@ -15,6 +15,13 @@ $(document).ready(function () {
     return null;
   }
 
+  if (parseInt(document.getElementById("notificationCounter").textContent) > 0){
+    var notiButton = document
+    .getElementById("notificationButton")
+    .querySelector("span");
+    notiButton.classList.remove("displayNone");
+  }
+
   document
     .getElementById("mark-read-button")
     .addEventListener("click", function (event) {
