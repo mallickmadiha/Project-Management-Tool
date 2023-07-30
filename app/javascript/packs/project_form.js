@@ -23,16 +23,16 @@ $(document).ready(function () {
     }, 300);
   }
 
+  document.getElementById("open-modal-project-create").addEventListener("click", function () {
+    document.getElementById("projectForm").innerHTML = ""
+    document.getElementById('project_name').value = "" 
+  })
+
   document
     .getElementById("create-project-btn")
     .addEventListener("click", function () {
-      const name = document.getElementById("project_name").value;
-
-      if (name === "") {
-        showNotification("Project Name is required");
-        return;
-      }
-
+      const name = document.getElementById("project_name").value.trim();
+      
       fetch("/projects", {
         method: "POST",
         headers: {
@@ -44,10 +44,13 @@ $(document).ready(function () {
           name: name,
         }),
       })
-        .then(function (response) {
+        .then(async function (response) {
           if (response.ok) {
             document.getElementById("project_name").value = "";
             return response.json();
+          } else {
+            const data = await response.json();
+            throw new Error(data.errors);
           }
         })
         .then(function (data) {
@@ -89,6 +92,12 @@ $(document).ready(function () {
            `;
 
           projectsDisplay.prepend(card);
+        })
+        .catch(function (error) {
+          let errorMessage = error.message;
+          let errorField = document.getElementById("project_name");
+          let errorParagraph = errorField.nextElementSibling;
+          errorParagraph.innerHTML = errorMessage;
         });
     });
 });

@@ -30,12 +30,13 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    @project = Project.create(project_params.merge(user_id: current_user.id))
-    @username = User.find(@project.user_id).username
-    user = User.find(current_user.id)
-    @project.users << user
-    @project.save
-    render json: { username: @username, project_id: @project.id }
+    @project = build_project_with_user
+
+    if save_project_and_associate_user
+      render json: { username: @username, project_id: @project.id }
+    else
+      render json: { errors: @project.errors.full_messages.join(', ') }, status: :unprocessable_entity
+    end
   end
 
   def edit
@@ -114,5 +115,17 @@ class ProjectsController < ApplicationController
 
   def render_404_page
     render 'partials/_404'
+  end
+
+  def build_project_with_user
+    project = Project.new(project_params)
+    project.user_id = current_user.id
+    project
+  end
+
+  def save_project_and_associate_user
+    @username = current_user.username
+    @project.users << current_user
+    @project.save
   end
 end

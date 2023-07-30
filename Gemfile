@@ -33,6 +33,7 @@ gem 'redis'
 gem 'rspec-rails', '~> 4.0'
 gem 'rubocop', require: false
 gem 'sass-rails', '>= 6'
+gem 'shoulda-matchers', '~> 5.0'
 gem 'turbolinks', '~> 5.2.0'
 gem 'webpacker', '~> 5.0'
 

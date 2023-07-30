@@ -22,6 +22,11 @@ $(document).ready(function () {
     notiButton.classList.remove("displayNone");
   }
 
+  document.getElementById("mark-close-button").addEventListener("click", function(event){
+    event.preventDefault();
+    document.getElementById("notificationContainer").classList.remove("show");
+  })
+
   document
     .getElementById("mark-read-button")
     .addEventListener("click", function (event) {

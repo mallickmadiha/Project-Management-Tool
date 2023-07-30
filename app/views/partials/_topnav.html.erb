@@ -1,0 +1,25 @@
+<div class="mx-3 d-flex flex-row justify-content-center align-item-center">
+  <%= form_for :search_items, url: search_items_path, method: :get, html: { class: "form-inline mx-3" } do |form| %>
+    <%= form.hidden_field :project_id, value: project.id %>
+    <%= form.text_field :query, value: params[:search_items].presence && params[:search_items][:query], placeholder: "Search Field", class: "form-control" %>
+  <% end %>
+  <button id="notificationButton" class="btn btn-blue mx-2">
+    <i class="fas fa-bell fa-xl"></i>
+    <span class="badge bg-danger noti-icon displayNone" id="notificationCounter"><%= current_user.notifications.where(read: false).count%></span>
+  </button>
+  <div id="notificationContainer" class="container py-1 mx-5">
+    <% if current_user %>
+      <% current_user.notifications.where(read: false).each do |notification| %>
+        <li class="list-group-item"><%= notification.message %></li>
+      <% end %>
+      <div class="d-flex flex-row gap-3">
+        <button class="btn btn-warning w-50 mx-auto d-block my-3" id="mark-close-button">Close</button>
+        <button class="btn btn-success w-50 mx-auto d-block my-3" id="mark-read-button">Mark As Read</button>
+      </div>
+    <% end %>
+  </div>
+  <i class="fa fa-solid fa-user mt-3 mx-3 fa-xl"></i> <span class="mt-2"><%= current_user.username %></span>
+  <%= link_to logout_path, method: :post do %>
+    <i class="fa fa-solid fa-right-from-bracket mt-3 mx-3 fa-xl" style="color:#fff"></i>
+  <% end %>
+</div>

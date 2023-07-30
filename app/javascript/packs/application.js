@@ -37,11 +37,6 @@ $(document).on("turbolinks:load", function () {
     }
   }
 
-  $("#mark-read-button").click(function () {
-    $(".notification-item").remove();
-    $("#notificationCounter").html("0");
-  });
-
   if (localStorage.getItem("backlog") == "false") {
     $("#backlog").hide();
     $("#backlog-show").removeClass("active-navitem");
@@ -100,10 +95,5 @@ $(document).on("turbolinks:load", function () {
     $("#icebox").show();
     $("#icebox-show").addClass("active-navitem");
     localStorage.setItem("icebox", true);
-  });
-
-  $("#mark-read-button").click(function () {
-    $(".list-group-item").remove();
-    $("#notificationCounter").html("0");
   });
 });

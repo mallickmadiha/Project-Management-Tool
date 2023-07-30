@@ -4,6 +4,7 @@
   <div class="field form-group">
     <label for="project_name" class="required">Name</label>
     <input type="text" id="project_name" class="form-control" name="project[name]">
+    <p  class="text-danger" id="projectForm"><%= error_messages(@project, :name) %></p>
   </div>
   <div class="actions d-flex justify-content-center my-3">
     <button type="submit" class="btn btn-success" id="create-project-btn">Create Project</button>

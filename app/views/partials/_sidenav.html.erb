@@ -1,0 +1,56 @@
+<div id="sidebar-container" class="sidebar-expanded d-none d-md-block">
+  <ul class="list-group">
+    <li class="my-3 mx-3">
+      <div class="d-flex w-100 justify-content-start align-items-center" id="sidebar-toggle">
+        <svg style="fill: white; cursor: pointer;" width="30" height="30" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18h13v-2H3v2zm0-5h10v-2H3v2zm0-7v2h13V6H3zm18 9.59L17.42 12 21 8.41 19.59 7l-5 5 5 5L21 15.59z"></path></svg>
+      </div>
+    </li>
+    <hr style="background-color: white; margin: 0px">
+    <% if flag %>
+      <li class="menu-collapsed">
+        <div class="d-flex w-100 justify-content-start align-items-center active-navitem my-3 text-white" id="currentIteration-show">
+          <i class="fa fa-solid fa-list mx-4 fa-lg"></i>
+          <span >Iteration</span>
+        </div>
+      </li>
+      <li class="menu-collapsed">
+        <div class="d-flex w-100 justify-content-start align-items-center active-navitem my-3 text-white" id="icebox-show">
+          <i class="fa fa-duotone fa-snowflake mx-4 fa-lg"></i>
+          <span>Icebox</span>
+        </div>
+      </li>
+      <li class="menu-collapsed">
+        <div class="d-flex w-100 justify-content-start align-items-center active-navitem my-3 text-white" id="backlog-show">
+          <i class="fa fa-solid fa-triangle-exclamation mx-4 fa-lg"></i>
+          <span >Backlog</span>
+        </div>
+      </li>
+    <% end %>
+    <%= link_to projects_path do %>
+      <li class="menu-collapsed">
+        <div class="d-flex w-100 justify-content-start align-items-center text-white my-3">
+          <i class="fa fa-sharp fa-solid fa-folder-open mx-4 fa-lg"></i>
+          <span >All Projects</span>
+        </div>
+      </li>
+    <% end %>
+    <%= link_to project_adduser_path(@project.id) do %>
+      <li class="menu-collapsed">
+        <div class="d-flex w-100 justify-content-start align-items-center text-white my-3">
+          <i class="fa fa-duotone fa-users fa-sharp fa-solid mx-4 fa-lg"></i>
+          <span >Users</span>
+        </div>
+      </li>
+    <% end %>
+    <li class="menu-collapsed">
+      <%= link_to logout_path, class: "text-white", method: :post do %>
+        <div class="d-flex w-100 justify-content-start align-items-center text-white my-4" >
+          <i class="fa fa-solid fa-sign-out mx-4 fa-lg"></i>
+          <span>
+            Logout
+          </span>
+        </div>
+      <% end %>
+    </li>
+  </ul>
+</div>

@@ -1,93 +1,13 @@
 <%= javascript_include_tag 'packs/detail_form' %>
 <%= javascript_include_tag 'packs/detail' %>
-<div id="toast-container" class="toast-container"></div>
 <div class="d-flex justify-content-between align-items-center flex-wrap p-1 py-2 text-white px-lg-2" style="background-color: #256188">
   <a href="/" style="text-decoration:none; color: white">
     <div class="text-center" style="font-weight:bold; font-size: 20px"><i class="fa fa-duotone fa-gear mx-2"></i><%= @project.name %></div>
   </a>
-  <div class="mx-3 d-flex flex-wrap justify-content-center align-items-center">
-    <div class="d-flex">
-      <%= form_for :search_items, url: search_items_path, method: :get, html: { class: "form-inline mx-2 my-2 my-lg-0" } do |form| %>
-        <%= form.hidden_field :project_id, value: @project.id %>
-        <%= form.text_field :query, value: params[:search_items].presence && params[:search_items][:query], placeholder: "Search Field", class: "form-control" %>
-      <% end %>
-      <button id="notificationButton" class="btn btn-blue my-2 my-lg-0 mx-2">
-        <i class="fas fa-bell fa-xl"></i>
-        <span class="badge bg-danger noti-icon displayNone" id="notificationCounter"><%= current_user.notifications.where(read: false).count %></span>
-      </button>
-    </div>
-    <div class="mx-3 d-flex flex-wrap justify-content-center align-items-center">
-      <i class="fa fa-solid fa-user mx-3 fa-xl"></i>
-      <span><%= current_user.username %></span>
-      <%= link_to logout_path, method: :post do %>
-        <i class="fa fa-solid fa-right-from-bracket mt-3 mx-3 fa-xl" style="color:#fff"></i>
-      <% end %>
-    </div>
-    <div id="notificationContainer" class="container my-2 mx-3">
-      <% if current_user %>
-        <% current_user.notifications.where(read: false).order(id: :desc).each do |notification| %>
-          <li class="list-group-item"><%= notification.message %></li>
-        <% end %>
-        <button class="btn btn-success w-50 mx-auto d-block my-3" id="mark-read-button">Mark All Read</button>
-      <% end %>
-    </div>
-  </div>
+  <%= render "partials/topnav", project: @project %>
 </div>
 <div class="row" id="body-row" style="background-color: #212123;">
-  <div id="sidebar-container" class="sidebar-expanded d-none d-md-block">
-    <ul class="list-group">
-      <li class="my-3 mx-3">
-        <div class="d-flex w-100 justify-content-start align-items-center" id="sidebar-toggle">
-          <svg style="fill: white; cursor: pointer;" width="30" height="30" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18h13v-2H3v2zm0-5h10v-2H3v2zm0-7v2h13V6H3zm18 9.59L17.42 12 21 8.41 19.59 7l-5 5 5 5L21 15.59z"></path></svg>
-        </div>
-      </li>
-      <hr style="background-color: white; margin: 0px">
-      <li class="menu-collapsed">
-        <div class="d-flex w-100 justify-content-start align-items-center active-navitem my-3 text-white" id="currentIteration-show">
-          <i class="fa fa-solid fa-list mx-4 fa-lg"></i>
-          <span >Iteration</span>
-        </div>
-      </li>
-      <li class="menu-collapsed">
-        <div class="d-flex w-100 justify-content-start align-items-center active-navitem my-3 text-white" id="icebox-show">
-          <i class="fa fa-duotone fa-snowflake mx-4 fa-lg"></i>
-          <span>Icebox</span>
-        </div>
-      </li>
-      <li class="menu-collapsed">
-        <div class="d-flex w-100 justify-content-start align-items-center active-navitem my-3 text-white" id="backlog-show">
-          <i class="fa fa-solid fa-triangle-exclamation mx-4 fa-lg"></i>
-          <span >Backlog</span>
-        </div>
-      </li>
-      <%= link_to projects_path do %>
-        <li class="menu-collapsed">
-          <div class="d-flex w-100 justify-content-start align-items-center text-white my-3">
-            <i class="fa fa-sharp fa-solid fa-folder-open mx-4 fa-lg"></i>
-            <span >All Projects</span>
-          </div>
-        </li>
-      <% end %>
-      <%= link_to project_adduser_path(@project.id) do %>
-        <li class="menu-collapsed">
-          <div class="d-flex w-100 justify-content-start align-items-center text-white my-3">
-            <i class="fa fa-duotone fa-users fa-sharp fa-solid mx-4 fa-lg"></i>
-            <span >Users</span>
-          </div>
-        </li>
-      <% end %>
-      <li class="menu-collapsed">
-        <%= link_to logout_path, class: "text-white", method: :post do %>
-          <div class="d-flex w-100 justify-content-start align-items-center text-white my-4">
-            <i class="fa fa-solid fa-sign-out mx-4 fa-lg"></i>
-            <span>
-              Logout            
-            </span>
-          </div>
-        <% end %>
-      </li>
-    </ul>
-  </div>
+  <%= render "partials/sidenav", project: @project, flag: true  %>
   <div class="col">
     <div class="d-flex flex-column flex-xl-row w-100 h-100">
       <%= render partial: "partials/backlog" %>

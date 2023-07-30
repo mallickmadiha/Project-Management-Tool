@@ -76,17 +76,9 @@ module SessionsHelper
   end
 
   def user_attributes_set(user)
-    user.username = omniauth_first_name
-    user.email = omniauth_email
-    user.password_digest = generate_password_digest
-  end
-
-  def omniauth_first_name
-    request.env['omniauth.auth'][:info][:first_name]
-  end
-
-  def omniauth_email
-    request.env['omniauth.auth'][:info][:email]
+    user.username = request.env['omniauth.auth'][:info][:first_name]
+    user.email = request.env['omniauth.auth'][:info][:email]
+    user.password = generate_password_digest
   end
 
   def generate_password_digest

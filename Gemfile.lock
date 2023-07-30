@@ -338,6 +338,8 @@ GEM
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
     semantic_range (3.0.0)
+    shoulda-matchers (5.3.0)
+      activesupport (>= 5.2.0)
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
@@ -419,6 +421,7 @@ DEPENDENCIES
   rubocop
   sass-rails (>= 6)
   selenium-webdriver (>= 4.0.0.rc1)
+  shoulda-matchers (~> 5.0)
   spring
   turbolinks (~> 5.2.0)
   web-console (>= 4.1.0)

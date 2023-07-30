@@ -1,3 +1,11 @@
+  <% flash.each do |key, message| %>
+  <div class="flash-message alert alert-<%= key %>">
+    <span class="flash-message-text"><%= message %></span>
+    <button type="button" class="flash-message-close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+<% end %>
 <div class="d-flex justify-content-between align-items-center flex-wrap p-1 text-white px-lg-2" style="background-color: #256188">
   <%= link_to root_path, class:"text-white" do %>
     <div class="text-center" style="font-weight:bold; font-size: 20px" ><i class="fa fa-sharp fa-light fa-gears mx-2"></i> ProjectTracker </div>
@@ -10,7 +18,7 @@
 </div>
 <nav class="d-flex justify-content-around align-items-center bg-white flex-wrap p-3">
   <div class="text-center" style="font-weight:semibold; font-size: 20px" >Projects </div>
-  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModalCenter">
+  <button type="button" class="btn btn-success" id="open-modal-project-create" data-toggle="modal" data-target="#exampleModalCenter">
     <i class="fa-solid fa-plus"></i> Create Project
   </button>
   <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

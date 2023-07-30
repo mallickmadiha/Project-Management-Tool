@@ -11,7 +11,7 @@ class UsersController < ApplicationController
     if @user.save
       redirect_to root_path, flash: { success: 'User Registration Is Successfully' }
     else
-      redirect_to signup_path, flash: { error: 'There was a problem while User Signup' }
+      render :new
     end
   end
 
