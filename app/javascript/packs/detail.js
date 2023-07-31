@@ -36,16 +36,21 @@ $(document).ready(function () {
       var notiButton = document
         .getElementById("notificationButton")
         .querySelector("span");
-
-      $.ajax({
-        url: "/notifications/mark_read",
-        method: "POST",
-        headers: {
-          "X-CSRF-Token": authenticityToken,
-        },
-        dataType: "json",
-        success: function () {
-          notiButton.classList.add("displayNone");
+        
+        $.ajax({
+          url: "/notifications/mark_read",
+          method: "POST",
+          headers: {
+            "X-CSRF-Token": authenticityToken,
+          },
+          dataType: "json",
+          success: function () {
+            notiButton.classList.add("displayNone");
+            document.getElementById("notificationCounter").innerHTML = 0;
+            var notificationListItems = document.querySelectorAll("#notificationContainer li");
+            notificationListItems.forEach(function (item) {
+              item.remove();
+            });    
         },
       });
     });
@@ -56,6 +61,9 @@ $(document).ready(function () {
 
   cards.forEach(function (card) {
     card.addEventListener("click", function () {
+      if (this.id == "topnav"){
+        return;
+      }
       var detailContainer =
         this.nextElementSibling.querySelector(".detail-container");
       var itemId = detailContainer.getAttribute("data-item-id");

@@ -2,7 +2,7 @@
 
 # app/mailers/user_mailer.rb
 class UserMailer < ApplicationMailer
-  # default from: 'mallickmadiha9031@gmail.com'
+  default from: 'mallickmadiha9031@gmail.com'
   default from: 'example@gmail.com'
 
   def notification_email(creator_email, username, useremail, details_title, details_description)

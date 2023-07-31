@@ -67,10 +67,7 @@ RSpec.describe TasksHelper, type: :helper do
   describe '#render_update_success_response' do
     it 'renders a success response JSON for task update' do
       task = create(:task, detail:)
-
-      # Mark one task as completed
       task.update(status: 'Done')
-
       expect(helper).to receive(:render).with(
         json: {
           message: 'Task updated successfully',

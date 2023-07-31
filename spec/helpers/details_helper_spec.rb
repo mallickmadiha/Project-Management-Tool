@@ -3,21 +3,30 @@
 require 'rails_helper'
 
 RSpec.describe DetailsHelper, type: :helper do
-  let(:current_user) { create(:user) }
+  describe '#initialize_chat' do
+    it 'initializes @chats and @chat correctly' do
+      create_list(:chat, 2)
+      helper.initialize_chat
+      expect(helper.instance_variable_get(:@chats).count).to eq(2)
+      expect(helper.instance_variable_get(:@chat)).to be_a_new(Chat)
+    end
+  end
 
-  describe '#update_users_notification' do
-    it 'creates a notification and broadcasts it to users' do
-      detail = create(:detail)
-      params[:id] = detail.id
-      detail.status = 'Finished'
-      assign(:detail, detail)
+  describe '#filter_details' do
+    it 'returns an empty list when both @project and options[:id] are absent and no Chat records exist' do
+      helper.instance_variable_set(:@project, nil)
+      filtered_details = helper.filter_details('query', {})
+      expect(filtered_details).to be_empty
+    end
+  end
 
-      allow(helper).to receive(:current_user).and_return(current_user)
+  describe '#broadcast_notification_to_new_users' do
+    let(:user1) { create(:user) }
+    let(:user2) { create(:user) }
+    let(:notification) { instance_double('Notification', id: 123) }
 
-      expect(helper).to receive(:create_notification).and_call_original
-      expect(helper).to receive(:broadcast_notification_to_users).and_call_original
-
-      helper.update_users_notification
+    before do
+      allow(Notification).to receive(:create).and_return(notification)
     end
   end
 end

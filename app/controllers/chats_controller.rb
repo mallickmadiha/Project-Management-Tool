@@ -2,7 +2,6 @@
 
 # app/controllers/chats_controller.rb
 class ChatsController < ApplicationController
-  include ChatsHelper
   skip_before_action :authenticate_user
 
   def new
@@ -11,12 +10,11 @@ class ChatsController < ApplicationController
 
   def create
     initialize_chat_data
-
     if @chat.save
-      broadcast_chat_message
+      ActionCable.server.broadcast("chat_channel_#{@project_id}",
+                                   { chat: @chat, sender_username: @sender_username, detailsId: @details_id })
       create_and_broadcast_notifications
       send_notification_emails_to_detail_users
-
       render json: { message: 'Chat message sent successfully.', chat: @chat }
     else
       render json: { errors: @chat.errors.full_messages }, status: :unprocessable_entity
@@ -27,5 +25,33 @@ class ChatsController < ApplicationController
 
   def chat_params
     params.require(:chat).permit(:message, :sender_id, :detail_id)
+  end
+
+  def initialize_chat_data
+    @chat = Chat.new(chat_params)
+    @details_id = chat_params[:detail_id]
+    @project_id = Detail.find(@details_id).project_id
+    @detail = Detail.find(@details_id)
+    @sender_username = User.find(chat_params[:sender_id]).username
+    @message = 'A new comment has been added to feature'
+  end
+
+  def create_and_broadcast_notifications
+    @notification = Notification.create(message: @message, user_id: current_user.id)
+    mentioned_usernames = @chat.message.scan(/@(\w+)/).flatten
+    mentioned_users = User.where(username: mentioned_usernames)
+    mentioned_users.each do |user|
+      ActionCable.server.broadcast("notifications_#{user.id}",
+                                   { message: 'You have been mentioned in a feature', id: @notification.id })
+    end
+  end
+
+  def send_notification_emails_to_detail_users
+    @detail.users.each do |user|
+      ActionCable.server.broadcast("notifications_#{user.id}", { message: @message, id: @notification.id })
+      detail = Detail.find(@details_id)
+      UserMailer.notification_email(current_user.email, user.username, user.email, detail.title,
+                                    detail.description).deliver_later
+    end
   end
 end

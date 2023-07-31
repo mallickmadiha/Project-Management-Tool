@@ -1,25 +1,40 @@
-<div class="mx-3 d-flex flex-row justify-content-center align-item-center">
-  <%= form_for :search_items, url: search_items_path, method: :get, html: { class: "form-inline mx-3" } do |form| %>
-    <%= form.hidden_field :project_id, value: project.id %>
-    <%= form.text_field :query, value: params[:search_items].presence && params[:search_items][:query], placeholder: "Search Field", class: "form-control" %>
-  <% end %>
-  <button id="notificationButton" class="btn btn-blue mx-2">
-    <i class="fas fa-bell fa-xl"></i>
-    <span class="badge bg-danger noti-icon displayNone" id="notificationCounter"><%= current_user.notifications.where(read: false).count%></span>
-  </button>
-  <div id="notificationContainer" class="container py-1 mx-5">
-    <% if current_user %>
-      <% current_user.notifications.where(read: false).each do |notification| %>
-        <li class="list-group-item"><%= notification.message %></li>
-      <% end %>
-      <div class="d-flex flex-row gap-3">
-        <button class="btn btn-warning w-50 mx-auto d-block my-3" id="mark-close-button">Close</button>
-        <button class="btn btn-success w-50 mx-auto d-block my-3" id="mark-read-button">Mark As Read</button>
+<nav class="navbar navbar-expand-lg text-white" style="background-color: #256188">
+  <a class="navbar-brand" href="/" style="text-decoration:none; color: white">
+    <% if flag %>
+      <div class="text-center" style="font-weight:bold; font-size: 20px"><i class="fa fa-duotone fa-gear mx-2"></i><%= project.name %></div>
+    <% elsif %>
+      <div>
+        <%= link_to project_path(@project.id) do %>
+          <div class="btn btn-success">Go Back</div>
+        <% end %>
       </div>
     <% end %>
-  </div>
-  <i class="fa fa-solid fa-user mt-3 mx-3 fa-xl"></i> <span class="mt-2"><%= current_user.username %></span>
-  <%= link_to logout_path, method: :post do %>
-    <i class="fa fa-solid fa-right-from-bracket mt-3 mx-3 fa-xl" style="color:#fff"></i>
-  <% end %>
-</div>
+    </a>
+    <button class="navbar-toggler text-white" type="button" data-toggle="collapse" id="topnav" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="fas fa-solid fa-bars"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item py-1">
+          <%= form_for :search_items, url: search_items_path, method: :get, html: { class: "form-inline mx-3" } do |form| %>
+            <%= form.hidden_field :project_id, value: project.id %>
+            <%= form.text_field :query, value: params[:search_items].presence && params[:search_items][:query], placeholder: "Search Field", class: "form-control" %>
+          <% end %>
+        </li>
+        <li class="nav-item py-1">
+          <button id="notificationButton" class="btn btn-blue mx-2">
+            <i class="fas fa-bell fa-xl mx-2 mt-3"></i>
+            <span class="badge bg-danger noti-icon displayNone" id="notificationCounter"><%= current_user.notifications.where(read: false).count%></span>
+          </button>
+        </li>
+        <li class="nav-item py-1">
+          <i class="fa fa-solid fa-user mt-3 mx-3 fa-xl"></i> <span class="mt-2"><%= current_user.username %></span>
+        </li>
+        <li class="nav-item py-1">
+          <%= link_to logout_path, method: :post do %>
+            <i class="fa fa-solid fa-right-from-bracket mt-3 mx-3 fa-xl" style="color:#fff"></i>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </nav>

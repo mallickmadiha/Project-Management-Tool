@@ -32,10 +32,13 @@ Rails.application.routes.draw do
 
   post '/change_status/:id', to: 'details#change_status'
   post 'add_project_user', to: 'projects#add_project_user'
-
+  get 'search_items', to: 'details#elastic_search', as: 'search_items'
   post '/search/:id', to: 'search#search', as: 'search'
   post '/notifications/mark_read', to: 'notifications#mark_read'
-
-  get 'search_items', to: 'details#elastic_search', as: 'search_items'
+  # rubocop:disable Layout/LineLength
+  match '*unmatched', to: 'application#page_not_found', via: :all, constraints: lambda { |req|
+                                                                                  !req.path.match(%r{\A/rails/active_storage/})
+                                                                                  # rubocop:enable Layout/LineLength
+                                                                                }
 end
 # rubocop:enable Metrics/BlockLength

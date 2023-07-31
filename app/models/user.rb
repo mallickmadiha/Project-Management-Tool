@@ -16,12 +16,9 @@ class User < ApplicationRecord
 
   has_secure_password
 
-  has_many :projects, dependent: :destroy
-  has_many :details, through: :projects
-  has_many :notifications, dependent: :destroy
-
   has_and_belongs_to_many :details
   has_and_belongs_to_many :projects
+  has_many :notifications, dependent: :destroy
 
   has_many :sent_chats, class_name: 'Chat', foreign_key: 'sender_id'
 

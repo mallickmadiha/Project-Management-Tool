@@ -3,7 +3,7 @@
 # spec/factories/projects.rb
 FactoryBot.define do
   factory :project do
-    name { 'Sample Project' }
+    sequence(:name) { |n| "Project #{n}" }
     user
     trait :with_long_name do
       name { 'a' * 256 }

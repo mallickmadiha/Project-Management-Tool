@@ -29,6 +29,7 @@ gem 'omniauth-rails_csrf_protection'
 gem 'pry'
 gem 'puma', '~> 5.0'
 gem 'rails', '~> 6.1.7', '>= 6.1.7.3'
+gem 'rails-controller-testing'
 gem 'redis'
 gem 'rspec-rails', '~> 4.0'
 gem 'rubocop', require: false

@@ -2,10 +2,21 @@
 
 # app/helpers/details_helper.rb
 module DetailsHelper
-  def create_detail
-    detail = Detail.new(detail_params)
-    detail.uuid = SecureRandom.hex(10)
-    detail
+  def initialize_chat
+    @chats = Chat.all
+    @chat = Chat.new
+  end
+
+  def filter_details(query, options)
+    search_items = Detail.search(Detail.search_items(query))
+
+    if @project
+      search_items.records.where(project_id: @project.id)
+    elsif options[:id].present?
+      search_items.records.where(id: detail_id.to_s)
+    else
+      search_items.records
+    end
   end
 
   def render_success_response
@@ -19,33 +30,13 @@ module DetailsHelper
                    users: @users, current_user: current_user.id }
   end
 
-  def render_error_response
-    render json: { error: 'Failed to create detail' }, status: :unprocessable_entity
-  end
-
-  def find_detail
-    Detail.find(params[:id])
-  end
-
   def update_users_notification
     @detail_id = params[:id]
     @message = "Status of Feature has been changed to #{@detail.status}"
 
-    @notification = create_notification
-    broadcast_notification_to_users
-  end
-
-  def create_notification
-    Notification.create(message: @message, user_id: current_user.id)
-  end
-
-  def broadcast_notification_to_users
+    @notification = Notification.create(message: @message, user_id: current_user.id)
     @detail.users.each do |user|
-      ActionCable.server.broadcast("notifications_#{user.id}",
-                                   {
-                                     message: @message,
-                                     id: @notification.id
-                                   })
+      ActionCable.server.broadcast("notifications_#{user.id}", { message: @message, id: @notification.id })
       send_notification_email_to_user(user)
     end
   end
@@ -53,10 +44,6 @@ module DetailsHelper
   def send_notification_email_to_user(user)
     UserMailer.notification_email_status(current_user.email, user.username,
                                          user.email, @detail.title, @detail.status, @detail.description).deliver_later
-  end
-
-  def find_users_by_username
-    User.where(username: params[:username])
   end
 
   def add_new_users_to_detail(new_users)

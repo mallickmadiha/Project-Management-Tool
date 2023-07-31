@@ -50,6 +50,13 @@ RSpec.describe ApplicationHelper, type: :helper do
     it 'returns nil when there are no errors on the object' do
       expect(helper.error_messages(user, :name)).to be_nil
     end
+
+    it 'returns joined error messages when multiple errors are present for the specified field' do
+      user.errors.add(:name, "can't be blank")
+      user.errors.add(:name, 'is too short (minimum is 3 characters)')
+
+      expect(helper.error_messages(user, :name)).to eq("can't be blank, is too short (minimum is 3 characters)")
+    end
   end
 end
 # rubocop:enable Metrics/BlockLength

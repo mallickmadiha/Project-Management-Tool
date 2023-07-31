@@ -109,7 +109,7 @@ RSpec.describe Project, type: :model do
         project = FactoryBot.build(:project, name: 'Invalid@Project', user: FactoryBot.create(:user))
 
         expect(project).not_to be_valid
-        expect(project.errors[:name]).to include('should start with a letter and can only contain letters, numbers, underscore')
+        expect(project.errors[:name]).to include('should start with letter & can contain letters, numbers, underscore')
       end
 
       it 'is not valid if the same name already exists for the same user' do

@@ -1,13 +1,6 @@
 <%= javascript_include_tag 'packs/detail_form' %>
 <%= javascript_include_tag 'packs/detail' %>
-<div class="d-flex justify-content-between align-items-center flex-wrap p-1 py-2 text-white px-lg-2" style="background-color: #256188">
-  <div>
-    <%= link_to project_path(@project.id) do %>
-      <div class="btn btn-success">Go Back</div>
-    <% end %>
-  </div>
-  <%= render "partials/topnav", project: @project %>
-</div>
+<%= render "partials/topnav", project: @project, flag: false %>
 <div class="row" id="body-row" style="background-color: #212123;">
   <%= render "partials/sidenav", project: @project, flag: false %>
   <div class="col">

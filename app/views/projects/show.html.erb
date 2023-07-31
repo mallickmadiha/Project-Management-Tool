@@ -1,10 +1,16 @@
 <%= javascript_include_tag 'packs/detail_form' %>
 <%= javascript_include_tag 'packs/detail' %>
-<div class="d-flex justify-content-between align-items-center flex-wrap p-1 py-2 text-white px-lg-2" style="background-color: #256188">
-  <a href="/" style="text-decoration:none; color: white">
-    <div class="text-center" style="font-weight:bold; font-size: 20px"><i class="fa fa-duotone fa-gear mx-2"></i><%= @project.name %></div>
-  </a>
-  <%= render "partials/topnav", project: @project %>
+<%= render "partials/topnav", project: @project, flag: true %>
+<div id="notificationContainer" class="container py-1 mx-5">
+  <% if current_user %>
+    <% current_user.notifications.where(read: false).each do |notification| %>
+      <li class="list-group-item"><%= notification.message %></li>
+    <% end %>
+    <div class="d-flex flex-row gap-2">
+      <button class="btn btn-warning w-50 mx-auto d-block my-3" id="mark-close-button">Close</button>
+      <button class="btn btn-success w-50 mx-auto d-block my-3" id="mark-read-button">Mark As Read</button>
+    </div>
+  <% end %>
 </div>
 <div class="row" id="body-row" style="background-color: #212123;">
   <%= render "partials/sidenav", project: @project, flag: true  %>

@@ -15,10 +15,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def welcome
-    @user = User.where(id: session[:id])
-  end
-
   def username_fetch
     @user = User.where(id: session[:id])
     render json: @user

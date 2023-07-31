@@ -4,70 +4,24 @@
 class DetailsController < ApplicationController
   include DetailsHelper
   skip_before_action :authenticate_user
-  def index
-    @details = Detail.all
-  end
-
-  def show
-    @detail = Detail.find(params[:id])
-  end
 
   def new
     @detail = Detail.new
   end
 
-  # rubocop: disable Metrics/AbcSize
-  # rubocop: disable Metrics/MethodLength
-  def elastic_search
-    query = params.dig(:search_items, :query).to_s.gsub(/[^\w\s]/, '').strip
-    project_id = params.dig(:search_items, :project_id)
-    @project = Project.find_by(id: project_id)
-
-    options = {}
-    options[:id] = query.to_i if query.to_i.positive?
-
-    @details = if @project
-                 Detail.search(Detail.search_items(query)).records.where(project_id: @project.id)
-               elsif options[:id].present?
-                 Detail.search(Detail.search_items(query)).records.where(id: options[:id].to_s)
-               else
-                 Detail.search(Detail.search_items(query)).records
-               end
-
-    @search_items = query
-    @chats = Chat.all
-    @chat = Chat.new
-  end
-  # rubocop: enable Metrics/AbcSize
-  # rubocop: enable Metrics/MethodLength
-
   def create
-    @detail = create_detail
+    @detail = Detail.new(detail_params)
+    @detail.uuid = SecureRandom.hex(10)
 
     if @detail.save
       render_success_response
     else
-      render_error_response
+      render json: { error: 'Failed to create detail' }, status: :unprocessable_entity
     end
   end
 
-  def edit
-    @detail = Detail.find(params[:id])
-  end
-
-  def update
-    @detail = Detail.update(detail_params)
-    redirect_to detail_path(@detail)
-  end
-
-  def destroy
-    @detail = Detail.find(params[:id])
-    @detail.destroy
-    redirect_to details_path
-  end
-
   def change_status
-    @detail = find_detail
+    @detail = Detail.find(params[:id])
     return if @detail.status == params[:status]
 
     @detail.status = params[:status]
@@ -80,9 +34,9 @@ class DetailsController < ApplicationController
   end
 
   def update_user_ids
-    @detail = find_detail
+    @detail = Detail.find(params[:id])
     @project_id = params[:project_id]
-    @users = find_users_by_username
+    @users = User.where(username: params[:username])
 
     new_users = @users - @detail.users
     add_new_users_to_detail(new_users)
@@ -92,6 +46,19 @@ class DetailsController < ApplicationController
     @notification = create_new_notification
 
     broadcast_notification_to_new_users(new_users)
+  end
+
+  def elastic_search
+    query = params.dig(:search_items, :query).to_s.gsub(/[^\w\s]/, '').strip
+    @project = Project.find_by(id: params.dig(:search_items, :project_id))
+
+    options = {}
+    options[:id] = query.to_i if query.to_i.positive?
+
+    @details = filter_details(query, options)
+
+    @search_items = query
+    initialize_chat
   end
 
   private
