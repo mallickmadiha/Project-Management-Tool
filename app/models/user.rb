@@ -21,15 +21,4 @@ class User < ApplicationRecord
   has_many :notifications, dependent: :destroy
 
   has_many :sent_chats, class_name: 'Chat', foreign_key: 'sender_id'
-
-  def self.from_omniauth(auth)
-    user = User.find_by(email: auth.info.email)
-
-    user ||= User.create(
-      email: auth.info.email,
-      username: auth.info.name
-    )
-
-    user
-  end
 end

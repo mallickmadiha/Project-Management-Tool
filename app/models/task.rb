@@ -6,6 +6,8 @@ class Task < ApplicationRecord
 
   belongs_to :detail
 
-  validates :name, presence: { message: "Name can't be blank" },
-                   length: { maximum: 255, message: 'Name is too long (maximum is 255 characters)' }
+  validates :name, presence: { message: "can't be blank" },
+                   length: { in: 5..255, message: 'must be between 5 and 255 characters' },
+                   format: { with: /\A[a-zA-Z][a-zA-Z0-9_ ]*\z/,
+                             message: 'should start with letter & can contain letters, numbers, underscore' }
 end

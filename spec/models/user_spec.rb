@@ -92,33 +92,5 @@ RSpec.describe User, type: :model do
       end
     end
   end
-
-  describe '.from_omniauth' do
-    let(:email) { 'test@example.com' }
-    let(:username) { 'testuser' }
-    let(:auth) do
-      double('auth', info: double('info', email:, name: username))
-    end
-
-    context 'when the user with the given email already exists' do
-      let!(:existing_user) { create(:user, email:, username:) }
-
-      it 'returns the existing user' do
-        allow(User).to receive(:find_by).with(email:).and_return(existing_user)
-        user = User.from_omniauth(auth)
-        expect(user).to eq(existing_user)
-      end
-    end
-
-    context 'when the user with the given email does not exist' do
-      it 'creates a new user with the provided email and username' do
-        allow(User).to receive(:find_by).with(email:).and_return(nil)
-        expect(User).to receive(:create).with(email:, username:).and_call_original
-        user = User.from_omniauth(auth)
-        expect(user.email).to eq(email)
-        expect(user.username).to eq(username)
-      end
-    end
-  end
 end
 # rubocop: enable Metrics/BlockLength

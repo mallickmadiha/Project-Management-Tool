@@ -2,6 +2,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
 
+@import "notifications.scss";
+@import "404.scss";
+@import "flash.scss";
+@import "sidenav.scss";
+@import "user.scss";
+
 * {
   font-family: "Raleway", sans-serif;
 }
@@ -9,133 +15,34 @@ a {
   text-decoration: none;
 }
 
-.displayNone{
+.panel{
+  width: 100%;
+}
+
+.main-container{
+  background-color: #F3F4F4;
+}
+
+.body-bg{
+  background-color: #f1f2f4;
+}
+
+.displayNone {
   display: none;
 }
 
-.required::after {
-  content: " * ";
-  color: red;
-  font-weight: 100;
+.mybtn-success {
+  background-color: #56ad56;
+  border: #56ad56;
+  color: #ffff;
 }
 
-#error-page {
-  position: absolute;
-  top: 10%;
-  left: 15%;
-  right: 15%;
-  bottom: 10%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #fff;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
-}
-#error-page .content {
-  max-width: 600px;
-  text-align: center;
-  background-color: #fff;
-}
-.content h2.header {
-  font-size: 18vw;
-  line-height: 1em;
-  position: relative;
+.mybtn-success:hover{
+  color: #ffff;
 }
 
-.content h4 {
-  font-size: 1.5em;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  color: #000;
-  font-size: 2em;
-  max-width: 600px;
-  position: relative;
-}
-.content h4:after {
-  position: absolute;
-  content: attr(data-text);
-  top: 0;
-  left: 0;
-  right: 0;
-  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.4);
-}
-.content p {
-  font-size: 1.2em;
-  color: #0d0d0d;
-}
-.content .btns {
-  margin: 25px 0;
-  display: inline-flex;
-}
-.content .btns a {
-  display: inline-block;
-  margin: 0 10px;
-  text-decoration: none;
-  border: 2px solid #256188;
-  color: #256188;
-  font-weight: 600;
-  padding: 10px 25px;
-  border-radius: 25px;
-  text-transform: uppercase;
-  transition: all 0.3s ease;
-}
-.content .btns a:hover {
-  background: #256188;
-  color: #fff;
-}
-
-.flash-message {
-  position: relative;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 0.25rem;
-}
-
-.flash-message.alert-success {
-  background-color: #d4edda;
-  border-color: #c3e6cb;
-  color: #155724;
-}
-
-.flash-message.alert-error {
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-  color: #721c24;
-}
-
-.flash-message-text {
-  display: inline-block;
-  margin-right: 1rem;
-}
-
-.flash-message-close {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: none;
-  border: none;
-  padding: 0;
-  color: #000;
-  font-size: 1.5rem;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.flash-message-close:hover {
-  color: #ff0000;
-}
-
-.alert {
-  margin-bottom: 0;
-}
-
-.bold-username {
-  font-weight: bold;
-}
-
-.btn-success {
-  background-color: #56ad56 !important;
-  border: #56ad56 !important;
+.white-line{
+  background-color: white; margin: 0px
 }
 
 .btn-blue {
@@ -150,177 +57,45 @@ a {
   color: white;
 }
 
-.noti-icon {
-  position: relative;
-  top: -8px !important;
-  left: -8px !important;
+.btn .badge {
+  top: -11px;
+  left: -8px;
 }
 
-#body-row {
-  margin-left: 0;
-  margin-right: 0;
+.body-row{
+  background-color: #212123;
 }
-#sidebar-container {
-  min-height: 97vh;
-  background-color: #2f3337;
-  padding: 0;
+
+.heading{
+  font-weight:bold; font-size: 20px
 }
-.sidebar-expanded {
-  width: 230px;
+
+.sub-heading{
+  font-weight:semibold; font-size: 20px
 }
-.sidebar-collapsed {
-  overflow: hidden;
-  width: 65px;
-  transition: 0.2s ease-in-out;
+
+.projectNav{
+  background-color: #256188;
 }
-#sidebar-container .list-group .sidebar-submenu a {
-  height: 45px;
-  padding-left: 30px;
+
+.modal-close-btn{
+  border: none;background: transparent;
 }
-.sidebar-submenu {
-  font-size: 0.9rem;
+
+.close-icon{
+  color: #ff4d4d;
 }
-.menu-collapsed {
+
+.pointer{
   cursor: pointer;
 }
 
-.active-navitem {
-  color: #2cb5fa !important;
+.mt-10{
+  margin-top: 8rem;
 }
 
-.icon-container {
-  background: #a1a4ad;
-  color: #fff;
-  border-radius: 50%;
-  width: 30px;
-  font-size: 12px;
-  height: 30px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.text-upper{
+  text-transform: uppercase;
   font-weight: bold;
-}
-
-.ss-value-text {
-  font-size: 20px !important;
-  padding: 5px;
-}
-
-.ss-value {
-  margin: 3px;
-}
-
-.task-button {
-  margin-top: 1.7rem;
-}
-
-.message-btn {
-  border: 1px solid #2c2c2c;
-  border-radius: 5px;
-  background-color: white;
-  padding: 0.3rem 2rem;
-  font-size: 14px;
-  font-weight: 600;
-  color: #2c2c2c;
-}
-
-.message-btn:hover {
-  background-color: #2c2c2c;
-  color: white;
-}
-
-.search-result-value {
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 0 5px;
-  border-bottom: 1px solid #ced4da;
-  border-left: 1px solid #ced4da;
-  border-right: 1px solid #ced4da;
-}
-
-.notification {
-  position: fixed;
-  top: 60px;
-  right: 20px;
-  padding: 16px;
-  background-color: #333;
-  color: #fff;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  z-index: 9999;
-  border: 2px solid grey;
-  border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  max-width: 300px;
-  overflow: hidden;
-}
-.notification.show {
-  opacity: 1;
-}
-.notification-content {
-  display: flex;
-  align-items: center;
-}
-.notification-message {
-  flex-grow: 1;
-  margin-right: 8px;
-}
-.notification-close {
-  cursor: pointer;
-}
-
-.search-results {
-  position: absolute;
-  top: 0rem;
-  margin: 2rem;
-  background-color: white;
-  border: 1px solid #ccc;
-  z-index: 9999;
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-.search-results-text {
-  padding: 0.5rem 1rem;
-  border-bottom: 1px solid #ccc;
-  font-size: 14px;
-}
-
-#notificationContainer {
-  position: absolute;
-  top: 5%;
-  right: 32px;
-  width: 300px;
-  max-height: 300px;
-  overflow-y: auto;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-  display: none;
-  z-index: 999999;
-}
-
-#notificationContainer.show {
-  display: block;
-}
-
-#notificationButton {
-  position: relative;
-}
-
-.notification-badge {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: white;
-  color: white;
   font-size: 12px;
 }

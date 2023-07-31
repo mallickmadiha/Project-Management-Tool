@@ -15,6 +15,12 @@ $(document).ready(function () {
     event.preventDefault();
     var submitId = $(this).data("submit-id");
 
+    document.getElementById("detail_title" + submitId).value = "";
+    document.getElementById("detail_description" + submitId).value = "";
+    document.getElementById("detail_flagType" + submitId).value =
+      "backFlag";
+    document.getElementById("detail_file" + submitId).value = "";
+
     var closeButton = document.getElementById("modalCloseButton" + submitId);
     closeButton.addEventListener("click", function () {
       var collapseElement = document.getElementById("collapseOne" + submitId);
@@ -117,18 +123,18 @@ $(document).ready(function () {
         </div>
         <div class="collapse mb-3" id="collapseExample${id}">
           <div class="card card-body">
-            <div class="text-dark text-uppercase fw-bold my-3" style="font-size: 12px;">
+            <div class="text-dark text-upper my-3">
               Feature Id : ${uuid}
             </div>
-            <div class="text-dark text-uppercase fw-bold my-3" style="font-size: 12px;">
+            <div class="text-dark text-upper my-3">
               Title : ${title}</div>
-            <div class="text-dark text-uppercase fw-bold my-3" style="font-size: 12px;">
+            <div class="text-dark text-upper my-3">
               Description : ${description}</div>
               <form action="/change_status/${id}" method="post" data-remote="true" id="change-status-form">
               <div class="flash-container${id}"></div>
               <div class="my-3">
                 <input type="hidden" name="project_id" value="${projectId}">
-                <label for="status" class="text-dark text-uppercase fw-bold" style="font-size: 12px;">Status:</label>
+                <label for="status" class="text-dark text-upper">Status:</label>
                 <select name="status" class="form-select">
                   <option value="Started">Started</option>
                   <option value="Finished">Finished</option>
@@ -137,7 +143,7 @@ $(document).ready(function () {
               </div>
               <input type="submit" value="Save" class="message-btn">
             </form>
-          <div class="text-dark text-uppercase fw-bold mt-5" style="font-size: 12px;" id="taskCount${id}">
+          <div class="text-dark text-upper mt-5" id="taskCount${id}">
           Tasks: (${0}/ ${0})
         </div>
         <div id="taskContainer${id}">
@@ -160,16 +166,16 @@ $(document).ready(function () {
             )
             .join("")}
         </div>
-            <div class="field form-group d-flex justify-content-around text-dark my-3">
+            <div class="field form-group d-flex flex-column  flex-wrap text-dark my-3">
             <div class="flash-task-container${id}"></div>
               <div>
                 <label for="task_name">Task Name</label>
-                <input type="text" name="task_name" class="form-control" id="task_name${id}" style="cursor: pointer">
+                <input type="text" name="task_name" class="form-control pointer" id="task_name${id}">
+                <button type="button" class="message-btn mx-0 my-3" id="addTaskButton${id}">Add Task</button>
               </div>
-              <button type="button" class="message-btn mx-0 task-button" id="addTaskButton${id}">Add Task</button>
             </div>
             <div class="d-flex flex-column flex-wrap">
-            <div class="text-dark text-uppercase fw-bold mt-5 mb-3" style="font-size: 12px;">
+            <div class="text-dark text-upper mt-5 mb-3">
               Users Assigned to this:
             </div>
             <div class="d-flex flex-column flex-wrap">
@@ -185,7 +191,7 @@ $(document).ready(function () {
               </div>
             </div>
             <div class="d-flex flex-column flex-wrap">
-                <div class="text-dark text-uppercase fw-bold my-3" style="font-size: 12px;">
+                <div class="text-dark text-upper my-3">
                   Files :
                 </div>
                 <div class="d-flex flex-wrap flex-column">
@@ -193,7 +199,7 @@ $(document).ready(function () {
                     .map(
                       (
                         file
-                      ) => `<div class="text-dark text-uppercase mx-3 fw-bold my-3" style="font-size: 12px;">
+                      ) => `<div class="text-dark text-uppercase mx-3 fw-bold my-3">
                   ${
                     file.type.includes("image")
                       ? `<img src="${URL.createObjectURL(
@@ -234,7 +240,7 @@ $(document).ready(function () {
               </div>
             </div>
             <div class="d-flex flex-column flex-wrap">
-              <div class="text-dark text-uppercase fw-bold my-3" style="font-size: 12px;">
+              <div class="text-dark text-upper my-3">
                 Comment Box :
               </div>
               <div class="d-flex flex-column  flex-wrap">
@@ -243,17 +249,15 @@ $(document).ready(function () {
                 <form id="chat-form-${id}" data-backlog-id="${id}" method="POST" action="/chats" data-remote="true" class="bootstrap-class">
                   <input type="hidden" name="authenticity_token" value=csrfToken>
                   <div class="form-group d-flex flex-row">
-                    <label for="chat_message_${id}" class="mt-3 mx-2">Message</label>
+                    <label for="chat_message_${id}" class="mt-3 mx-2 d-none">Message</label>
                     <div class="position-relative">
-                      <textarea class="form-control" name="chat[message]" id="chat_message_${id}"></textarea>
+                      <textarea class="form-control my-2" name="chat[message]" id="chat_message_${id}"></textarea>
                       <div id="search-results-chat${id}" class="search-results"
                       >
                   </div>
                   <input type="hidden" name="chat[sender_id]" id="chat_sender_${id}" value="${current_user}">
                   <input type="hidden" name="chat[detail_id]" value="${id}" id="chat_details_${id}">
-                  <div class="text-center">
-                    <button type="submit" class="message-btn my-3">Post Comment</button>
-                  </div>
+                  <button type="submit" class="message-btn my-3">Post Comment</button>
                 </form>
               </div>
             </div>
@@ -442,10 +446,6 @@ $(document).ready(function () {
               .getElementById("task_name" + itemId)
               .value.trim();
 
-            if (taskName === "") {
-              showNotification("Please Enter a Task");
-              return;
-            }
             var detailId = itemId;
 
             $.ajax({
@@ -488,6 +488,9 @@ $(document).ready(function () {
                   "click",
                   createCheckboxClickListener(itemId)
                 );
+              },
+              error: function (response) {
+                showNotification(response.responseJSON.errors);
               },
             });
           }
@@ -545,6 +548,9 @@ $(document).ready(function () {
               document.body.removeChild(notification);
             }, 300);
           }
+        },
+        error: function (response) {
+          showNotification(response.responseJSON.errors);
         },
       });
     } else {

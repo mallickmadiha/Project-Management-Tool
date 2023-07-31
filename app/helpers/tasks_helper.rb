@@ -24,7 +24,7 @@ module TasksHelper
   end
 
   def render_error_response
-    render json: { error: 'Failed to create task' }, status: :unprocessable_entity
+    render json: { errors: @task.errors.full_messages.join(', ') }, status: :unprocessable_entity
   end
 
   def update_task_record

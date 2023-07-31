@@ -1,5 +1,5 @@
-<%= javascript_include_tag 'packs/detail_form' %>
-<%= javascript_include_tag 'packs/detail' %>
+<%= javascript_pack_tag 'detail_form' %>
+<%= javascript_pack_tag 'detail' %>
 <%= render "partials/topnav", project: @project, flag: true %>
 <div id="notificationContainer" class="container py-1 mx-5">
   <% if current_user %>
@@ -8,11 +8,11 @@
     <% end %>
     <div class="d-flex flex-row gap-2">
       <button class="btn btn-warning w-50 mx-auto d-block my-3" id="mark-close-button">Close</button>
-      <button class="btn btn-success w-50 mx-auto d-block my-3" id="mark-read-button">Mark As Read</button>
+      <button class="btn mybtn-success w-50 mx-auto d-block my-3" id="mark-read-button">Mark As Read</button>
     </div>
   <% end %>
 </div>
-<div class="row" id="body-row" style="background-color: #212123;">
+<div class="row body-row" id="body-row">
   <%= render "partials/sidenav", project: @project, flag: true  %>
   <div class="col">
     <div class="d-flex flex-column flex-xl-row w-100 h-100">

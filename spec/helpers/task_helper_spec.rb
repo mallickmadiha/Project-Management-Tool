@@ -53,16 +53,6 @@ RSpec.describe TasksHelper, type: :helper do
       helper.render_success_response(0, 1)
     end
   end
-  describe '#render_error_response' do
-    it 'renders an error response JSON with status :unprocessable_entity' do
-      expect(helper).to receive(:render).with(
-        json: { error: 'Failed to create task' },
-        status: :unprocessable_entity
-      )
-
-      helper.render_error_response
-    end
-  end
 
   describe '#render_update_success_response' do
     it 'renders a success response JSON for task update' do

@@ -50,7 +50,7 @@ RSpec.describe Task, type: :model do
         task = FactoryBot.build(:task, name: nil, detail:)
 
         expect(task).not_to be_valid
-        expect(task.errors[:name]).to include("Name can't be blank")
+        expect(task.errors[:name]).to include("can't be blank")
       end
 
       it 'is not valid if name exceeds maximum length' do
@@ -59,7 +59,7 @@ RSpec.describe Task, type: :model do
         task = FactoryBot.build(:task, name: long_name, detail:)
 
         expect(task).not_to be_valid
-        expect(task.errors[:name]).to include('Name is too long (maximum is 255 characters)')
+        expect(task.errors[:name]).to include('must be between 5 and 255 characters')
       end
     end
   end

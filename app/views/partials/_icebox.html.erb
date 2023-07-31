@@ -1,17 +1,17 @@
-<div class="mx-1 mb-2 panel" id="icebox" data-panel="icebox" style="width:100%">
-  <div class="card h-full" style="background-color: #f1f2f4;">
+<div class="mx-1 mb-2 panel" id="icebox" data-panel="icebox">
+  <div class="card h-full body-bg">
     <div  class="card-header d-flex flex-row justify-content-between align-items-center">
       <h2>Icebox</h2>
       <div class="d-flex flex-row justify-content-between align-items-center">
         <div class="accordion text-dark" id="accordionExample2">
           <div>
             <div id="headingOne<%= @icebox_item_submit %>">
-              <button class="collapsed btn text-white submit-button" style="background-color: #256188" data-submit-id="<%= @icebox_item_submit %>"
+              <button class="collapsed btn text-white submit-button projectNav" data-submit-id="<%= @icebox_item_submit %>"
           type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne<%= @icebox_item_submit %>" aria-expanded="true" aria-controls="collapseOne<%= @icebox_item_submit %>">  <i class="fa-solid fa-plus mx-2"></i> Add Feature </button>
             </div>
           </div>
         </div>
-        <i class="fa fa-solid fa-xmark fa-lg mx-3" id="icebox-close" style="cursor: pointer;"></i>
+        <i class="fa fa-solid fa-xmark fa-lg mx-3 pointer" id="icebox-close" ></i>
       </div>
     </div>
     <div class="card-body" id="<%= @icebox_item_submit %>-details-list">
@@ -19,7 +19,7 @@
       <div id="collapseOne<%= @icebox_item_submit %>" class="accordion-collapse collapse bg-light" aria-labelledby="headingOne<%= @icebox_item_submit %>" data-bs-parent="#accordionExample2">
         <%= render "details/form" , submit_id: @icebox_item_submit, type: "icebox"%>
       </div>
-      <% @icebox.each do |backlog_item| %>
+      <% @icebox.order(id: :desc).each do |backlog_item| %>
         <div  type="button" class="mt-2" data-toggle="collapse" data-target="#collapseExample<%= backlog_item.id %>" aria-expanded="false" aria-controls="collapseExample<%= backlog_item.id %>">
           <div class="card">
             <div class="card-body">

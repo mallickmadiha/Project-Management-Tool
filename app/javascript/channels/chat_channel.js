@@ -9,9 +9,7 @@ document.addEventListener("turbolinks:load", function () {
   ) {
     ProjectId = document.getElementById("search_items_project_id").value;
   }
-
-  const processedMessageIds = new Set();
-
+  
   consumer.subscriptions.create(
     { channel: "ChatChannel", project_id: ProjectId },
     {
@@ -20,21 +18,22 @@ document.addEventListener("turbolinks:load", function () {
 
         const messageId = data.chat.id;
 
-        if (!processedMessageIds.has(messageId)) {
-          processedMessageIds.add(messageId);
+        const existingMessage = $(`[data-message-id="${messageId}"]`);
+
+        if (!existingMessage.length) {
 
           var containerId = "#chat-container" + detailsId.toString();
           var container = $(containerId);
 
           container.append(
-            "<div class='d-flex justify-content-start'>" +
+            "<div class='d-flex justify-content-start' data-message-id='" + messageId + "'>" +
               "<div class='icon-container mt-2 mx-2'>" +
               data.sender_username[0].toUpperCase() +
               "</div>" +
               "<div class='message py-2'>" +
               data.chat.message.replace(
                 /@(\w+)/g,
-                "<span class='bold-username'>@$1</span>"
+                "<span class='fw-bold'>@$1</span>"
               ) +
               "</div>" +
               "</div>"

@@ -1,67 +1,65 @@
 $(document).ready(function () {
   var projectId = getProjectIdFromUrl();
-
   if (projectId === null) {
     projectId = document.getElementById("search_items_project_id").value;
   }
-
   function getProjectIdFromUrl() {
-    var url = window.location.href;
     var regex = /projects\/(\d+)/;
-    var match = url.match(regex);
+    var match = window.location.href.match(regex);
     if (match && match.length > 1) {
       return match[1];
     }
     return null;
   }
 
-  if (parseInt(document.getElementById("notificationCounter").textContent) > 0){
+  if (
+    parseInt(document.getElementById("notificationCounter").textContent) > 0
+  ) {
     var notiButton = document
-    .getElementById("notificationButton")
-    .querySelector("span");
+      .getElementById("notificationButton")
+      .querySelector("span");
     notiButton.classList.remove("displayNone");
   }
-
-  document.getElementById("mark-close-button").addEventListener("click", function(event){
-    event.preventDefault();
-    document.getElementById("notificationContainer").classList.remove("show");
-  })
-
+  document
+    .getElementById("mark-close-button")
+    .addEventListener("click", function (event) {
+      event.preventDefault();
+      document.getElementById("notificationContainer").classList.remove("show");
+    });
   document
     .getElementById("mark-read-button")
     .addEventListener("click", function (event) {
       event.preventDefault();
-
       document.getElementById("notificationContainer").classList.remove("show");
       var notiButton = document
         .getElementById("notificationButton")
         .querySelector("span");
-        
-        $.ajax({
-          url: "/notifications/mark_read",
-          method: "POST",
-          headers: {
-            "X-CSRF-Token": authenticityToken,
-          },
-          dataType: "json",
-          success: function () {
-            notiButton.classList.add("displayNone");
-            document.getElementById("notificationCounter").innerHTML = 0;
-            var notificationListItems = document.querySelectorAll("#notificationContainer li");
-            notificationListItems.forEach(function (item) {
-              item.remove();
-            });    
+      notiButton.classList.add("displayNone");
+      var notificationListItems = document.querySelectorAll(
+        "#notificationContainer li"
+      );
+      notificationListItems.forEach(function (item) {
+        item.remove();
+      });
+
+      $.ajax({
+        url: "/notifications/mark_read",
+        method: "POST",
+        headers: {
+          "X-CSRF-Token": authenticityToken,
+        },
+        dataType: "json",
+        success: function () {
+          document.getElementById("notificationCounter").innerHTML = 0;
         },
       });
     });
 
   var authenticityToken = $('meta[name="csrf-token"]').attr("content");
-
   var cards = document.querySelectorAll("[data-toggle='collapse']");
-
   cards.forEach(function (card) {
     card.addEventListener("click", function () {
-      if (this.id == "topnav"){
+      if (this.id == "topnav") {
         return;
       }
       var detailContainer =
@@ -79,7 +77,6 @@ $(document).ready(function () {
       $(document).ready(function () {
         var chatInput = $("#chat_message_" + itemId);
         var searchResultsContainer = $("#search-results-chat" + itemId);
-        var isTextSearchable = false;
 
         chatInput.on("input", function () {
           var inputValue = chatInput.val();
@@ -186,7 +183,6 @@ $(document).ready(function () {
             success: function (response) {
               response.forEach(function (result) {
                 var resultItem = document.createElement("div");
-
                 resultItem.classList.add("search-result-value");
                 resultItem.textContent = result.username;
                 searchCurrentResultsContainer.appendChild(resultItem);
@@ -200,9 +196,7 @@ $(document).ready(function () {
           function (event) {
             var selectedItem = event.target;
             var selectedValue = selectedItem.textContent;
-
             searchCurrentInput.value = selectedValue;
-
             var belowDiv = document.getElementById("search-results" + itemId);
             belowDiv.innerHTML = "";
           }
@@ -213,9 +207,7 @@ $(document).ready(function () {
         return function (event) {
           var detailId = itemId;
           var taskId = event.target.dataset.taskId || event.target.value;
-
           var completed = event.target.checked ? "Done" : "Added";
-
           $.ajax({
             url: `/projects/${projectId}/details/${detailId}/tasks/${taskId}`,
             type: "PATCH",
@@ -225,10 +217,8 @@ $(document).ready(function () {
             headers: { "X-CSRF-Token": authenticityToken },
             success: function (response) {
               showNotification(`Task Updated Successfully`);
-
               var completedTasksCount = response.completedTasksCount;
               var totalTasksCount = response.totalTasksCount;
-
               var taskCountId = "taskCount" + detailId;
               var taskCountElement = document.getElementById(taskCountId);
               taskCountElement.innerText = `Tasks: (${completedTasksCount} / ${totalTasksCount})`;
@@ -241,11 +231,6 @@ $(document).ready(function () {
         var taskName = document
           .getElementById("task_name" + itemId)
           .value.trim();
-
-        if (taskName === "") {
-          showNotification("Please Enter a Task");
-          return;
-        }
         var detailId = itemId;
 
         $.ajax({
@@ -257,16 +242,12 @@ $(document).ready(function () {
           headers: { "X-CSRF-Token": authenticityToken },
           success: function (response) {
             showNotification("Task Added Successfully");
-
             var completedTasksCount = response.completedTasksCount;
             var totalTasksCount = response.totalTasksCount + 1;
-
             var taskCountId = "taskCount" + detailId;
             var taskCountElement = document.getElementById(taskCountId);
             taskCountElement.innerText = `Tasks: (${completedTasksCount} / ${totalTasksCount})`;
-
             var taskId = response.id;
-
             var taskContainer = document.getElementById(
               "taskContainer" + itemId
             );
@@ -281,7 +262,6 @@ $(document).ready(function () {
 
             taskContainer.appendChild(newTaskElement);
             document.getElementById("task_name" + itemId).value = "";
-
             var checkboxId = "detail_task_ids_" + taskId;
             var checkbox = document.getElementById(checkboxId);
             checkbox.addEventListener(
@@ -289,6 +269,9 @@ $(document).ready(function () {
               createCheckboxClickListener(itemId)
             );
           },
+          error: function (response) {
+            showNotification(response.responseJSON.errors);
+          }
         });
       }
 
@@ -318,9 +301,7 @@ $(document).ready(function () {
           const notification = document.createElement("div");
           notification.classList.add("notification");
           notification.innerText = text;
-
           document.body.appendChild(notification);
-
           setTimeout(function () {
             notification.classList.add("show");
             setTimeout(function () {

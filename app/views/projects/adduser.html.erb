@@ -1,30 +1,30 @@
-<%= javascript_include_tag 'packs/project' %>
-<div class="d-flex justify-content-between align-items-center flex-wrap p-1 text-white px-lg-2" style="background-color: #256188">
-  <div class="text-center" style="font-weight:bold; font-size: 20px" ><i class="fa fa-sharp fa-light fa-gears mx-2"></i> ProjectTracker </div>
+<%= javascript_pack_tag 'project' %>
+<div class="d-flex justify-content-between align-items-center flex-wrap p-1 text-white px-lg-2 projectNav">
+  <div class="text-center heading"><i class="fa fa-sharp fa-light fa-gears mx-2"></i> ProjectTracker </div>
   <div><i class="fa fa-solid fa-user mx-2"></i> <%= current_user.username %>
     <%= link_to logout_path, method: :post do %>
-      <i class="fa fa-solid fa-right-from-bracket mx-3" style="color:#fff"></i>
+      <i class="fa fa-solid fa-right-from-bracket mx-3 text-white"></i>
     <% end %>
   </div>
 </div>
 <nav class="d-flex justify-content-around align-items-center bg-white flex-wrap p-3">
-  <div class="text-center" style="font-weight:semibold; font-size: 20px" >Project <span id='project-id'></span> </div>
+  <div class="text-center sub-heading">Project <span id='project-id'></span> </div>
 </nav>
 <div class="container mt-5">
   <h5> Add User to Project </h5>
   <%= form_tag(update_user_ids_projects_path, method: :post) do %>
     <%= hidden_field_tag :project_id, nil, id: 'project-id-field' %>
-    <select name="user_id[]" id="multiple" multiple class="search-select" style="font-size: 22px">
+    <select name="user_id[]" id="multiple" multiple class="search-select">
       <% @users.each do |user| %>
         <option value="<%= user.id %>"><%= user.email %></option>
       <% end %>
     </select>
     <div class="d-flex justify-content-center m-5">
-      <%= submit_tag 'Add User to Project', class: 'btn btn-success' %>
+      <%= submit_tag 'Add User to Project', class: 'btn mybtn-success' %>
     </div>
   <% end %>
-  <h5> Users In to Project </h5>
+  <h5 class="fw-bold"> Users present In this Project </h5>
   <% @project_users.each do |user| %>
-    <div class="py-2"> <span style="font-weight: bold">Email:</span> <%= user.email%> <span style="font-weight: bold">Username:</span> <%= user.username %></div>
+    <div class="py-2"> <strong><span>Email:</span></strong> <%= user.email%> <strong><span>Username:</span></strong> <%= user.username %></div>
   <% end %>
 </div>

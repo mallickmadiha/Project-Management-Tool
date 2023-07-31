@@ -60,7 +60,7 @@ RSpec.describe Detail, type: :model do
         detail = FactoryBot.build(:detail, title: nil)
 
         expect(detail).not_to be_valid
-        expect(detail.errors[:title]).to include("Title can't be blank")
+        expect(detail.errors[:title]).to include("can't be blank")
       end
 
       it 'is not valid without a description' do
@@ -74,7 +74,7 @@ RSpec.describe Detail, type: :model do
         detail = FactoryBot.build(:detail, title: 'a' * 31)
 
         expect(detail).not_to be_valid
-        expect(detail.errors[:title]).to include('Title is too long (maximum is 30 characters)')
+        expect(detail.errors[:title]).to include('must be between 5 and 30 characters')
       end
     end
   end

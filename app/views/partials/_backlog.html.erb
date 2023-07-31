@@ -1,16 +1,16 @@
-<div class="mx-1 mb-2 panel" id="backlog" data-panel="backlog" style="width:100%">
-  <div class="card h-full" style="background-color: #f1f2f4;">
+<div class="mx-1 mb-2 panel" id="backlog" data-panel="backlog">
+  <div class="card h-full body-bg">
     <div  class="card-header d-flex flex-row justify-content-between align-items-center">
       <h2>Backlog</h2>
       <div class="d-flex flex-row justify-content-between align-items-center">
         <div class="accordion text-dark" id="accordionExample">
           <div>
             <div id="headingOne<%= @backlog_item_submit %>">
-              <button class="collapsed btn text-white submit-button" data-submit-id="<%= @backlog_item_submit %>" style="background-color: #256188" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne<%= @backlog_item_submit %>" aria-expanded="true" aria-controls="collapseOne<%= @backlog_item_submit %>">  <i class="fa-solid fa-plus mx-2"></i>  Add Feature </button>
+              <button class="collapsed btn text-white submit-button projectNav" data-submit-id="<%= @backlog_item_submit %>" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne<%= @backlog_item_submit %>" aria-expanded="true" aria-controls="collapseOne<%= @backlog_item_submit %>">  <i class="fa-solid fa-plus mx-2"></i>  Add Feature </button>
             </div>
           </div>
         </div>
-        <i class="fa fa-solid fa-xmark fa-lg mx-3" id="backlog-close" style="cursor: pointer;"></i>
+        <i class="fa fa-solid fa-xmark fa-lg mx-3 pointer" id="backlog-close"></i>
       </div>
     </div>
     <div class="card-body" id="<%= @backlog_item_submit %>-details-list">
@@ -19,7 +19,7 @@
      data-bs-parent="#accordionExample">
         <%= render "details/form", submit_id: @backlog_item_submit, type: "backFlag" %>
       </div>
-      <% @backlogs.each do |backlog_item| %>
+      <% @backlogs.order(id: :desc).each do |backlog_item| %>
         <div  type="button" class="mt-2" data-toggle="collapse" data-target="#collapseExample<%= backlog_item.id %>" aria-expanded="false" aria-controls="collapseExample<%= backlog_item.id %>">
           <div class="card">
             <div class="card-body">

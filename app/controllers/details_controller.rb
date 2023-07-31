@@ -16,7 +16,7 @@ class DetailsController < ApplicationController
     if @detail.save
       render_success_response
     else
-      render json: { error: 'Failed to create detail' }, status: :unprocessable_entity
+      render json: { errors: @detail.errors.full_messages.join(', ') }, status: :unprocessable_entity
     end
   end
 
@@ -48,7 +48,7 @@ class DetailsController < ApplicationController
     broadcast_notification_to_new_users(new_users)
   end
 
-  def elastic_search
+  def feature_search
     query = params.dig(:search_items, :query).to_s.gsub(/[^\w\s]/, '').strip
     @project = Project.find_by(id: params.dig(:search_items, :project_id))
 
@@ -59,6 +59,7 @@ class DetailsController < ApplicationController
 
     @search_items = query
     initialize_chat
+    @task = Task.new
   end
 
   private

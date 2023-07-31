@@ -71,14 +71,14 @@ $(document).ready(function () {
           card.innerHTML = `
              <div class="card my-3">
                <div class="card-header text-dark d-flex justify-content-end">
-                <a href="projects/${project_id}/adduser" style="color:black;"
+                <a href="projects/${project_id}/adduser" class="text-dark"
                 ><i class="fa fa-solid fa-user-plus mx-2 mt-1"></i></a>
                <i class="fa fa-duotone fa-lock mx-2 mt-1"></i>
-               <a href="/projects/${project_id}" target="_blank" style="color:black;">
+               <a href="/projects/${project_id}" target="_blank" class="text-dark">
                <i class="fa fa-solid fa-up-right-from-square mx-2"></i>
                </a>
                </div>
-               <a href="/projects/${project_id}" target="_blank" style="cursor:pointer;color:black;">
+               <a href="/projects/${project_id}" target="_blank" class="text-dark">
                 <div class="card-body">
                   <h5 class="card-title">${name}</h5>
                   <div class="d-flex justify-content-end">

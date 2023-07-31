@@ -21,6 +21,7 @@ class ProjectsController < ApplicationController
     initialize_flags
     initialize_submit_flags
     initialize_chats
+    @task = Task.new
 
     @project_users = @project.users
   end

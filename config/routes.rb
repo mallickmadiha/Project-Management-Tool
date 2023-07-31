@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
   root 'sessions#new'
   post '/signin', to: 'sessions#create'
   post '/logout', to: 'sessions#destroy'
-
-  resources :sessions, only: [:destroy]
 
   get '/signup', to: 'users#new'
   post '/signup', to: 'users#create'
@@ -15,9 +12,8 @@ Rails.application.routes.draw do
   get 'auth/:provider/callback', to: 'sessions#omniauth'
   get 'auth/failure', to: redirect('/')
 
-  resources :chats, only: %i[new create]
+  resources :chats, only: %i[create]
   get '/chats/new', to: 'chats#new'
-  get '/chats/last_message', to: 'chats#last_message'
 
   resources :projects do
     post 'update_user_ids', on: :collection
@@ -32,13 +28,8 @@ Rails.application.routes.draw do
 
   post '/change_status/:id', to: 'details#change_status'
   post 'add_project_user', to: 'projects#add_project_user'
-  get 'search_items', to: 'details#elastic_search', as: 'search_items'
+  get 'search_items', to: 'details#feature_search', as: 'search_items'
   post '/search/:id', to: 'search#search', as: 'search'
   post '/notifications/mark_read', to: 'notifications#mark_read'
-  # rubocop:disable Layout/LineLength
-  match '*unmatched', to: 'application#page_not_found', via: :all, constraints: lambda { |req|
-                                                                                  !req.path.match(%r{\A/rails/active_storage/})
-                                                                                  # rubocop:enable Layout/LineLength
-                                                                                }
+  get '*unmatched', to: 'application#page_not_found'
 end
-# rubocop:enable Metrics/BlockLength

@@ -12,9 +12,11 @@ class Detail < ApplicationRecord
 
   has_many_attached :file
 
-  validates :title, presence: { message: "Title can't be blank" },
-                    length: { maximum: 30, message: 'Title is too long (maximum is 30 characters)' }
-  validates :description, presence: { message: "Description can't be blank" }
+  validates :title, presence: { message: "can't be blank" },
+                    length: { in: 5..30, message: 'must be between 5 and 30 characters' },
+                    uniqueness: { scope: :project_id, case_sensitive: false, message: 'of this feature already exits' }
+  validates :description, presence: { message: "Description can't be blank" },
+                          length: { in: 5..255, message: 'must be between 5 and 255 characters' }
 
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks

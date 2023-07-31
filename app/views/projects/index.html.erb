@@ -6,19 +6,19 @@
     </button>
   </div>
 <% end %>
-<div class="d-flex justify-content-between align-items-center flex-wrap p-1 text-white px-lg-2" style="background-color: #256188">
+<div class="d-flex justify-content-between align-items-center flex-wrap p-1 text-white px-lg-2 projectNav">
   <%= link_to root_path, class:"text-white" do %>
-    <div class="text-center" style="font-weight:bold; font-size: 20px" ><i class="fa fa-sharp fa-light fa-gears mx-2"></i> ProjectTracker </div>
+    <div class="text-center heading" ><i class="fa fa-sharp fa-light fa-gears mx-2"></i> ProjectTracker </div>
   <% end %>
   <div><i class="fa fa-solid fa-user mx-2"></i> <%= current_user.username %>
     <%= link_to logout_path, method: :post do %>
-      <i class="fa fa-solid fa-right-from-bracket mx-3" style="color:#fff"></i>
+      <i class="fa fa-solid fa-right-from-bracket mx-3 text-white"></i>
     <% end %>
   </div>
 </div>
 <nav class="d-flex justify-content-around align-items-center bg-white flex-wrap p-3">
-  <div class="text-center" style="font-weight:semibold; font-size: 20px" >Projects </div>
-  <button type="button" class="btn btn-success" id="open-modal-project-create" data-toggle="modal" data-target="#exampleModalCenter">
+  <div class="text-center sub-heading" >Projects </div>
+  <button type="button" class="btn mybtn-success" id="open-modal-project-create" data-toggle="modal" data-target="#exampleModalCenter">
     <i class="fa-solid fa-plus"></i> Create Project
   </button>
   <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -26,9 +26,9 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLongTitle">Add a New Project</h5>
-          <button style="border: none;background: transparent;" id="modal-close-btn">
-            <i class="fa fa-sharp fa-light fa-circle-xmark fa-xl"
-              data-dismiss="modal" aria-label="Close" style="color: #ff4d4d;"></i>
+          <button class="modal-close-btn" id="modal-close-btn">
+            <i class="fa fa-sharp fa-light fa-circle-xmark fa-xl close-icon"
+              data-dismiss="modal" aria-label="Close"></i>
           </button>
         </div>
         <div class="modal-body">
@@ -45,13 +45,13 @@
       <div class="col-md-4">
         <div class="card my-3">
           <div class="card-header text-dark d-flex justify-content-end">
-            <a href="/projects/<%= project.id %>/adduser" style="color:black;"><i class="fa fa-solid fa-user-plus mx-2 mt-1"></i></a>
+            <a href="/projects/<%= project.id %>/adduser" class="text-dark"><i class="fa fa-solid fa-user-plus mx-2 mt-1"></i></a>
             <i class="fa fa-duotone fa-lock mx-2 mt-1"></i>
-            <a href="/projects/<%= project.id %>" target="_blank" style="color:black;">
+            <a href="/projects/<%= project.id %>" target="_blank" class="text-dark">
               <i class="fa fa-solid fa-up-right-from-square mx-2"></i>
             </a>
           </div>
-          <a href="/projects/<%= project.id %>" target="_blank" style="cursor:pointer;">
+          <a href="/projects/<%= project.id %>" target="_blank" class="pointer">
             <div class="card-body">
               <h5 class="card-title text-dark"><%= project.name %></h5>
               <div class="d-flex justify-content-end">
