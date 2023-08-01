@@ -11,9 +11,9 @@ module DetailsHelper
     search_items = Detail.search(Detail.search_items(query))
 
     if @project
-      search_items.records.by_project_id(@project.id)
+      search_items.records.where(project_id: @project.id)
     elsif options[:id].present?
-      search_items.records.by_id(detail_id.to_s)
+      search_items.records.where(id: detail_id.to_s)
     else
       search_items.records
     end

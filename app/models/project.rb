@@ -13,12 +13,6 @@ class Project < ApplicationRecord
             format: { with: /\A[a-zA-Z][a-zA-Z0-9_ ]*\z/,
                       message: 'should start with letter & can contain letters, numbers, underscore' }
 
-  scope :by_project_id, lambda { |project_id|
-    where(project_id:)
-  }
-  scope :by_id, lambda { |record_id|
-    where(id: record_id)
-  }
   scope :ordered_by_id_desc, lambda {
     order(id: :desc)
   }
