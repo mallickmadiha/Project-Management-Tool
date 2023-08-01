@@ -15,11 +15,10 @@
       </div>
     </div>
     <div class="card-body" id="<%= @current_item_submit %>-details-list">
-      <p> Stories you are currently working on and stories you're prioratized to work on next.</p>
       <div id="collapseOne<%= @current_item_submit %>" class="accordion-collapse collapse bg-light" aria-labelledby="headingOne<%= @current_item_submit %>" data-bs-parent="#accordionExample2">
         <%= render "details/form" , submit_id: @current_item_submit, type: "currentIteration" %>
       </div>
-      <% @current.order(id: :desc).each do |backlog_item| %>
+      <% @current.ordered_by_id_desc.each do |backlog_item| %>
         <div  type="button" class="mt-2" data-toggle="collapse" data-target="#collapseExample<%= backlog_item.id %>" aria-expanded="false" aria-controls="collapseExample<%= backlog_item.id %>">
           <div class="card">
             <div class="card-body">

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-# spec/models/notification_spec.rb
+# rubocop: disable Metrics/BlockLength
 RSpec.describe Notification, type: :model do
   describe 'associations' do
     it 'belongs to a user' do
@@ -29,4 +29,33 @@ RSpec.describe Notification, type: :model do
       end
     end
   end
+
+  describe 'scope' do
+    context '.mark_as_read_for_user' do
+      it 'marks all unread notifications as read for the given user' do
+        user = create(:user)
+        unread_notification1 = create(:notification, user:, read: false)
+        unread_notification2 = create(:notification, user:, read: false)
+        read_notification = create(:notification, user:, read: true)
+        Notification.mark_as_read_for_user(user)
+        unread_notification1.reload
+        unread_notification2.reload
+        read_notification.reload
+        expect(unread_notification1.read).to eq(true)
+        expect(unread_notification2.read).to eq(true)
+        expect(read_notification.read).to eq(true)
+      end
+    end
+
+    context '.unread_for_user' do
+      it 'returns only the unread notifications for the given user' do
+        user = create(:user)
+        unread_notification1 = create(:notification, user:, read: false)
+        unread_notification2 = create(:notification, user:, read: false)
+        unread_notifications = Notification.unread_for_user(user)
+        expect(unread_notifications).to match_array([unread_notification1, unread_notification2])
+      end
+    end
+  end
 end
+# rubocop: enable Metrics/BlockLength

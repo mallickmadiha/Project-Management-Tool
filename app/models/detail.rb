@@ -18,6 +18,9 @@ class Detail < ApplicationRecord
   validates :description, presence: { message: "Description can't be blank" },
                           length: { in: 5..255, message: 'must be between 5 and 255 characters' }
 
+  scope :ordered_by_id_desc, lambda {
+    order(id: :desc)
+  }
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
 

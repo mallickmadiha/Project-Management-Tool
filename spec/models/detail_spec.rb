@@ -111,5 +111,15 @@ RSpec.describe Detail, type: :model do
       expect(result).to eq(expected_result)
     end
   end
+
+  describe '.ordered_by_id_desc' do
+    it 'orders backlogs by id in descending order' do
+      backlog1 = create(:detail)
+      backlog2 = create(:detail)
+      backlog3 = create(:detail)
+      ordered_backlogs = Detail.ordered_by_id_desc
+      expect(ordered_backlogs).to eq([backlog3, backlog2, backlog1])
+    end
+  end
 end
 # rubocop: enable Metrics/BlockLength

@@ -21,4 +21,17 @@ class User < ApplicationRecord
   has_many :notifications, dependent: :destroy
 
   has_many :sent_chats, class_name: 'Chat', foreign_key: 'sender_id'
+
+  scope :mentioned_users, lambda { |mentioned_usernames|
+                            where(username: mentioned_usernames)
+                          }
+  scope :not_in_project, lambda { |project|
+    where.not(id: project.users.pluck(:id))
+  }
+  scope :with_username_query, lambda { |project, query|
+    project.users.where('username LIKE ?', "%#{query}%")
+  }
+  scope :find_by_session_id, lambda { |session_id|
+    where(id: session_id)
+  }
 end

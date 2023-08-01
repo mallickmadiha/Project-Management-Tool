@@ -12,4 +12,14 @@ class Project < ApplicationRecord
             uniqueness: { scope: :user_id, case_sensitive: false, message: 'is already taken for this user' },
             format: { with: /\A[a-zA-Z][a-zA-Z0-9_ ]*\z/,
                       message: 'should start with letter & can contain letters, numbers, underscore' }
+
+  scope :by_project_id, lambda { |project_id|
+    where(project_id:)
+  }
+  scope :by_id, lambda { |record_id|
+    where(id: record_id)
+  }
+  scope :ordered_by_id_desc, lambda {
+    order(id: :desc)
+  }
 end

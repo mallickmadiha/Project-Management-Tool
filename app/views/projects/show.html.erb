@@ -3,7 +3,7 @@
 <%= render "partials/topnav", project: @project, flag: true %>
 <div id="notificationContainer" class="container py-1 mx-5">
   <% if current_user %>
-    <% current_user.notifications.where(read: false).each do |notification| %>
+    <% current_user.notifications.unread_for_user(current_user).each do |notification| %>
       <li class="list-group-item"><%= notification.message %></li>
     <% end %>
     <div class="d-flex flex-row gap-2">

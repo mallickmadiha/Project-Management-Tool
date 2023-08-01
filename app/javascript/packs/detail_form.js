@@ -17,8 +17,6 @@ $(document).ready(function () {
 
     document.getElementById("detail_title" + submitId).value = "";
     document.getElementById("detail_description" + submitId).value = "";
-    document.getElementById("detail_flagType" + submitId).value =
-      "backFlag";
     document.getElementById("detail_file" + submitId).value = "";
 
     var closeButton = document.getElementById("modalCloseButton" + submitId);
@@ -273,7 +271,7 @@ $(document).ready(function () {
 
           var $newDetail = $(newDetail);
 
-          $(container).append($newDetail);
+          $(container).prepend($newDetail);
 
           var chatInputId = "#chat_message_" + id;
           var chatInput = document.querySelector(chatInputId);

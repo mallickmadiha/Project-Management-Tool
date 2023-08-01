@@ -7,7 +7,6 @@ Rails.application.routes.draw do
 
   get '/signup', to: 'users#new'
   post '/signup', to: 'users#create'
-  get '/username_fetch', to: 'users#username_fetch'
 
   get 'auth/:provider/callback', to: 'sessions#omniauth'
   get 'auth/failure', to: redirect('/')

@@ -92,5 +92,26 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe 'scopes' do
+    context '.mentioned_users' do
+      it 'returns users with mentioned usernames' do
+        user1 = create(:user, username: 'john_doe')
+        user2 = create(:user, username: 'jane_smith')
+        mentioned_usernames = %w[john_doe jane_smith alice]
+        result = User.mentioned_users(mentioned_usernames)
+        expect(result).to contain_exactly(user1, user2)
+      end
+    end
+
+    context '.find_by_session_id' do
+      it 'finds a user by their ID from the session' do
+        user = create(:user)
+        session_id = user.id
+        result = User.find_by_session_id(session_id)
+        expect(result).to eq([user])
+      end
+    end
+  end
 end
 # rubocop: enable Metrics/BlockLength

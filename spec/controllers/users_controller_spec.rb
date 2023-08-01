@@ -53,16 +53,5 @@ RSpec.describe UsersController, type: :controller do
       end
     end
   end
-
-  describe 'GET #username_fetch' do
-    let(:user) { create(:user) }
-
-    before { session[:id] = user.id }
-
-    it 'returns the user JSON' do
-      get :username_fetch
-      expect(response).to have_http_status(:found)
-    end
-  end
 end
 # rubocop:enable Metrics/BlockLength

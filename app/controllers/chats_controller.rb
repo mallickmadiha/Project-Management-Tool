@@ -39,7 +39,7 @@ class ChatsController < ApplicationController
   def create_and_broadcast_notifications
     @notification = Notification.create(message: @message, user_id: current_user.id)
     mentioned_usernames = @chat.message.scan(/@(\w+)/).flatten
-    mentioned_users = User.where(username: mentioned_usernames)
+    mentioned_users = User.mentioned_users(mentioned_usernames)
     mentioned_users.each do |user|
       ActionCable.server.broadcast("notifications_#{user.id}",
                                    { message: 'You have been mentioned in a feature', id: @notification.id })

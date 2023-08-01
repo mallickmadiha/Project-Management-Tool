@@ -5,6 +5,6 @@ class NotificationsController < ApplicationController
   skip_before_action :authenticate_user
 
   def mark_read
-    Notification.where(read: false, user_id: current_user.id).update(read: true)
+    Notification.mark_as_read_for_user(current_user)
   end
 end

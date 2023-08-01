@@ -24,7 +24,7 @@
         <li class="nav-item py-1">
           <button id="notificationButton" class="btn btn-blue mx-3">
             <i class="fas fa-bell fa-xl mt-3"></i>
-            <span class="badge bg-danger displayNone" id="notificationCounter"><%= current_user.notifications.where(read: false).count%></span>
+            <span class="badge bg-danger displayNone" id="notificationCounter"><%= current_user.notifications.unread_for_user(current_user).count%></span>
           </button>
         </li>
         <li class="nav-item py-1">

@@ -2,6 +2,7 @@
 
 # app/controllers/projects_controller.rb
 class ProjectsController < ApplicationController
+  include ProjectsHelper
   skip_before_action :authenticate_user
 
   def index
@@ -33,7 +34,6 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.new(project_params)
     @project.user_id = current_user.id
-
     if save_project_and_associate_user
       render json: { username: @username, project_id: @project.id }
     else
@@ -46,7 +46,7 @@ class ProjectsController < ApplicationController
     return render_404_page if @project.nil?
     return render_404_page unless @project.users.include?(current_user)
 
-    @users = User.where.not(id: @project.users.pluck(:id))
+    @users = User.not_in_project(@project)
     @project_users = @project.users
   end
 
@@ -55,7 +55,6 @@ class ProjectsController < ApplicationController
     return render_404_page if params[:user_id].nil? || project.nil?
 
     user = User.find(params[:user_id])
-
     project.users << user
     redirect_to projects_path
   end
@@ -64,33 +63,5 @@ class ProjectsController < ApplicationController
 
   def project_params
     params.require(:project).permit(:name)
-  end
-
-  def initialize_chats
-    @chats = Chat.all
-    @chat = Chat.new
-  end
-
-  def initialize_flags
-    @backlogs = @details.where(flagType: 'backFlag') || []
-    @current = @details.where(flagType: 'currentIteration')
-    @icebox = @details.where(flagType: 'icebox')
-  end
-
-  def initialize_submit_flags
-    @icebox_item_submit = 'i'
-    @backlog_item_submit = 'b'
-    @current_item_submit = 'c'
-    @search_items = 's'
-  end
-
-  def render_404_page
-    render 'partials/_404'
-  end
-
-  def save_project_and_associate_user
-    @username = current_user.username
-    @project.users << current_user
-    @project.save
   end
 end
