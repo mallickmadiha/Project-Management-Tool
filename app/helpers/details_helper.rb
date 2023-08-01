@@ -5,18 +5,34 @@ module DetailsHelper
   def initialize_chat
     @chats = Chat.all
     @chat = Chat.new
+    @task = Task.new
+  end
+
+  def handle_search_items(search_items)
+    query = search_items[:query].to_s.gsub(/[^\w\s]/, '').strip
+    @project = Project.find_by(id: search_items[:project_id])
+    options = {}
+    options[:id] = query.to_i if query.to_i.positive?
+    @details = filter_details(query, options)
+    @search_items = query
   end
 
   def filter_details(query, options)
     search_items = Detail.search(Detail.search_items(query))
-
-    if @project
+    if options[:id].present?
+      search_items.records.where(id: options[:id])
+    elsif @project
       search_items.records.where(project_id: @project.id)
-    elsif options[:id].present?
-      search_items.records.where(id: detail_id.to_s)
     else
       search_items.records
     end
+  end
+
+  def handle_no_search_items
+    @project = Project.find_by(id: params[:search_items][:project_id])
+    @details = @project ? @project.details : []
+    @search_items = ''
+    initialize_chat
   end
 
   def render_success_response

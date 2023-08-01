@@ -42,14 +42,12 @@ class DetailsController < ApplicationController
   end
 
   def feature_search
-    query = params.dig(:search_items, :query).to_s.gsub(/[^\w\s]/, '').strip
-    @project = Project.find_by(id: params.dig(:search_items, :project_id))
-    options = {}
-    options[:id] = query.to_i if query.to_i.positive?
-    @details = filter_details(query, options)
-    @search_items = query
     initialize_chat
-    @task = Task.new
+    if params[:search_items].present? && params[:search_items][:query].present?
+      handle_search_items(params[:search_items])
+    else
+      handle_no_search_items
+    end
   end
 
   private

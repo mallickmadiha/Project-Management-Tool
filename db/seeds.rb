@@ -103,7 +103,7 @@ projects.each do |project|
       description: detail_descriptions[i],
       status:,
       flagType: flag_type,
-      uuid: SecureRandom.uuid
+      uuid: SecureRandom.uuid.delete('-')
     )
     detail.file.attach(io: File.open(file_path), filename: file_name)
     project.details << detail
@@ -122,7 +122,7 @@ projects.each do |project|
     5.times do |index|
       status = rand(0..1)
       task = Task.create!(
-        name: "Task #{index + 1} for (#{detail.title})",
+        name: "Task #{index + 1} for #{detail.title}",
         status:,
         detail_id: detail.id
       )

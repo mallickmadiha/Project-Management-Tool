@@ -1,6 +1,17 @@
 <%= javascript_pack_tag 'detail_form' %>
 <%= javascript_pack_tag 'detail' %>
 <%= render "partials/topnav", project: @project, flag: false %>
+<div id="notificationContainer" class="container py-1 mx-5">
+  <% if current_user %>
+    <% current_user.notifications.unread_for_user(current_user).each do |notification| %>
+      <li class="list-group-item"><%= notification.message %></li>
+    <% end %>
+    <div class="d-flex flex-row gap-2">
+      <button class="btn btn-warning w-50 mx-auto d-block my-3" id="mark-close-button">Close</button>
+      <button class="btn mybtn-success w-50 mx-auto d-block my-3" id="mark-read-button">Mark As Read</button>
+    </div>
+  <% end %>
+</div>
 <div class="row body-row" id="body-row">
   <%= render "partials/sidenav", project: @project, flag: false %>
   <div class="col">
@@ -18,7 +29,7 @@
      data-bs-parent="#accordionExample">
                 <%= render "details/form", submit_id: @search_items, type: "backFlag" %>
               </div>
-              <% @details.each do |backlog_item| %>
+              <% @details.ordered_by_id_desc.each do |backlog_item| %>
                 <div  type="button" class="mt-2" data-toggle="collapse" data-target="#collapseExample<%= backlog_item.id %>" aria-expanded="false" aria-controls="collapseExample<%= backlog_item.id %>">
                   <div class="card">
                     <div class="card-body">
