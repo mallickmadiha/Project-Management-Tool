@@ -2,6 +2,20 @@
 
 # app/helpers/sessions_helper.rb
 module SessionsHelper
+  def process_user(user)
+    if user
+      process_existing_user(user)
+    else
+      user = find_or_create_user
+
+      if user.valid?
+        process_new_user(user)
+      else
+        redirect_to_root_path_with_error_flash(user.errors)
+      end
+    end
+  end
+
   def find_user_by_email(email)
     User.find_by(email:)
   end
@@ -19,22 +33,8 @@ module SessionsHelper
     redirect_to projects_path, flash: { success: 'User Logged In Successfully' }
   end
 
-  def redirect_to_root_path_with_error_flash
-    redirect_to root_path, flash: { error: 'There was a problem while logging in, Invalid Email or Password' }
-  end
-
-  def process_user(user)
-    if user
-      process_existing_user(user)
-    else
-      user = find_or_create_user
-
-      if user.valid?
-        process_new_user(user)
-      else
-        redirect_to_root_path_with_error_flash
-      end
-    end
+  def redirect_to_root_path_with_error_flash(message)
+    redirect_to root_path, flash: { error: message.full_messages.join(', ') }
   end
 
   def find_or_create_user
@@ -61,10 +61,10 @@ module SessionsHelper
   end
 
   def create_user
-    User.find_or_create_by(uid: omniauth_uid,
-                           provider: omniauth_provider) do |u|
-      user_attributes_set(u)
-    end
+    User.create(uid: omniauth_uid,
+                provider: omniauth_provider, username: request.env['omniauth.auth'][:info][:first_name],
+                email: request.env['omniauth.auth'][:info][:email],
+                password: generate_password_digest)
   end
 
   def omniauth_uid
@@ -73,12 +73,6 @@ module SessionsHelper
 
   def omniauth_provider
     request.env['omniauth.auth'][:provider]
-  end
-
-  def user_attributes_set(user)
-    user.username = request.env['omniauth.auth'][:info][:first_name]
-    user.email = request.env['omniauth.auth'][:info][:email]
-    user.password = generate_password_digest
   end
 
   def generate_password_digest

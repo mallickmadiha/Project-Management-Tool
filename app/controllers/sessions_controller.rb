@@ -10,12 +10,13 @@ class SessionsController < ApplicationController
   def new; end
 
   def create
+    @user = User.new
     user = find_user_by_email(params[:email])
     if valid_authentication?(user, params[:password])
       user_session_set(user)
       redirect_to_projects_path_with_success_flash
     else
-      redirect_to_root_path_with_error_flash
+      redirect_to root_path, flash: { error: 'There was a problem while logging in, Invalid Email or Password' }
     end
   end
 

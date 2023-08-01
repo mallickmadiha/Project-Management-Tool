@@ -2,7 +2,7 @@
 
 <div class="container my-2">
   <div class="field form-group">
-    <label for="project_name" class="required">Name</label>
+    <label for="project_name" class="required" required="true">Name</label>
     <input type="text" id="project_name" class="form-control" name="project[name]">
     <p  class="text-danger" id="projectForm"><%= error_messages(@project, :name) %></p>
   </div>

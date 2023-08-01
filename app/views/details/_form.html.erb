@@ -2,11 +2,11 @@
   <h4 class="text-center text-gray-dark">Add a new Feature <i class="fa fa-plus-circle"></i></h4>
   <div class="field form-group text-dark my-3">
     <label for="detail_title" class="required">Title</label>
-    <input type="text" name="detail[title]" id="detail_title<%= submit_id %>" class="form-control" />
+    <input type="text" name="detail[title]" id="detail_title<%= submit_id %>" class="form-control" required="true" />
   </div>
   <div class="field form-group text-dark my-3">
     <label for="detail_description" class="required">Description</label>
-    <textarea name="detail[description]" id="detail_description<%= submit_id %>" class="form-control"></textarea>
+    <textarea name="detail[description]" id="detail_description<%= submit_id %>" class="form-control" required="true"></textarea>
   </div>
   <input type="hidden" name="detail[flagType]" value="<%= type %>" id="detail_flagType<%= submit_id %>" />
   <div class="field form-group col-m-6 text-dark">
