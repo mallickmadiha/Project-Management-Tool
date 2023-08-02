@@ -41,6 +41,7 @@
 <div class="container">
   <h3 class="text-center mt-4">All Projects</h3>
   <div class="row mb-3" id="projects-display">
+  <% if @projects.length > 0 %>
     <% @projects.ordered_by_id_desc.each do |project| %>
       <div class="col-md-4">
         <div class="card my-3">
@@ -64,5 +65,8 @@
         </div>
       </div>
     <% end %>
+  <% else %>
+    <p class="text-center text-muted my-5" id="noproject"> No projects found click on "+ Create Project" to create a new project.</p>
+  <% end %>
   </div>
 </div>

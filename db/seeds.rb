@@ -103,7 +103,7 @@ projects.each do |project|
       description: detail_descriptions[i],
       status:,
       flagType: flag_type,
-      uuid: SecureRandom.uuid.delete('-')
+      uuid: SecureRandom.uuid.gsub(/[^\w\s]/, '').strip
     )
     detail.file.attach(io: File.open(file_path), filename: file_name)
     project.details << detail

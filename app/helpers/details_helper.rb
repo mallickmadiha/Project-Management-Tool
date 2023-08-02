@@ -48,10 +48,10 @@ module DetailsHelper
 
   def update_users_notification
     @detail_id = params[:id]
-    @message = "Status of Feature has been changed to #{@detail.status}"
+    @message = "Status of Feature #{@detail.title} has been changed to #{@detail.status}"
 
     @notification = Notification.create(message: @message, user_id: current_user.id)
-    @detail.users.each do |user|
+    @project.users.each do |user|
       ActionCable.server.broadcast("notifications_#{user.id}", { message: @message, id: @notification.id })
       send_notification_email_to_user(user)
     end

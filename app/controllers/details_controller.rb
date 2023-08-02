@@ -11,7 +11,7 @@ class DetailsController < ApplicationController
 
   def create
     @detail = Detail.new(detail_params)
-    @detail.uuid = SecureRandom.hex(10)
+    @detail.uuid = SecureRandom.uuid.gsub(/[^\w\s]/, '').strip
     if @detail.save
       render_success_response
     else
@@ -22,6 +22,7 @@ class DetailsController < ApplicationController
   def change_status
     @detail = Detail.find(params[:id])
     @detail.status = params[:status]
+    @project = Project.find(@detail.project_id)
     if @detail.save
       update_users_notification
     else
@@ -31,12 +32,11 @@ class DetailsController < ApplicationController
 
   def update_user_ids
     @detail = Detail.find(params[:id])
-    @project_id = params[:project_id]
     @users = User.mentioned_users(params[:username])
     new_users = @users - @detail.users
     add_new_users_to_detail(new_users)
     @detail_id = params[:id]
-    @message = 'You have been Added to a Feature'
+    @message = "You have been Added to a Feature #{@detail.title}"
     @notification = create_new_notification
     broadcast_notification_to_new_users(new_users)
   end

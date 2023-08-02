@@ -32,6 +32,8 @@ $(document).ready(function () {
     .getElementById("create-project-btn")
     .addEventListener("click", function () {
       const name = document.getElementById("project_name").value.trim();
+
+      document.getElementById("noproject").innerHTML = "";
       
       fetch("/projects", {
         method: "POST",
