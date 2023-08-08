@@ -1,12 +1,12 @@
 <%= render 'partials/outernav' %>
 <%= link_to 'Go Back', user_path(@user.username), class: 'btn mybtn-success m-3' %>
 <%= render 'partials/flash' %>
-<h3 class="fw-bold text-center my-3">Edit Profile</h3>
-<div class="container card py-4 d-flex flex-row justify-content-around align-items-center flex-wrap">
+<h3 class="fw-bold text-center">Edit Profile</h3>
+<div class="container card my-5 d-flex flex-row justify-content-around align-items-center flex-wrap">
   <div class="profile-container">
     <%= @user.username[0].upcase %>
   </div>
-  <div class="my-5">
+  <div class="my-4">
     <%= form_for @user, url: user_path(@user), method: :patch, html: { class: 'profile-form' } do |f| %>
       <div class="form-group my-2">
         <%= f.label :name, class: 'fw-bold' %>

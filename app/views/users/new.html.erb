@@ -1,7 +1,7 @@
-<%= image_tag "logo.png", class: "img-fluid my-4 mx-auto d-block" %>
-<div class="mx-auto container card bg-white h-75 mt-5 block">
+<%= image_tag "logo.png", class: "img-fluid my-2 mx-auto d-block" %>
+<div class="mx-auto container card bg-white h-50 mt-1 block">
   <div class="card-body">
-    <h2 class="text-center pt-4 bold">Sign Up</h2>
+    <h2 class="text-center pt-2 bold">Sign Up</h2>
     <%= form_with model: @user, url: "/signup" do |form| %>
       <div class="form-group my-3">
         <%= form.label :"Name", class: "required" %>

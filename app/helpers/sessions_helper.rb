@@ -69,7 +69,7 @@ module SessionsHelper
     {
       uid: omniauth_uid,
       provider: omniauth_provider,
-      username: request.env['omniauth.auth'][:info][:first_name],
+      username: request.env['omniauth.auth'][:info][:first_name].strip.gsub(' ', ''),
       email: request.env['omniauth.auth'][:info][:email],
       name: build_full_name,
       password: build_password

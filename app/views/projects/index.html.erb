@@ -24,7 +24,7 @@
 <%= render 'partials/flash' %>
 <%= link_to 'Go Back', :back, class: 'btn mybtn-success m-3' %>
 <div class="container">
-  <h3 class="text-center mt-4">All Projects</h3>
+  <h3 class="text-center">All Projects</h3>
   <div class="row mb-3" id="projects-display">
     <% if @projects.length > 0 %>
       <% @projects.ordered_by_id_desc.each do |project| %>
