@@ -1,21 +1,4 @@
-  <% flash.each do |key, message| %>
-  <div class="flash-message alert alert-<%= key %>">
-    <span class="flash-message-text"><%= message %></span>
-    <button type="button" class="flash-message-close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-<% end %>
-<div class="d-flex justify-content-between align-items-center flex-wrap p-1 text-white px-lg-2 projectNav">
-  <%= link_to root_path, class:"text-white" do %>
-    <div class="text-center heading" ><i class="fa fa-sharp fa-light fa-gears mx-2"></i> ProjectTracker </div>
-  <% end %>
-  <div><i class="fa fa-solid fa-user mx-2"></i> <%= current_user.username %>
-    <%= link_to logout_path, method: :post do %>
-      <i class="fa fa-solid fa-right-from-bracket mx-3 text-white"></i>
-    <% end %>
-  </div>
-</div>
+<%= render 'partials/outernav' %>
 <nav class="d-flex justify-content-around align-items-center bg-white flex-wrap p-3">
   <div class="text-center sub-heading" >Projects </div>
   <button type="button" class="btn mybtn-success" id="open-modal-project-create" data-toggle="modal" data-target="#exampleModalCenter">
@@ -38,35 +21,36 @@
     </div>
   </div>
 </nav>
+<%= render 'partials/flash' %>
+<%= link_to 'Go Back', :back, class: 'btn mybtn-success m-3' %>
 <div class="container">
   <h3 class="text-center mt-4">All Projects</h3>
   <div class="row mb-3" id="projects-display">
-  <% if @projects.length > 0 %>
-    <% @projects.ordered_by_id_desc.each do |project| %>
-      <div class="col-md-4">
-        <div class="card my-3">
-          <div class="card-header text-dark d-flex justify-content-end">
-            <a href="/projects/<%= project.id %>/adduser" class="text-dark"><i class="fa fa-solid fa-user-plus mx-2 mt-1"></i></a>
-            <i class="fa fa-duotone fa-lock mx-2 mt-1"></i>
-            <a href="/projects/<%= project.id %>" target="_blank" class="text-dark">
-              <i class="fa fa-solid fa-up-right-from-square mx-2"></i>
-            </a>
-          </div>
-          <a href="/projects/<%= project.id %>" target="_blank" class="pointer">
-            <div class="card-body">
-              <h5 class="card-title text-dark"><%= project.name %></h5>
-              <div class="d-flex justify-content-end">
-                <div class="icon-container">
-                  <%= User.find(project.user_id).username[0].upcase %>
+    <% if @projects.length > 0 %>
+      <% @projects.ordered_by_id_desc.each do |project| %>
+        <div class="col-lg-4 col-md-6">
+          <div class="card my-3">
+            <div class="card-header text-dark d-flex justify-content-end">
+              <a href="/projects/<%= project.id %>/adduser" class="text-dark" title="Add User to Project"><i class="fa fa-solid fa-user-plus mx-2 mt-1"></i></a>
+              <a href="/projects/<%= project.id %>" target="_blank" class="text-dark" title="Open Project">
+                <i class="fa fa-solid fa-up-right-from-square mx-2"></i>
+              </a>
+            </div>
+            <a href="/projects/<%= project.id %>" target="_blank" class="pointer">
+              <div class="card-body">
+                <h5 class="card-title text-dark"><%= project.name %></h5>
+                <div class="d-flex justify-content-end">
+                  <div class="icon-container">
+                    <%= User.find(project.user_id).username[0].upcase %>
+                  </div>
                 </div>
               </div>
-            </div>
-          </a>
+            </a>
+          </div>
         </div>
-      </div>
+      <% end %>
+    <% else %>
+      <p class="text-center text-muted my-5" id="noproject"> No projects found click on "+ Create Project" to create a new project.</p>
     <% end %>
-  <% else %>
-    <p class="text-center text-muted my-5" id="noproject"> No projects found click on "+ Create Project" to create a new project.</p>
-  <% end %>
   </div>
 </div>

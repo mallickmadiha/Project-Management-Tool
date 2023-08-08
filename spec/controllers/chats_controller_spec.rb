@@ -44,7 +44,7 @@ RSpec.describe ChatsController, type: :controller do
       it 'is not valid without a message' do
         chat = Chat.new(sender: user, detail:)
         expect(chat).not_to be_valid
-        expect(chat.errors[:message]).to include("Message can't be blank")
+        expect(chat.errors[:message]).to include('must be between 5 (min) and 255 (max) characters')
       end
     end
   end

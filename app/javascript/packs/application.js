@@ -18,6 +18,14 @@ $(document).on("turbolinks:load", function () {
     },
   });
 
+  function closeFlashMessage() {
+    var flashMessage = document.querySelector('.flash-message');
+    if (flashMessage) {
+      flashMessage.style.display = 'none';
+    }
+  }
+  setTimeout(closeFlashMessage, 3000);
+
   const notificationContainer = document.getElementById(
     "notificationContainer"
   );

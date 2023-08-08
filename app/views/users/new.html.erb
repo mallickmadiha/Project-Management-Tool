@@ -4,6 +4,11 @@
     <h2 class="text-center pt-4 bold">Sign Up</h2>
     <%= form_with model: @user, url: "/signup" do |form| %>
       <div class="form-group my-3">
+        <%= form.label :"Name", class: "required" %>
+        <%= form.text_field :name, class: "form-control", placeholder: "Enter Your Name", required: true %>
+        <p  class="text-danger"><%= error_messages(@user, :name) %></p>
+      </div>
+      <div class="form-group my-3">
         <%= form.label :"UserName (Can be Of Only One Word)", class: "required" %>
         <%= form.text_field :username, class: "form-control", placeholder: "Enter Your UserName", required: true %>
         <p class="text-danger"><%= error_messages(@user, :username) %></p>

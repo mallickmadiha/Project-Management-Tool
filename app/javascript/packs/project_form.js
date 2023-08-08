@@ -33,8 +33,6 @@ $(document).ready(function () {
     .addEventListener("click", function () {
       const name = document.getElementById("project_name").value.trim();
 
-      document.getElementById("noproject").innerHTML = "";
-      
       fetch("/projects", {
         method: "POST",
         headers: {
@@ -57,6 +55,9 @@ $(document).ready(function () {
         })
         .then(function (data) {
           showNotification("Project Created Successfully");
+
+          if (document.getElementById("noproject")) {document.getElementById("noproject").innerHTML = "";}
+
           let username = data.username;
           let project_id = data.project_id;
 
@@ -73,10 +74,9 @@ $(document).ready(function () {
           card.innerHTML = `
              <div class="card my-3">
                <div class="card-header text-dark d-flex justify-content-end">
-                <a href="projects/${project_id}/adduser" class="text-dark"
+                <a href="projects/${project_id}/adduser" class="text-dark" title="Add User to Project"
                 ><i class="fa fa-solid fa-user-plus mx-2 mt-1"></i></a>
-               <i class="fa fa-duotone fa-lock mx-2 mt-1"></i>
-               <a href="/projects/${project_id}" target="_blank" class="text-dark">
+               <a href="/projects/${project_id}" target="_blank" class="text-dark" title="Open Project">
                <i class="fa fa-solid fa-up-right-from-square mx-2"></i>
                </a>
                </div>

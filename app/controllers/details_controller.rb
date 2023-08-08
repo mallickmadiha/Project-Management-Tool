@@ -33,12 +33,14 @@ class DetailsController < ApplicationController
   def update_user_ids
     @detail = Detail.find(params[:id])
     @users = User.mentioned_users(params[:username])
-    new_users = @users - @detail.users
-    add_new_users_to_detail(new_users)
-    @detail_id = params[:id]
-    @message = "You have been Added to a Feature #{@detail.title}"
-    @notification = create_new_notification
-    broadcast_notification_to_new_users(new_users)
+
+    if @users.length.positive?
+      new_users = @users - @detail.users
+      assign_new_users(new_users, @detail)
+      create_and_broadcast_notification(new_users, @detail.title)
+    else
+      @message = 'Please Add a User to Assign to your Feature'
+    end
   end
 
   def feature_search
@@ -54,5 +56,16 @@ class DetailsController < ApplicationController
 
   def detail_params
     params.require(:detail).permit(:title, :description, :project_id, :flagType, file: [])
+  end
+
+  def assign_new_users(new_users, detail)
+    add_new_users_to_detail(new_users)
+    @detail_id = detail.id
+  end
+
+  def create_and_broadcast_notification(users, title)
+    @message = "User(s) have been added to the Feature #{title}"
+    @notification = create_new_notification
+    broadcast_notification_to_new_users(users)
   end
 end

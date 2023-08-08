@@ -1,3 +1,5 @@
+<%= render partial: 'partials/notification', message: @message %>
+
 var userContainer = document.getElementById("user-container<%= @detail_id %>");
 
 <% @users.each do |user| %>

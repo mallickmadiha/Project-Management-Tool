@@ -11,6 +11,30 @@ $(document).ready(function () {
     return null;
   }
 
+  function showNotification(text) {
+    if (text) {
+      const notification = document.createElement("div");
+      notification.classList.add("notification");
+      notification.innerText = text;
+
+      document.body.appendChild(notification);
+
+      setTimeout(function () {
+        notification.classList.add("show");
+        setTimeout(function () {
+          closeNotification(notification);
+        }, 3000);
+      }, 100);
+    }
+  }
+
+  function closeNotification(notification) {
+    notification.classList.remove("show");
+    setTimeout(function () {
+      document.body.removeChild(notification);
+    }, 300);
+  }
+
   $(".submit-button").on("click", function (event) {
     event.preventDefault();
     var submitId = $(this).data("submit-id");
@@ -29,29 +53,7 @@ $(document).ready(function () {
   $(".submit-feature").on("click", function (event) {
     event.preventDefault();
     var submitId = $(this).data("submit-id");
-    function showNotification(text) {
-      if (text) {
-        const notification = document.createElement("div");
-        notification.classList.add("notification");
-        notification.innerText = text;
-
-        document.body.appendChild(notification);
-
-        setTimeout(function () {
-          notification.classList.add("show");
-          setTimeout(function () {
-            closeNotification(notification);
-          }, 3000);
-        }, 100);
-      }
-    }
-
-    function closeNotification(notification) {
-      notification.classList.remove("show");
-      setTimeout(function () {
-        document.body.removeChild(notification);
-      }, 300);
-    }
+    
     var title = document.getElementById("detail_title" + submitId).value;
     var description = document.getElementById(
       "detail_description" + submitId
@@ -168,7 +170,7 @@ $(document).ready(function () {
             <div class="flash-task-container${id}"></div>
               <div>
                 <label for="task_name">Task Name</label>
-                <input type="text" name="task_name" class="form-control pointer" id="task_name${id}">
+                <input type="text" name="task_name" required="true" class="form-control pointer" id="task_name${id}">
                 <button type="button" class="message-btn mx-0 my-3" id="addTaskButton${id}">Add Task</button>
               </div>
             </div>
@@ -181,7 +183,7 @@ $(document).ready(function () {
                   ${users.map((user) => `<p>${user.username}</p>`).join("")}
                 </div>
                 <form action="/projects/${project_id}/details/${id}/update_user_ids" method="post" data-remote="true">
-                  <input type="text" name="username[]" id="search-input${id}" class="form-control" placeholder="Type username to search..." />
+                  <input type="text" name="username[]" id="search-input${id}" class="form-control" required="true" placeholder="Type username to search..." />
                   <input type="hidden" name="authenticity_token" value="{{form_authenticity_token}}">
                   <div id="search-results${id}"></div>
                   <button type="submit" class="message-btn mt-3">Add User</button>
@@ -249,7 +251,7 @@ $(document).ready(function () {
                   <div class="form-group d-flex flex-row">
                     <label for="chat_message_${id}" class="mt-3 mx-2 d-none">Message</label>
                     <div class="position-relative">
-                      <textarea class="form-control my-2" name="chat[message]" id="chat_message_${id}"></textarea>
+                      <textarea class="form-control my-2" name="chat[message]" id="chat_message_${id}" required="true"></textarea>
                       <div id="search-results-chat${id}" class="search-results"
                       >
                   </div>
@@ -524,28 +526,6 @@ $(document).ready(function () {
             var collapseElement = document.getElementById(collapseElementid);
             collapseElement.classList.remove("show");
           });
-
-          function showNotification(text) {
-            const notification = document.createElement("div");
-            notification.classList.add("notification");
-            notification.innerText = text;
-
-            document.body.appendChild(notification);
-
-            setTimeout(function () {
-              notification.classList.add("show");
-              setTimeout(function () {
-                closeNotification(notification);
-              }, 3000);
-            }, 100);
-          }
-
-          function closeNotification(notification) {
-            notification.classList.remove("show");
-            setTimeout(function () {
-              document.body.removeChild(notification);
-            }, 300);
-          }
         },
         error: function (response) {
           showNotification(response.responseJSON.errors);

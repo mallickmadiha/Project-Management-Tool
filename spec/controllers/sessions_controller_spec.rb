@@ -4,7 +4,7 @@ require 'rails_helper'
 
 # rubocop:disable Metrics/BlockLength
 RSpec.describe SessionsController, type: :controller do
-  let(:user) { create(:user, email: 'user@example.com', password: 'password') }
+  let(:user) { create(:user, email: 'user@example.com', password: 'Madiha@123##') }
 
   describe 'GET #new' do
     it 'renders the login form' do
@@ -16,7 +16,7 @@ RSpec.describe SessionsController, type: :controller do
   describe 'POST #create' do
     context 'with valid credentials' do
       it 'logs in the user and redirects to projects path' do
-        post :create, params: { email: 'user@example.com', password: 'password' }
+        post :create, params: { email: 'user@example.com', password: 'Madiha@123##' }
       end
     end
 

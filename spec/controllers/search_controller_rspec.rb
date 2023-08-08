@@ -5,8 +5,8 @@ require 'rails_helper'
 # rubocop:disable Metrics/BlockLength
 RSpec.describe SearchController, type: :controller do
   describe 'GET #search' do
-    let(:user1) { create(:user, username: 'john_doe') }
-    let(:user2) { create(:user, username: 'jane_doe') }
+    let(:user1) { create(:user, username: 'johndoe') }
+    let(:user2) { create(:user, username: 'janedoe') }
     let(:project) { create(:project) }
     let(:detail) { create(:detail, project:) }
 
@@ -26,7 +26,7 @@ RSpec.describe SearchController, type: :controller do
         expect(json_response.size).to eq(2)
 
         usernames = json_response.map { |user| user['username'] }
-        expect(usernames).to match_array(%w[john_doe jane_doe])
+        expect(usernames).to match_array(%w[johndoe janedoe])
       end
     end
 

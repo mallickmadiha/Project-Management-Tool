@@ -32,7 +32,7 @@ RSpec.describe User, type: :model do
   describe 'validations' do
     context 'positive test cases' do
       it 'is valid with valid attributes' do
-        user = FactoryBot.build(:user, username: 'john_doe', email: 'john@example.com', password: 'password')
+        user = FactoryBot.build(:user, username: 'johndoe', email: 'john@example.com', password: 'Madiha@123##')
 
         expect(user).to be_valid
         expect(user.errors).to be_empty
@@ -41,54 +41,54 @@ RSpec.describe User, type: :model do
 
     context 'negative test cases' do
       it 'is not valid without a username' do
-        user = FactoryBot.build(:user, username: nil, email: 'john@example.com', password: 'password')
+        user = FactoryBot.build(:user, username: nil, email: 'john@example.com', password: 'Madiha@123##')
 
         expect(user).not_to be_valid
         expect(user.errors[:username]).to include("can't be blank")
       end
 
       it 'is not valid with a username containing spaces' do
-        user = FactoryBot.build(:user, username: 'john doe', email: 'john@example.com', password: 'password')
+        user = FactoryBot.build(:user, username: 'john doe', email: 'john@example.com', password: 'Madiha@123##')
 
         expect(user).not_to be_valid
-        expect(user.errors[:username]).to include('must be a single word')
+        expect(user.errors[:username]).to include('must be a single word (no spaces allowed)')
       end
 
       it 'is not valid without an email' do
-        user = FactoryBot.build(:user, username: 'john_doe', email: nil, password: 'password')
+        user = FactoryBot.build(:user, username: 'johndoe', email: nil, password: 'Madiha@123##')
 
         expect(user).not_to be_valid
         expect(user.errors[:email]).to include("can't be blank")
       end
 
       it 'is not valid with an invalid email format' do
-        user = FactoryBot.build(:user, username: 'john_doe', email: 'john@example', password: 'password')
+        user = FactoryBot.build(:user, username: 'johndoe', email: 'john@example', password: 'Madiha@123##')
 
         expect(user).not_to be_valid
         expect(user.errors[:email]).to include('must be a valid email address')
       end
 
       it 'is not valid if the same username exists for another user' do
-        FactoryBot.create(:user, username: 'john_doe', email: 'john@example.com', password: 'password')
-        user = FactoryBot.build(:user, username: 'john_doe', email: 'another_john@example.com', password: 'password')
+        FactoryBot.create(:user, username: 'johndoe', email: 'john@example.com', password: 'Madiha@123##')
+        user = FactoryBot.build(:user, username: 'johndoe', email: 'another_john@example.com', password: 'Madiha@123##')
 
         expect(user).not_to be_valid
         expect(user.errors[:username]).to include('is already taken for other user')
       end
 
       it 'is not valid if the same email exists for another user' do
-        FactoryBot.create(:user, username: 'john_doe', email: 'john@example.com', password: 'password')
-        user = FactoryBot.build(:user, username: 'another_john', email: 'john@example.com', password: 'password')
+        FactoryBot.create(:user, username: 'johndoe', email: 'john@example.com', password: 'Madiha@123##')
+        user = FactoryBot.build(:user, username: 'another_john', email: 'john@example.com', password: 'Madiha@123##')
 
         expect(user).not_to be_valid
         expect(user.errors[:email]).to include('is already taken for other user')
       end
 
       it 'is not valid without a password' do
-        user = FactoryBot.build(:user, username: 'john_doe', email: 'john@example.com', password: nil)
+        user = FactoryBot.build(:user, username: 'johndoe', email: 'john@example.com', password: nil)
 
         expect(user).not_to be_valid
-        expect(user.errors[:password_digest]).to include("can't be blank")
+        expect(user.errors[:password]).to include("can't be blank")
       end
     end
   end
@@ -96,9 +96,9 @@ RSpec.describe User, type: :model do
   describe 'scopes' do
     context '.mentioned_users' do
       it 'returns users with mentioned usernames' do
-        user1 = create(:user, username: 'john_doe')
-        user2 = create(:user, username: 'jane_smith')
-        mentioned_usernames = %w[john_doe jane_smith alice]
+        user1 = create(:user, username: 'johndoe')
+        user2 = create(:user, username: 'janesmith')
+        mentioned_usernames = %w[johndoe janesmith alice]
         result = User.mentioned_users(mentioned_usernames)
         expect(result).to contain_exactly(user1, user2)
       end

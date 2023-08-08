@@ -25,7 +25,7 @@ RSpec.describe Notification, type: :model do
         notification = FactoryBot.build(:notification, message: nil)
 
         expect(notification).not_to be_valid
-        expect(notification.errors[:message]).to include("Message can't be blank")
+        expect(notification.errors[:message]).to include("can't be blank")
       end
     end
   end

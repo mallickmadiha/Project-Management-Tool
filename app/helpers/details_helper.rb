@@ -79,4 +79,16 @@ module DetailsHelper
                                    })
     end
   end
+
+  def link_mentions(message)
+    message.gsub(/@(\w+)/) do |mention|
+      username = mention[1..]
+      user = User.find_by(username:)
+      if user
+        link_to mention, user_path(user.username), class: 'text-dark pointer'
+      else
+        mention
+      end
+    end
+  end
 end

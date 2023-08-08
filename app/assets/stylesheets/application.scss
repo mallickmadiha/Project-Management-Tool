@@ -15,15 +15,19 @@ a {
   text-decoration: none;
 }
 
-.panel{
+.link-text {
+  color: #fff;
+}
+
+.panel {
   width: 100%;
 }
 
-.main-container{
-  background-color: #F3F4F4;
+.main-container {
+  background-color: #f3f4f4;
 }
 
-.body-bg{
+.body-bg {
   background-color: #f1f2f4;
 }
 
@@ -37,12 +41,13 @@ a {
   color: #ffff;
 }
 
-.mybtn-success:hover{
+.mybtn-success:hover {
   color: #ffff;
 }
 
-.white-line{
-  background-color: white; margin: 0px
+.white-line {
+  background-color: white;
+  margin: 0px;
 }
 
 .btn-blue {
@@ -62,40 +67,110 @@ a {
   left: -8px;
 }
 
-.body-row{
+.body-row {
   background-color: #212123;
 }
 
-.heading{
-  font-weight:bold; font-size: 20px
+.heading {
+  font-weight: bold;
+  font-size: 20px;
 }
 
-.sub-heading{
-  font-weight:semibold; font-size: 20px
+.sub-heading {
+  font-weight: semibold;
+  font-size: 20px;
 }
 
-.projectNav{
+.projectNav {
   background-color: #256188;
 }
 
-.modal-close-btn{
-  border: none;background: transparent;
+.modal-close-btn {
+  border: none;
+  background: transparent;
 }
 
-.close-icon{
+.close-icon {
   color: #ff4d4d;
 }
 
-.pointer{
+.pointer {
   cursor: pointer;
 }
 
-.mt-10{
+.mt-10 {
   margin-top: 8rem;
 }
 
-.text-upper{
+.text-upper {
   text-transform: uppercase;
   font-weight: bold;
   font-size: 12px;
+}
+
+.profile-container {
+  background: #a1a4ad;
+  color: #fff;
+  border-radius: 50%;
+  width: 300px;
+  font-size: 147px;
+  height: 300px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+}
+
+.edit-btn{
+  border: 2px solid grey;
+}
+
+.edit-btn:hover{
+  background-color: white;
+  transition: 0.3s ease-in-out;
+}
+
+.line-break{
+  width:22rem
+}
+
+@media (max-width: 605px) {
+  * {
+    font-size: 14px; 
+  }
+  .sidebar-collapsed {
+    width: 55px;
+  }
+  .sidebar-expanded {
+    width: 55px;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 500px) {
+  * {
+    font-size: 12px; 
+  }
+  .sidebar-collapsed {
+    width: 45px;
+  }
+  .sidebar-expanded {
+    width: 45px;
+  }
+}
+
+@media (max-width: 355px) {
+  * {
+    font-size: 10px; 
+  }
+  .sidebar-collapsed {
+    width: 40px;
+  }
+  .sidebar-expanded {
+    width: 40px;
+  }
+  .text-upper{
+    font-size: 8px;
+  }
 }

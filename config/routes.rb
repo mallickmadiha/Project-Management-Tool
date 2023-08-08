@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   get '/signup', to: 'users#new'
   post '/signup', to: 'users#create'
+  resources :users, only: %i[edit update destroy]
+  resources :users, param: :username, only: [:show]
 
   get 'auth/:provider/callback', to: 'sessions#omniauth'
   get 'auth/failure', to: redirect('/')
@@ -26,7 +28,6 @@ Rails.application.routes.draw do
   end
 
   post '/change_status/:id', to: 'details#change_status'
-  post 'add_project_user', to: 'projects#add_project_user'
   get 'search_items', to: 'details#feature_search', as: 'search_items'
   post '/search/:id', to: 'search#search', as: 'search'
   post '/notifications/mark_read', to: 'notifications#mark_read'

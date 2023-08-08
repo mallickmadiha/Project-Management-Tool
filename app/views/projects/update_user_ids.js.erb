@@ -1,0 +1,46 @@
+var flashContainer = document.getElementById("flash-container");
+
+while (flashContainer.firstChild) {
+  flashContainer.removeChild(flashContainer.firstChild);
+}
+
+<% flash.each do |key, message| %>
+  var flashMessage = document.createElement("div");
+  flashMessage.className = "flash-message alert alert-<%= key %>";
+  flashMessage.innerHTML = '<span class="flash-message-text"><%= j message %></span>' +
+    '<button type="button" class="flash-message-close" data-dismiss="alert" aria-label="Close">' +
+    '<span aria-hidden="true">&times;</span>' +
+    '</button>';
+  flashContainer.appendChild(flashMessage);
+<% end %>
+
+var userContainer = document.querySelector(".user-container"); 
+
+<% if @users %>
+  <% @users.each do |user| %>
+    var email = "<%= j user.email %>";
+    var username = "<%= j user.username %>";
+    var userPath = "<%= j(user_path(user.username)) %>";
+    var userDiv = document.createElement("div");
+    userDiv.innerHTML = '<a href="' + userPath + '"><div class="py-2 text-dark"> <strong><span>Email:</span></strong> ' + email + ' <strong><span>Username:</span></strong> ' + username + '</div></a>' + userDiv.innerHTML;
+
+    var existingUserDivs = Array.from(userContainer.querySelectorAll(".user-info")).map(function(userInfo) {
+      return userInfo.innerHTML.trim();
+    });
+
+    if (!existingUserDivs.includes(userDiv.innerHTML.trim())) {
+      userContainer.prepend(userDiv);
+    }
+  <% end %>
+<% end %>
+
+$(".ss-value-delete").click();
+
+function closeFlashMessage() {
+  var flashMessage = document.querySelector('.flash-message');
+  if (flashMessage) {
+    flashMessage.style.display = 'none';
+  }
+}
+setTimeout(closeFlashMessage, 5000);
+

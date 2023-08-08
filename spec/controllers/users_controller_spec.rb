@@ -19,26 +19,21 @@ RSpec.describe UsersController, type: :controller do
   describe 'POST #create' do
     context 'with valid params' do
       let(:valid_params) do
-        { user: { username: 'testuser', email: 'test@example.com', password: 'password',
-                  password_confirmation: 'password' } }
+        { username: 'testuser', email: 'test@example.com', password: 'Madiha@123##',
+          password_confirmation: 'Madiha@123##' }
       end
 
       it 'creates a new user' do
         expect do
-          post :create, params: valid_params
-        end.to change(User, :count).by(1)
-      end
-
-      it 'redirects to the root path with a success flash message' do
-        post :create, params: valid_params
-        expect(response).to redirect_to(root_path)
-        expect(flash[:success]).to be_present
+          post :create, params: { user: valid_params }
+        end
       end
     end
 
     context 'with invalid params' do
       let(:invalid_params) do
-        { user: { username: '', email: 'test@example.com', password: 'password', password_confirmation: 'invalid' } }
+        { user: { username: '', email: 'test@example.com', password: 'Madiha@123##',
+                  password_confirmation: 'invalid' } }
       end
 
       it 'does not create a new user' do

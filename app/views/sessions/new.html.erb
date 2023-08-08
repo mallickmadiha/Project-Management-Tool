@@ -1,11 +1,4 @@
-  <% flash.each do |key, message| %>
-  <div class="flash-message alert alert-<%= key %>">
-    <span class="flash-message-text"><%= message %></span>
-    <button type="button" class="flash-message-close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-<% end %>
+<%= render 'partials/flash' %>
 <nav class="d-flex justify-content-center align-items-center bg-white flex-wrap">
   <div class="col-md-6 col-sm-12">
     <%= image_tag "logo.png", class: "img-fluid w-25 my-2 mx-auto d-block" %>

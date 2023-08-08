@@ -61,10 +61,27 @@ module SessionsHelper
   end
 
   def create_user
-    User.create(uid: omniauth_uid,
-                provider: omniauth_provider, username: request.env['omniauth.auth'][:info][:first_name],
-                email: request.env['omniauth.auth'][:info][:email],
-                password: generate_password_digest)
+    user_attributes = build_user_attributes
+    User.create(user_attributes)
+  end
+
+  def build_user_attributes
+    {
+      uid: omniauth_uid,
+      provider: omniauth_provider,
+      username: request.env['omniauth.auth'][:info][:first_name],
+      email: request.env['omniauth.auth'][:info][:email],
+      name: build_full_name,
+      password: build_password
+    }
+  end
+
+  def build_password
+    "#{('A'..'D').to_a} #{('e'..'h').to_a} #{'!@#$%^&*'.chars.sample} #{SecureRandom.hex(6)}}"
+  end
+
+  def build_full_name
+    "#{request.env['omniauth.auth'][:info][:first_name]} #{request.env['omniauth.auth'][:info][:last_name]}"
   end
 
   def omniauth_uid
@@ -73,10 +90,6 @@ module SessionsHelper
 
   def omniauth_provider
     request.env['omniauth.auth'][:provider]
-  end
-
-  def generate_password_digest
-    SecureRandom.hex(15)
   end
 
   def set_access_token_omni

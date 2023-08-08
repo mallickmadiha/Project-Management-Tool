@@ -3,18 +3,20 @@
 user1 = User.create!(
   username: 'madihakreeti',
   email: 'madiha.mallick@kreeti.com',
-  password: '12345'
+  name: 'Madiha Kreeti',
+  password: 'Madiha@123##'
 )
 
 user2 = User.create!(
   username: 'madihamallick',
   email: 'mallickmadiha9031@gmail.com',
-  password: '12345'
+  name: 'Madiha Mallick',
+  password: 'Madiha@123##'
 )
 
 usernames = %w[
   john123 sarah89 alexander emily22 lucas007
-  olivia2000 davidm sophie21 michael23 emma_rose
+  olivia2000 davidm sophie21 michael23 emmarose
 ]
 emails = [
   'john123@example.com', 'sarah89@example.com', 'alexander@example.com',
@@ -23,12 +25,16 @@ emails = [
   'emma_rose@example.com'
 ]
 
+names = ['John Doe', 'Sarah Smith', 'Alexander', 'Emily Johnson', 'Lucas Bond', 'Olivia Taylor', 'David Miller',
+         'Sophie White', 'Michael Johnson', 'Emma Rose']
+
 users = []
 10.times do |i|
   user = User.create!(
     username: usernames[i],
     email: emails[i],
-    password: '12345'
+    name: names[i],
+    password: 'Password@123##'
   )
   users << user
 end

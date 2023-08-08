@@ -62,7 +62,7 @@ RSpec.describe Chat, type: :model do
         chat = FactoryBot.build(:chat, message: nil, sender: user, detail:)
 
         expect(chat).not_to be_valid
-        expect(chat.errors[:message]).to include("Message can't be blank")
+        expect(chat.errors[:message]).to include('must be between 5 (min) and 255 (max) characters')
       end
 
       it 'is not valid if message exceeds maximum length' do
@@ -72,7 +72,7 @@ RSpec.describe Chat, type: :model do
         chat = FactoryBot.build(:chat, message: long_message, sender: user, detail:)
 
         expect(chat).not_to be_valid
-        expect(chat.errors[:message]).to include('Message is too long (maximum is 255 characters)')
+        expect(chat.errors[:message]).to include('must be between 5 (min) and 255 (max) characters')
       end
     end
   end

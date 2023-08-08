@@ -51,12 +51,15 @@ class ProjectsController < ApplicationController
   end
 
   def update_user_ids
-    project = Project.find(params[:project_id])
-    return render_404_page if params[:user_id].nil? || project.nil?
-
-    user = User.find(params[:user_id])
-    project.users << user
-    redirect_to projects_path
+    project = Project.find_by(id: params[:project_id])
+    user_ids = Array(params[:user_id])
+    if user_ids.empty?
+      flash.now[:error] = 'Please Select Users to Add to the Project'
+    else
+      @users = User.find(user_ids)
+      project.users << @users
+      flash.now[:success] = 'Users Added Successfully to the Project'
+    end
   end
 
   private

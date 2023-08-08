@@ -1,0 +1,13 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap p-1 text-white px-lg-2 projectNav">
+  <%= link_to root_path, class:"text-white" do %>
+    <div class="text-center heading" ><i class="fa fa-sharp fa-light fa-gears mx-2"></i> ProjectTracker </div>
+  <% end %>
+  <div >
+    <%= link_to user_path(current_user.username) do %>
+      <i class="fa fa-solid fa-user mx-2 link-text"></i> <span class="link-text"><%= current_user.username %></span>
+    <% end %>
+    <%= link_to logout_path, method: :post do %>
+      <i class="fa fa-solid fa-right-from-bracket mx-3 text-white"></i>
+    <% end %>
+  </div>
+</div>

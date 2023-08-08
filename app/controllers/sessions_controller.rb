@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
   def create
     @user = User.new
     user = find_user_by_email(params[:email])
-    if valid_authentication?(user, params[:password])
+    if user && valid_authentication?(user, params[:password])
       user_session_set(user)
       redirect_to_projects_path_with_success_flash
     else

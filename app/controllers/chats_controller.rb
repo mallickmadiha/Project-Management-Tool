@@ -17,7 +17,7 @@ class ChatsController < ApplicationController
       send_notification_emails_to_detail_users(@project_id)
       render json: { message: 'Chat message sent successfully.', chat: @chat }
     else
-      render json: { errors: @chat.errors.full_messages }, status: :unprocessable_entity
+      @message = @chat.errors.full_messages.join(', ')
     end
   end
 

@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe DetailsHelper, type: :helper do
   describe '#initialize_chat' do
     it 'initializes @chats and @chat correctly' do
@@ -29,4 +30,28 @@ RSpec.describe DetailsHelper, type: :helper do
       allow(Notification).to receive(:create).and_return(notification)
     end
   end
+
+  describe '#link_mentions' do
+    let(:user) { create(:user, username: 'testuser') }
+
+    it 'replaces mentions with links for existing users' do
+      message = 'Hello, @testuser!'
+      allow(User).to receive(:find_by).with(username: 'testuser').and_return(user)
+
+      result = helper.link_mentions(message)
+
+      expected_link = link_to('@testuser', user_path(user.username), class: 'text-dark pointer')
+      expect(result).to include(expected_link)
+    end
+
+    it 'leaves mentions unchanged for non-existing users' do
+      message = 'Hello, @nonexistent!'
+      allow(User).to receive(:find_by).with(username: 'nonexistent').and_return(nil)
+
+      result = helper.link_mentions(message)
+
+      expect(result).to include('@nonexistent')
+    end
+  end
 end
+# rubocop:enable Metrics/BlockLength

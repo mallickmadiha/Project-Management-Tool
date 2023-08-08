@@ -1,9 +1,8 @@
-<% flash.each do |key, message| %>
-  <div class="modal flash-modal" id="flashModal" tabindex="-1" role="dialog" aria-labelledby="flashModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="alert alert-success flash-message">
-        <%= message %>
-      </div>
-    </div>
+  <% flash.each do |key, message| %>
+  <div class="flash-message alert alert-<%= key %>">
+    <span class="flash-message-text"><%= message %></span>
+    <button type="button" class="flash-message-close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
 <% end %>

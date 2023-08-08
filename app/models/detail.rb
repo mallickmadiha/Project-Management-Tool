@@ -14,7 +14,10 @@ class Detail < ApplicationRecord
 
   validates :title, presence: { message: "can't be blank" },
                     length: { in: 5..30, message: 'must be between 5 and 30 characters' },
+                    format: { with: /\A[a-zA-Z][a-zA-Z0-9_ ]*\z/,
+                              message: 'should start with letter & can contain letters, numbers, underscore' },
                     uniqueness: { scope: :project_id, case_sensitive: false, message: 'of this feature already exits' }
+
   validates :description, presence: { message: "Description can't be blank" },
                           length: { in: 5..255, message: 'must be between 5 and 255 characters' }
 
