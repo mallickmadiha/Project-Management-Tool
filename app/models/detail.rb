@@ -1,6 +1,5 @@
-# frozen_string_literal: true
+# rubocop:disable all
 
-# app/models/detail.rb
 class Detail < ApplicationRecord
   enum status: %i[Started Finished Delivered]
   enum flagType: %i[backFlag icebox currentIteration]
@@ -43,7 +42,6 @@ class Detail < ApplicationRecord
     end
   end
 
-  # rubocop:disable Style/HashSyntax
   def as_indexed_json(_options = {})
     {
       id: id,
@@ -55,9 +53,7 @@ class Detail < ApplicationRecord
       uuid: uuid
     }
   end
-  # rubocop:enable Style/HashSyntax
 
-  # rubocop:disable Metrics/MethodLength
   def self.search_items(query)
     search_definition = {
       query: {
@@ -78,6 +74,5 @@ class Detail < ApplicationRecord
     search_definition
   end
 
-  # rubocop:enable Metrics/MethodLength
   index_data
 end

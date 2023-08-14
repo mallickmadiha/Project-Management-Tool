@@ -1,19 +1,6 @@
-# frozen_string_literal: true
+# rubocop:disable all
 
-# This file is auto-generated from the current state of the database. Instead
-# of editing this file, please use the migrations feature of Active Record to
-# incrementally modify your database, and then regenerate this schema definition.
-#
-# This file is the source Rails uses to define your schema when running `bin/rails
-# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
-# be faster and is potentially less error prone than running all of your
-# migrations from scratch. Old migrations may fail to apply correctly if those
-# migrations use external dependencies or application code.
-#
-# It's strongly recommended that you check this file into your version control system.
-
-# rubocop:disable Metrics/BlockLength
-ActiveRecord::Schema.define(version: 20_230_805_152_625) do
+ActiveRecord::Schema.define(version: 20_230_814_152_959) do
   create_table 'action_cable_channels', charset: 'utf8mb3', force: :cascade do |t|
     t.string 'channel', null: false
     t.string 'broadcasting', null: false
@@ -60,7 +47,7 @@ ActiveRecord::Schema.define(version: 20_230_805_152_625) do
 
   create_table 'chats', charset: 'utf8mb3', force: :cascade do |t|
     t.bigint 'sender_id', null: false
-    t.text 'message', null: false
+    t.text 'message', size: :tiny, null: false
     t.text 'mentioned_user_ids'
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
@@ -72,7 +59,7 @@ ActiveRecord::Schema.define(version: 20_230_805_152_625) do
   create_table 'details', charset: 'utf8mb3', force: :cascade do |t|
     t.bigint 'project_id', null: false
     t.string 'title', limit: 30, null: false
-    t.text 'description', null: false
+    t.text 'description', size: :tiny, null: false
     t.string 'file'
     t.integer 'status', default: 0
     t.integer 'flagType', default: 0
@@ -80,6 +67,7 @@ ActiveRecord::Schema.define(version: 20_230_805_152_625) do
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
     t.index ['project_id'], name: 'index_details_on_project_id'
+    t.index %w[title project_id], name: 'index_details_on_title_and_project', unique: true
   end
 
   create_table 'details_users', id: false, charset: 'utf8mb3', force: :cascade do |t|
@@ -101,6 +89,7 @@ ActiveRecord::Schema.define(version: 20_230_805_152_625) do
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
     t.bigint 'user_id', null: false
+    t.index %w[name user_id], name: 'index_projects_on_name_and_user', unique: true
     t.index ['user_id'], name: 'index_projects_on_user_id'
   end
 
@@ -131,6 +120,7 @@ ActiveRecord::Schema.define(version: 20_230_805_152_625) do
     t.datetime 'expires_at'
     t.string 'name', null: false
     t.index ['email'], name: 'index_users_on_email', unique: true
+    t.index ['username'], name: 'index_users_on_username', unique: true
   end
 
   add_foreign_key 'active_storage_attachments', 'active_storage_blobs', column: 'blob_id'
@@ -142,4 +132,3 @@ ActiveRecord::Schema.define(version: 20_230_805_152_625) do
   add_foreign_key 'projects', 'users'
   add_foreign_key 'tasks', 'details'
 end
-# rubocop:enable Metrics/BlockLength

@@ -15,7 +15,7 @@ class ChatsController < ApplicationController
                                    { chat: @chat, sender_username: @sender_username, detailsId: @details_id })
       create_and_broadcast_notifications(@details_id)
       send_notification_emails_to_detail_users(@project_id)
-      render json: { message: 'Chat message sent successfully.', chat: @chat }
+      render json: { message: 'Comment added successfully.', chat: @chat }
     else
       @message = @chat.errors.full_messages.join(', ')
     end

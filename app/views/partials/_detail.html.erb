@@ -63,7 +63,7 @@
         <% if item.file %>
           <% item.file.each do |item| %>
             <% if item.image? %>
-              <%= image_tag item, class: 'img-thumbnail m-2', style: 'width: 100px; height: 100px;' %>
+              <%= image_tag rails_blob_path(item), class: 'img-thumbnail m-2', style: 'width: 100px; height: 100px;' %>
             <% else %>
               <%= link_to 'Download', rails_blob_path(item, disposition: 'attachment') %>
             <% end %>

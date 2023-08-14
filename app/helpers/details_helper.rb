@@ -48,7 +48,7 @@ module DetailsHelper
 
   def update_users_notification
     @detail_id = params[:id]
-    @message = "Status of Feature #{@detail.title} has been changed to #{@detail.status}"
+    @message = "Status of feature #{@detail.title} has been changed to #{@detail.status}"
 
     @notification = Notification.create(message: @message, user_id: current_user.id)
     @project.users.each do |user|

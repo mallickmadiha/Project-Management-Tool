@@ -54,11 +54,11 @@ class ProjectsController < ApplicationController
     project = Project.find_by(id: params[:project_id])
     user_ids = Array(params[:user_id])
     if user_ids.empty?
-      flash.now[:error] = 'Please Select Users to Add to the Project'
+      flash.now[:error] = 'Please select users to add to the project'
     else
       @users = User.find(user_ids)
       project.users << @users
-      flash.now[:success] = 'Users Added Successfully to the Project'
+      flash.now[:success] = 'Users added successfully to the project'
     end
   end
 

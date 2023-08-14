@@ -3,7 +3,7 @@
     <% if flag %>
       <div class="text-center heading"><i class="fa fa-duotone fa-gear mx-2"></i><%= project.name %></div>
     <% elsif %>
-      <%= link_to 'Go Back', :back, class: 'btn mybtn-success' %>
+      <button class="btn mybtn-success" onclick="window.history.back();">Go Back</button>
     <% end %>
   </a>
   <button class="navbar-toggler text-white" type="button" data-toggle="collapse" id="topnav" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

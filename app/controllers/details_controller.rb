@@ -39,7 +39,7 @@ class DetailsController < ApplicationController
       assign_new_users(new_users, @detail)
       create_and_broadcast_notification(new_users, @detail.title)
     else
-      @message = 'Please Add a User to Assign to your Feature'
+      @message = 'Please add a user to assign to your feature'
     end
   end
 
@@ -64,7 +64,7 @@ class DetailsController < ApplicationController
   end
 
   def create_and_broadcast_notification(users, title)
-    @message = "User(s) have been added to the Feature #{title}"
+    @message = "User(s) have been added to the feature #{title}"
     @notification = create_new_notification
     broadcast_notification_to_new_users(users)
   end

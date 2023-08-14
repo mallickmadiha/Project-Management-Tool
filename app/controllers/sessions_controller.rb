@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
       user_session_set(user)
       redirect_to_projects_path_with_success_flash
     else
-      redirect_to root_path, flash: { error: 'There was a problem while logging in, Invalid Email or Password' }
+      redirect_to root_path, flash: { error: 'There was a problem while logging in, Invalid email or password' }
     end
   end
 

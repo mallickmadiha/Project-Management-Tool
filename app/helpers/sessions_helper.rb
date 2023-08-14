@@ -30,7 +30,7 @@ module SessionsHelper
   end
 
   def redirect_to_projects_path_with_success_flash
-    redirect_to projects_path, flash: { success: 'User Logged In Successfully' }
+    redirect_to projects_path, flash: { success: 'You have logged in successfully' }
   end
 
   def redirect_to_root_path_with_error_flash(message)
