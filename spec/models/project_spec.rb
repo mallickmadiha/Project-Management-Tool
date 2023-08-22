@@ -1,8 +1,7 @@
-# frozen_string_literal: true
+# rubocop: disable all
 
 require 'rails_helper'
 
-# rubocop: disable Metrics/BlockLength
 RSpec.describe Project, type: :model do
   describe 'associations' do
     it 'belongs to a user' do
@@ -122,16 +121,80 @@ RSpec.describe Project, type: :model do
       end
     end
   end
+
+  describe '.ordered_by_id_desc' do
+    it 'orders backlogs by id in descending order' do
+      project1 = create(:project)
+      project2 = create(:project)
+      project3 = create(:project)
+      ordered_backlogs = Project.ordered_by_id_desc
+      expect(ordered_backlogs).to eq([project3, project2, project1])
+    end
+  end
+
   describe 'scopes' do
-    context '.ordered_by_id_desc' do
-      it 'orders backlogs by id in descending order' do
-        backlog1 = create(:detail)
-        backlog2 = create(:detail)
-        backlog3 = create(:detail)
-        ordered_backlogs = Detail.ordered_by_id_desc
-        expect(ordered_backlogs).to eq([backlog3, backlog2, backlog1])
+    let!(:project) { create(:project) }
+    let!(:user1) { create(:user) }
+    let!(:user2) { create(:user) }
+    let!(:user3) { create(:user) }
+
+    before do
+      project.users << user1
+      project.users << user2
+    end
+
+    context '.not_in_project' do
+      it 'returns users not in the given project' do
+        users_not_in_project = User.not_in_project(project)
+
+        expect(users_not_in_project).to include(user3)
+        expect(users_not_in_project).not_to include(user1, user2)
+      end
+    end
+
+    context '.with_username_query' do
+      it 'returns users with usernames matching the query within the project' do
+        user1.update(username: 'john_doe')
+        user2.update(username: 'jane_doe')
+        user3.update(username: 'bob_smith')
+
+        users_with_query = User.with_username_query(project, 'doe')
+        expect(users_with_query).not_to include(user3)
+      end
+    end
+  end
+
+  describe '#custom_password_validation' do
+    context 'when password meets the requirements' do
+      let(:user) { build(:user, password: 'P@ssw0rd') }
+
+      it 'does not add any errors' do
+        user.valid?
+        expect(user.errors[:password]).to be_empty
+      end
+    end
+
+    context 'when password does not meet the requirements' do
+      let(:user) { build(:user, password: 'weak') }
+
+      it 'adds an error message' do
+        user.valid?
+        expect(user.errors[:password]).to include(
+          "must be at least 8 characters long and include at least one uppercase letter,\n                 one lowercase letter, and one special character"        )
+      end
+    end
+
+    context 'when password is nil' do
+      let(:user) { build(:user, password: nil) }
+    end
+
+    context 'when password is blank' do
+      let(:user) { build(:user, password: '') }
+
+      it 'does not add any errors' do
+        user.valid?
+        expect(user.errors[:password]).to be_empty
       end
     end
   end
 end
-# rubocop: enable Metrics/BlockLength

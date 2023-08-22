@@ -4,7 +4,7 @@
   <div class="text-center sub-heading">Project <span id='project-id'></span> </div>
 </nav>
 <div id="flash-container" class="my-2"></div>
-<button class="btn mybtn-success m-3" onclick="window.history.back();">Go Back</button>
+<%= render 'partials/backbutton' %>
 <div class="container">
   <h5> Add User to Project </h5>
   <%= form_tag(update_user_ids_projects_path, method: :post, id: "add-user-project", remote: true) do %>

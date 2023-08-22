@@ -1,36 +1,36 @@
-<nav class="navbar navbar-expand-lg text-white projectNav">
+<nav class="navbar navbar-expand-lg text-white projectNav px-2">
   <a class="navbar-brand text-white" href="/">
     <% if flag %>
       <div class="text-center heading"><i class="fa fa-duotone fa-gear mx-2"></i><%= project.name %></div>
     <% elsif %>
-      <button class="btn mybtn-success" onclick="window.history.back();">Go Back</button>
+      <button class="btn mybtn-success mx-3" onclick="window.history.back();">Go Back</button>
     <% end %>
   </a>
   <button class="navbar-toggler text-white" type="button" data-toggle="collapse" id="topnav" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="fas fa-solid fa-bars"></span>
   </button>
   <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item py-1">
-        <%= form_for :search_items, url: search_items_path, method: :get, html: { class: "form-inline mx-3" } do |form| %>
+    <ul class="navbar-nav mr-auto d-flex justity-content-between gap-4 align-items-center mx-4">
+      <li class="nav-item">
+        <%= form_for :search_items, url: search_items_path, method: :get, html: { class: "form-inline" } do |form| %>
           <%= form.hidden_field :project_id, value: project.id %>
-          <%= form.text_field :query, value: params[:search_items].presence && params[:search_items][:query], placeholder: "Search Field", class: "form-control" %>
+          <%= form.text_field :query, value: params[:search_items].presence && params[:search_items][:query], placeholder: "Search features here...", class: "form-control" %>
         <% end %>
       </li>
-      <li class="nav-item py-1">
-        <button id="notificationButton" class="btn btn-blue mx-3">
-          <i class="fas fa-bell fa-xl mt-3"></i>
+      <li class="nav-item">
+        <button id="notificationButton" class="btn btn-blue">
+          <i class="fas fa-bell fa-xl mt-2"></i>
           <span class="badge bg-danger displayNone" id="notificationCounter"><%= current_user.notifications.unread_for_user(current_user).count%></span>
         </button>
       </li>
-      <li class="nav-item py-1">
+      <li class="nav-item">
         <%= link_to user_path(current_user.username) do %>
-          <i class="fa fa-solid fa-user mt-3 mx-3 fa-xl link-text"></i> <span class="mt-2 link-text"><%= current_user.username %></span>
+          <i class="fa fa-solid fa-user fa-xl link-text mx-2"></i> <span class="link-text fw-bold"><%= current_user.username %></span>
         <% end %>
       </li>
-      <li class="nav-item py-1">
+      <li class="nav-item">
         <%= link_to logout_path, method: :post do %>
-          <i class="fa fa-solid fa-right-from-bracket mt-3 mx-3 fa-xl text-white"></i>
+          <i class="fa fa-solid fa-right-from-bracket fa-xl text-white"></i>
         <% end %>
       </li>
     </ul>

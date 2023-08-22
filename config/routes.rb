@@ -32,5 +32,6 @@ Rails.application.routes.draw do
   post '/search/:id', to: 'search#search', as: 'search'
   post '/notifications/mark_read', to: 'notifications#mark_read'
   match '*unmatched', to: 'application#not_found_method', via: :all, constraints: lambda { |req|
-    !req.path.match(%r{\A/rails/active_storage/})}
+  !req.path.match(%r{\A/rails/active_storage/})
+}
 end

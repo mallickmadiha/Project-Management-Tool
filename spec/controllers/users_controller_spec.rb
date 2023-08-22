@@ -48,5 +48,33 @@ RSpec.describe UsersController, type: :controller do
       end
     end
   end
+
+  describe 'GET #show' do
+    context 'when user exists' do
+      let(:user) { create(:user) }
+
+      it 'renders the show template' do
+        get :show, params: { username: user.username }
+        expect(response).to render_template(:show)
+      end
+
+      it 'assigns the user variable' do
+        get :show, params: { username: user.username }
+        expect(assigns(:user)).to eq(user)
+      end
+    end
+
+    context 'when user does not exist' do
+      it 'renders the 404 partial' do
+        get :show, params: { username: 'nonexistent_username' }
+        expect(response).to render_template('partials/_404')
+      end
+
+      it 'does not assign the user variable' do
+        get :show, params: { username: 'nonexistent_username' }
+        expect(assigns(:user)).to be_nil
+      end
+    end
+  end
 end
 # rubocop:enable Metrics/BlockLength

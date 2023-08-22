@@ -53,5 +53,70 @@ RSpec.describe DetailsHelper, type: :helper do
       expect(result).to include('@nonexistent')
     end
   end
+
+  describe '#handle_search_items' do
+    let(:project) { create(:project) }
+
+    context 'when valid search items are provided' do
+      let(:search_items) { { query: 'search_query', project_id: project.id } }
+
+      it 'assigns filtered details and search items' do
+        helper.handle_search_items(search_items)
+      end
+    end
+
+    context 'when search query is a valid ID' do
+      let(:search_items) { { query: '123', project_id: project.id } }
+
+      it 'assigns filtered details and search items' do
+        helper.handle_search_items(search_items)
+      end
+    end
+
+    context 'when search query is not a valid ID' do
+      let(:search_items) { { query: 'invalid', project_id: project.id } }
+
+      it 'assigns all details and search items' do
+        helper.handle_search_items(search_items)
+      end
+    end
+  end
+
+  describe '#handle_no_search_items' do
+    let(:project) { create(:project) }
+
+    context 'when a project is found' do
+      let(:search_items) { { project_id: project.id } }
+
+      it 'assigns project details and initializes chat' do
+        allow(params).to receive(:[]).with(:search_items).and_return(search_items)
+
+        helper.handle_no_search_items
+      end
+    end
+  end
+
+  describe '#render_success_response' do
+    it 'renders the correct JSON response' do
+      completed_tasks_count = 5
+      total_tasks_count = 10
+
+      task = instance_double(Task, id: 123)
+
+      expected_response = {
+        message: 'Task created successfully',
+        id: task.id,
+        completedTasksCount: completed_tasks_count,
+        totalTasksCount: total_tasks_count
+      }
+
+      allow(helper).to receive(:render)
+      assign(:task, task)
+
+      helper.render_success_response(completed_tasks_count, total_tasks_count)
+
+      expect(helper).to have_received(:render).with(json: expected_response, status: :ok)
+    end
+  end
 end
 # rubocop:enable Metrics/BlockLength

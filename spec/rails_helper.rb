@@ -2,7 +2,10 @@
 
 require 'spec_helper'
 require 'shoulda/matchers'
+require 'simplecov'
+SimpleCov.start 'rails'
 
+# Previous content of test helper now starts here
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 abort('The Rails environment is running in production mode!') if Rails.env.production?
