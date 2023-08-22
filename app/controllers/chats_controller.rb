@@ -10,14 +10,14 @@ class ChatsController < ApplicationController
 
   def create
     initialize_chat_data
-    if @chat
+    if @chat.save
       ActionCable.server.broadcast("chat_channel_#{@project_id}",
                                    { chat: @chat, sender_username: @sender_username, detailsId: @details_id })
       create_and_broadcast_notifications(@details_id)
       send_notification_emails_to_detail_users(@project_id)
       render json: { message: 'Comment added successfully.', chat: @chat }
     else
-      @message = @chat&.errors&.full_messages&.join(', ')
+      @message = @chat.errors.full_messages.join(', ')
     end
   end
 
