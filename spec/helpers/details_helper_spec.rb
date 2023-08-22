@@ -40,7 +40,7 @@ RSpec.describe DetailsHelper, type: :helper do
 
       result = helper.link_mentions(message)
 
-      expected_link = link_to('@testuser', user_path(user.username), class: 'text-dark pointer')
+      expected_link = link_to('@testuser', user_path(user.username), class: 'text-dark pointer fw-bold')
       expect(result).to include(expected_link)
     end
 
