@@ -83,7 +83,7 @@
                 <div class="icon-container mt-2 mx-2">
                   <%= User.find(chat.sender_id).username[0].upcase %>
                 </div>
-                <div class='message py-2 fw-bold'>
+                <div class='message py-2'>
                   <%= link_mentions(chat.message).html_safe %>
                 </div>
               </div>

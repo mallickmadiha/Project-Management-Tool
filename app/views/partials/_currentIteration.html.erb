@@ -14,23 +14,26 @@
         <i class="fa fa-solid fa-xmark fa-lg mx-3 pointer" id="currentIteration-close"></i>
       </div>
     </div>
-    <div class="card-body" id="<%= @current_item_submit %>-details-list">
+    <div class="card-body">
+      <p> Stories you are currently working on and stories you're prioratized to work on next.</p>
       <div id="collapseOne<%= @current_item_submit %>" class="accordion-collapse collapse bg-light" aria-labelledby="headingOne<%= @current_item_submit %>" data-bs-parent="#accordionExample2">
         <%= render "details/form" , submit_id: @current_item_submit, type: "currentIteration" %>
       </div>
-      <% @current.ordered_by_id_desc.each do |backlog_item| %>
-        <div  type="button" class="mt-2" data-toggle="collapse" data-target="#collapseExample<%= backlog_item.id %>" aria-expanded="false" aria-controls="collapseExample<%= backlog_item.id %>">
-          <div class="card">
-            <div class="card-body">
-              <h4 class="card-title"><%= backlog_item.title %></h4>
-              <p class="card-text"><%= backlog_item.description %></p>
+      <div id="<%= @current_item_submit %>-details-list">
+        <% @current.ordered_by_id_desc.each do |backlog_item| %>
+          <div  type="button" class="mt-2" data-toggle="collapse" data-target="#collapseExample<%= backlog_item.id %>" aria-expanded="false" aria-controls="collapseExample<%= backlog_item.id %>">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title"><%= backlog_item.title %></h4>
+                <p class="card-text"><%= backlog_item.description %></p>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="collapse mb-3" id="collapseExample<%= backlog_item.id %>">
-          <%= render "partials/detail", item: backlog_item %>
-        </div>
-      <% end %>
+          <div class="collapse mb-3" id="collapseExample<%= backlog_item.id %>">
+            <%= render "partials/detail", item: backlog_item %>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

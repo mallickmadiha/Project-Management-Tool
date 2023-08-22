@@ -85,7 +85,7 @@ module DetailsHelper
       username = mention[1..]
       user = User.find_by(username:)
       if user
-        link_to mention, user_path(user.username), class: 'text-dark pointer'
+        link_to mention, user_path(user.username), class: 'text-dark pointer fw-bold'
       else
         mention
       end
