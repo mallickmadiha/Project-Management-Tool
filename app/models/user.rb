@@ -38,9 +38,6 @@ class User < ApplicationRecord
   scope :with_username_query, lambda { |project, query|
     project.users.where('username LIKE ?', "%#{query}%")
   }
-  scope :find_by_session_id, lambda { |session_id|
-    where(id: session_id)
-  }
 
   def validate_username_format
     return if username.blank?

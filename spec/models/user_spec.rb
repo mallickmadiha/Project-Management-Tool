@@ -104,14 +104,6 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context '.find_by_session_id' do
-      it 'finds a user by their ID from the session' do
-        user = create(:user)
-        session_id = user.id
-        result = User.find_by_session_id(session_id)
-        expect(result).to eq([user])
-      end
-    end
   end
 end
 # rubocop: enable Metrics/BlockLength
