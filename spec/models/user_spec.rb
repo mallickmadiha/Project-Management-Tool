@@ -103,7 +103,6 @@ RSpec.describe User, type: :model do
         expect(result).to contain_exactly(user1, user2)
       end
     end
-
   end
 end
 # rubocop: enable Metrics/BlockLength

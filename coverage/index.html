@@ -14,7 +14,7 @@
       <img src="./assets/0.12.3/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" class="hide">
-      <div class="timestamp">Generated <abbr class="timeago" title="2023-08-22T15:37:14+05:30">2023-08-22T15:37:14+05:30</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2023-08-25T12:24:35+05:30">2023-08-25T12:24:35+05:30</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -23,7 +23,7 @@
     <span class="group_name">All Files</span>
     (<span class="covered_percent">
       <span class="red">
-  65.46%
+  65.33%
 </span>
 
      </span>
@@ -43,11 +43,11 @@
   </div>
 
   <div class="t-line-summary">
-    <b>527</b> relevant lines,
-    <span class="green"><b>345</b> lines covered</span> and
+    <b>525</b> relevant lines,
+    <span class="green"><b>343</b> lines covered</span> and
     <span class="red"><b>182</b> lines missed. </span>
     (<span class="red">
-  65.46%
+  65.33%
 </span>
 )
   </div>
@@ -370,11 +370,11 @@
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#0e3c6a92f407e08e70cae722a366cb96f03f375b" class="src_link" title="app/models/user.rb">app/models/user.rb</a></td>
             <td class="green strong cell--number t-file__coverage">100.00 %</td>
-            <td class="cell--number">67</td>
-            <td class="cell--number">32</td>
-            <td class="cell--number">32</td>
+            <td class="cell--number">64</td>
+            <td class="cell--number">30</td>
+            <td class="cell--number">30</td>
             <td class="cell--number">0</td>
-            <td class="cell--number">17.97</td>
+            <td class="cell--number">18.93</td>
             
           </tr>
         
@@ -656,7 +656,7 @@
      covered at
      <span class="covered_strength">
        <span class="green">
-         7.6
+         7.69
        </span>
     </span> hits/line
     )
@@ -669,8 +669,8 @@
   </div>
 
   <div class="t-line-summary">
-    <b>90</b> relevant lines,
-    <span class="green"><b>90</b> lines covered</span> and
+    <b>88</b> relevant lines,
+    <span class="green"><b>88</b> lines covered</span> and
     <span class="red"><b>0</b> lines missed. </span>
     (<span class="green">
   100.0%
@@ -765,11 +765,11 @@
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#0e3c6a92f407e08e70cae722a366cb96f03f375b" class="src_link" title="app/models/user.rb">app/models/user.rb</a></td>
             <td class="green strong cell--number t-file__coverage">100.00 %</td>
-            <td class="cell--number">67</td>
-            <td class="cell--number">32</td>
-            <td class="cell--number">32</td>
+            <td class="cell--number">64</td>
+            <td class="cell--number">30</td>
+            <td class="cell--number">30</td>
             <td class="cell--number">0</td>
-            <td class="cell--number">17.97</td>
+            <td class="cell--number">18.93</td>
             
           </tr>
         
@@ -11795,7 +11795,7 @@
 
             
 
-            <code class="ruby">  belongs_to :user</code>
+            <code class="ruby">  has_and_belongs_to_many :users</code>
           </li>
         </div>
       
@@ -11806,7 +11806,7 @@
 
             
 
-            <code class="ruby">  has_and_belongs_to_many :users</code>
+            <code class="ruby">  belongs_to :user</code>
           </li>
         </div>
       
@@ -12146,8 +12146,8 @@
     
 
     <div class="t-line-summary">
-      <b>32</b> relevant lines.
-      <span class="green"><b>32</b> lines covered</span> and
+      <b>30</b> relevant lines.
+      <span class="green"><b>30</b> lines covered</span> and
       <span class="red"><b>0</b> lines missed.</span>
     </div>
 
@@ -12236,8 +12236,8 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="93" data-linenumber="8">
-            <span class="hits">93</span>
+          <li class="covered" data-hits="92" data-linenumber="8">
+            <span class="hits">92</span>
             
 
             
@@ -12599,13 +12599,13 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="41">
-            <span class="hits">1</span>
+          <li class="never" data-hits="" data-linenumber="41">
+            
             
 
             
 
-            <code class="ruby">  scope :find_by_session_id, lambda { |session_id|</code>
+            <code class="ruby"></code>
           </li>
         </div>
       
@@ -12616,18 +12616,18 @@
 
             
 
-            <code class="ruby">    where(id: session_id)</code>
+            <code class="ruby">  def validate_username_format</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="43">
-            
-            
-
+          <li class="covered" data-hits="111" data-linenumber="43">
+            <span class="hits">111</span>
             
 
-            <code class="ruby">  }</code>
+            
+
+            <code class="ruby">    return if username.blank?</code>
           </li>
         </div>
       
@@ -12643,41 +12643,8 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="45">
-            <span class="hits">1</span>
-            
-
-            
-
-            <code class="ruby">  def validate_username_format</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="112" data-linenumber="46">
-            <span class="hits">112</span>
-            
-
-            
-
-            <code class="ruby">    return if username.blank?</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="47">
-            
-            
-
-            
-
-            <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="107" data-linenumber="48">
-            <span class="hits">107</span>
+          <li class="covered" data-hits="106" data-linenumber="45">
+            <span class="hits">106</span>
             
 
             
@@ -12687,7 +12654,7 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="49">
+          <li class="covered" data-hits="1" data-linenumber="46">
             <span class="hits">1</span>
             
 
@@ -12698,7 +12665,7 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="50">
+          <li class="covered" data-hits="1" data-linenumber="47">
             <span class="hits">1</span>
             
 
@@ -12709,7 +12676,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="51">
+          <li class="never" data-hits="" data-linenumber="48">
             
             
 
@@ -12720,13 +12687,46 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="106" data-linenumber="52">
-            <span class="hits">106</span>
+          <li class="covered" data-hits="105" data-linenumber="49">
+            <span class="hits">105</span>
             
 
             
 
             <code class="ruby">    return if username.match?(/\A[A-Za-z0-9]+\z/)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="50">
+            
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="4" data-linenumber="51">
+            <span class="hits">4</span>
+            
+
+            
+
+            <code class="ruby">    errors.add(:username, &#39;must contain only alphabets and numbers (no special characters or spaces)&#39;)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="52">
+            
+            
+
+            
+
+            <code class="ruby">  end</code>
           </li>
         </div>
       
@@ -12742,24 +12742,24 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="4" data-linenumber="54">
-            <span class="hits">4</span>
+          <li class="covered" data-hits="1" data-linenumber="54">
+            <span class="hits">1</span>
             
 
             
 
-            <code class="ruby">    errors.add(:username, &#39;must contain only alphabets and numbers (no special characters or spaces)&#39;)</code>
+            <code class="ruby">  def custom_password_validation</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="55">
-            
-            
-
+          <li class="covered" data-hits="111" data-linenumber="55">
+            <span class="hits">111</span>
             
 
-            <code class="ruby">  end</code>
+            
+
+            <code class="ruby">    return unless password.present?</code>
           </li>
         </div>
       
@@ -12775,40 +12775,7 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="57">
-            <span class="hits">1</span>
-            
-
-            
-
-            <code class="ruby">  def custom_password_validation</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="112" data-linenumber="58">
-            <span class="hits">112</span>
-            
-
-            
-
-            <code class="ruby">    return unless password.present?</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="59">
-            
-            
-
-            
-
-            <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="16" data-linenumber="60">
+          <li class="covered" data-hits="16" data-linenumber="57">
             <span class="hits">16</span>
             
 
@@ -12819,7 +12786,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="61">
+          <li class="never" data-hits="" data-linenumber="58">
             
             
 
@@ -12830,7 +12797,7 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="62">
+          <li class="covered" data-hits="1" data-linenumber="59">
             <span class="hits">1</span>
             
 
@@ -12841,7 +12808,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="63">
+          <li class="never" data-hits="" data-linenumber="60">
             
             
 
@@ -12852,7 +12819,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="64">
+          <li class="never" data-hits="" data-linenumber="61">
             
             
 
@@ -12863,7 +12830,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="65">
+          <li class="never" data-hits="" data-linenumber="62">
             
             
 
@@ -12874,7 +12841,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="66">
+          <li class="never" data-hits="" data-linenumber="63">
             
             
 
@@ -12885,7 +12852,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="67">
+          <li class="never" data-hits="" data-linenumber="64">
             
             
 
